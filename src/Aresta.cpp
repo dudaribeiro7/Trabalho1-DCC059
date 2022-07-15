@@ -1,4 +1,4 @@
-#include "aresta.h"
+#include "Aresta.h"
 
 //Construtor
 Aresta::Aresta(No *no, Aresta *prox, int peso)
