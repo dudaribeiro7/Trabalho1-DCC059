@@ -9,11 +9,6 @@
 
 using namespace std;
 
-typedef struct
-{
-    // Criei essa classe só para remover os erros, tem que excluir depois !!!!!!!!!
-}No;
-
 class Aresta
 {
 
