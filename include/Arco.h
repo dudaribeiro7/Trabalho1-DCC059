@@ -12,15 +12,18 @@ class Arco
 {
 
 private:
-    No *no;       // Origem do arco
-    Arco *prox;   // Próxima Arco que conecta o nó aos seus demais adjacentes.
-    int peso;     // Peso do arco
+    No *no_origem;      // Origem do arco
+    No *no_destino;     // Destino do arco
+    Arco *prox;         // Próximo Arco que conecta o nó aos seus demais adjacentes.
+    int peso;           // Peso do arco
 
 public:
-    Arco(No *no, Arco *prox, int peso); // Construtor
-    ~Arco();                                        // Destrutor
-    No *getNo();
-    void setNo(No *no);
+    Arco(No *no_origem, No *no_destino, Arco *prox, int peso);  // Construtor
+    ~Arco();                                                    // Destrutor
+    No *getNoOrigem();
+    void setNoOrigem(No *no);
+    No *getNoDestino();
+    void setNoDestino(No *no);
     Arco *getProx();
     void setProx(Arco *prox);
     int getPeso();
