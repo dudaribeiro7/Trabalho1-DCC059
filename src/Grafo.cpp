@@ -2,6 +2,7 @@
 
 void Grafo::leArquivo(string nomeArquivo)
 {
+    // abertura do arquivo:
     fstream arq;
     arq.open(nomeArquivo, ios::in);
     if(!arq.is_open()){
@@ -24,8 +25,31 @@ void Grafo::leArquivo(string nomeArquivo)
     while(getline(arq, line))
     {
         // separa a linha, obtendo os nós e os pesos das arestas:
-        
+        stringstream ss(line);
+        string aux;
+        int cont = 0;
+        vector<int> vet;
+        while(getline(ss, aux, ' ')) // espaços separam os nós e peso da aresta no arquivo
+        {
+            vet[cont] = stoi(aux);
+            cont++;
+        }
+        int no1 = vet[0];
+        int no2 = vet[1];
+        int peso;
+        if(cont == 3)
+            peso = vet[2];
+        else
+            peso = 1;
+
+        if(verificaAresta(no1, no2))
+        {
+            // conecta aos nós as arestas que os ligam aos seus adjacentes:
+            grafo[no1]->adcAresta(grafo[no2], peso);
+            grafo[no2]->adcAresta(grafo[no1], peso);
+        }
     }
+    arq.close();
 }
 
 Grafo::Grafo(string caminho)
@@ -45,7 +69,24 @@ void Grafo::printGrafo()
 
 bool Grafo::verificaAresta(int id1, int id2)
 {
+    if(id1 == id2)
+        return false;
+    
+    Aresta *aux = grafo[id1]->getProx();
 
+    if(aux != NULL)
+    {
+        while(aux != NULL)
+        {
+            if(aux->getNo()->getId() == id2)
+                return false;
+            
+            aux = aux->getProx();
+        }
+        return true;
+    }
+    else
+        return true;
 }
 
 int Grafo::getNumVertices()
