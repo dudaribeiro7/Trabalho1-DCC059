@@ -5,7 +5,7 @@
 #include <fstream>
 #include <string>
 #include "No.h"
-#include "Aresta.h"
+//#include "Aresta.h"
 
 using namespace std;
 class Arco
@@ -14,7 +14,7 @@ class Arco
 private:
     No *no_origem;      // Origem do arco
     No *no_destino;     // Destino do arco
-    Arco *prox;         // Próximo Arco que conecta o nó aos seus demais adjacentes.
+    Arco *proxArco;         // Próximo Arco que conecta o nó aos seus demais adjacentes.
     int peso;           // Peso do arco
 
 public:
@@ -24,8 +24,8 @@ public:
     void setNoOrigem(No *no);
     No *getNoDestino();
     void setNoDestino(No *no);
-    Arco *getProx();
-    void setProx(Arco *prox);
+    Arco *getProxArco();
+    void setProxArco(Arco *prox);
     int getPeso();
     void setPeso(int peso);
 };

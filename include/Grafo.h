@@ -19,8 +19,8 @@ using namespace std;
 class Grafo
 {
     private:    
-        No **grafo;       // vetor de vetores do tipo nó
-        int n_vertices;   // número de vertices de cada grafo
+        No **grafo;       // vetor de vetores do tipo nó (lista de adjacência)
+        int n_vertices;   // número de vertices do grafo
         void leArquivo(string nomeArquivo); 
 
     public:

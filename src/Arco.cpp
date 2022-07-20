@@ -5,7 +5,7 @@ Arco::Arco(No *no_origem, No *no_destino, Arco *prox, int peso)
 {
     this->no_origem = no_origem;
     this->no_destino = no_destino;
-    this->prox = prox;
+    this->proxArco = prox;
     this->peso = peso;
 }
 
@@ -43,15 +43,15 @@ void Arco::setNoDestino(No *no)
 }
 
 // Retorna o próximo nó
-Arco *Arco::getProx()
+Arco *Arco::getProxArco()
 {
-    return this->prox;
+    return this->proxArco;
 }
 
 // Determina o próximo nó
-void Arco::setProx(Arco *prox)
+void Arco::setProxArco(Arco *prox)
 {
-    this->prox = prox;
+    this->proxArco = prox;
 }
 
 // Retorna o peso da Arco
