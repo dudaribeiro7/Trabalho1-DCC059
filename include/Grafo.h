@@ -18,30 +18,24 @@ using namespace std;
 
 class Grafo
 {
-    private:
-        void leArquivo(string caminho);     //função para ler o arquivo contendo os grafos
-        // vector<string> split(string str, char delimiter);
-        No **grafo;                         // vetor de vetores do tipo nó
-        int n_vertices;                     // aloca o número de vertices de cada grafo
-        vector<int> sequenciaGrau;
-        // bool verificaSolução(bool *nos);
+    private:    
+        No **grafo;       // vetor de vetores do tipo nó
+        int n_vertices;   // número de vertices de cada grafo
+        void leArquivo(string nomeArquivo); 
 
     public:
-        Grafo(string caminho);
+        Grafo(string nomeArquivo);
         ~Grafo();
         void printGrafo();
-        // int numArestas();
-        // int numArestasTotal();
-        // float grauMedioGrafo();
         bool verificaAresta(int id1, int id2);
-        // vector<freq> frequenciaRelativa(); // Capta a sequencia de graus de cada nó e armazena em vetor.
         int getNumVertices();
-        void buscaLargura(int origem);
-        void buscaProfundidade(int origem);
-        void dijkstra(int origem);
-        void floyd();
-        void prim();
-        void kruskal();
+        int coeficienteAgrupamentoLocal(int id);
+        int coeficienteAgrupamentoMedio();
+        void dijkstra(int id1, int id2);
+        void floyd(int id1, int id2);
+        void prim(vector<int> subconjunto);
+        void kruskal(vector<int> subconjunto);
+        void caminhamentoProfundidade(int id);
 };
 
 #endif

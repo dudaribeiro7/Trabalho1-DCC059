@@ -1,5 +1,7 @@
 #include "Grafo.h"
 
+// Função para ler o arquivo contendo o grafo
+// @param nomeArquivo É o nome do arquivo com as instâncias do grafo a ser lido
 void Grafo::leArquivo(string nomeArquivo)
 {
     // abertura do arquivo:
@@ -52,21 +54,46 @@ void Grafo::leArquivo(string nomeArquivo)
     arq.close();
 }
 
-Grafo::Grafo(string caminho)
+// Construtor
+// @param nomeArquivo É o nome do arquivo com as instâncias do grafo a ser lido
+Grafo::Grafo(string nomeArquivo)
 {
-
+    leArquivo(nomeArquivo);
 }
 
+// Destrutor
 Grafo::~Grafo()
 {
+    for (int i = 0; i < n_vertices; i++)
+    {
+        delete grafo[i];
+    }
 
+    delete[] grafo;
 }
 
+// Imprime o grafo na tela
 void Grafo::printGrafo()
 {
+    for (int i = 0; i < n_vertices; i++)
+    {
+        cout << grafo[i]->getId() << " - ";
+        Aresta *aux = grafo[i]->getProx();
+        while (aux != NULL)
+        {
+            cout << aux->getNo()->getId() << " - ";
+            aux = aux->getProx();
+        }
 
+        cout << endl;
+    }
 }
 
+// Verifica se é possível existir uma aresta entre os nós.
+// Elimina a possibilidade de existência de self-loops e multiarestas.
+// @param id1 É a identificação do no 1 a ser verificado
+// @param id2 É a identificação do no 2 a ser verificado
+// @return true (se for possível) ou false (se não for possível, pois é multiaresta ou self-loop)
 bool Grafo::verificaAresta(int id1, int id2)
 {
     if(id1 == id2)
@@ -89,37 +116,64 @@ bool Grafo::verificaAresta(int id1, int id2)
         return true;
 }
 
+// Retorna o número de vértices do grafo
+// @return n_vertices (int)
 int Grafo::getNumVertices()
 {
-
+    return n_vertices;
 }
 
-void Grafo::buscaLargura(int origem)
+// TODO: @vitor-frnds
+// @param id ID de um vértice do grafo
+// @return Coeficiente de agrupamento local do vértice
+int Grafo::coeficienteAgrupamentoLocal(int id)
 {
 
 }
 
-void Grafo::buscaProfundidade(int origem)
+// TODO: @vitor-frnds
+// @return Coeficiente de agrupamento médio do grafo
+int Grafo::coeficienteAgrupamentoMedio()
 {
 
 }
 
-void Grafo::dijkstra(int origem)
+// TODO: @RiUza02
+// @param id1/id2 dois IDs de vértices do grafo
+// @return O caminho mínimo entre esses dois vértices usando o algoritmo de Dijkstra
+void Grafo::dijkstra(int id1, int id2)
 {
 
 }
 
-void Grafo::floyd()
+// TODO: @RiUza02
+// @param id1/id2 dois IDs de vértices do grafo
+// @return O caminho mínimo entre esses dois vértices usando o algoritmo de Floyd
+void Grafo::floyd(int id1, int id2)
 {
 
 }
 
-void Grafo::prim()
+// TODO: @dudaribeiro7
+// @param X um subconjunto de vértices de um grafo
+// @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
+void Grafo::prim(vector<int> X)
 {
 
 }
 
-void Grafo::kruskal()
+// TODO: @dudaribeiro7
+// @param X um subconjunto de vértices de um grafo
+// @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
+void Grafo::kruskal(vector<int> X)
+{
+
+}
+
+// TODO: @marianaricha
+// @param id um ID de vértice
+// @return A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
+void Grafo::caminhamentoProfundidade(int id)
 {
 
 }
