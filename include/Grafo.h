@@ -23,6 +23,7 @@ class Grafo
         int n_vertices;   // número de vertices do grafo
         void leArquivo(string nomeArquivo); 
 
+        void floyd(int id1, int id2,int P[][]); // função auxiliar para o algoritmo de floyd
     public:
         Grafo(string nomeArquivo);
         ~Grafo();

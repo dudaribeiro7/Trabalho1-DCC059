@@ -253,8 +253,76 @@ int *Grafo::dijkstra(int inicio, int destino)
 // TODO: @RiUza02
 // @param id1/id2 dois IDs de vértices do grafo
 // @return O caminho mínimo entre esses dois vértices usando o algoritmo de Floyd
-void Grafo::floyd(int id1, int id2)
+int *Grafo::floyd(int id1, int id2)
 {
+
+    int matrizAdj[n_vertices][n_vertices];
+    No *auxNo;
+    Aresta *auxAresta;
+    int pi[n_vertices][n_vertices];
+
+    // Inicialização da matriz e o vetor caminho
+    for (int i = 0; i < this->getNumVertices(); i++)
+    {
+        for (int j = 0; j < this->getNumVertices(); j++)
+        {
+            if (i == j)
+            {
+                matrizAdj[i][j] = 0;
+            }
+            else
+            {
+                matrizAdj[i][j] = INT_MAX;
+            }
+            pi[i][j] = 0;
+        }
+    }
+
+    // Inserindo os valores iniciais
+    for (int i = 0; i < this->getNumVertices(); i++)
+    {
+        auxNo = grafo[i];
+        auxAresta = auxNo->getProx();
+
+        while (auxAresta != NULL)
+        {
+            matrizAdj[i][auxAresta->getNo()->getId()] = auxAresta->getPeso();
+            auxAresta = auxAresta->getProx();
+        }
+    }
+
+    // preenchimento dos valores de distancias
+    for (int i = 0; i < this->getNumVertices(); i++)
+    {
+        for (int j = 0; j < this->getNumVertices(); j++)
+        {
+            for (int k = 0; k < this->getNumVertices(); k++)
+            {
+                if ((matrizAdj[j][i] != INT_MAX) && (matrizAdj[i][k] != INT_MAX))
+                {
+                    if (matrizAdj[j][k] > (matrizAdj[j][i] + matrizAdj[i][k]))
+                    {
+                        matrizAdj[j][k] = matrizAdj[j][i] + matrizAdj[i][k];
+                        pi[j][k] = i;
+                    }
+                }
+            }
+        }
+    }
+
+    // imprime a resposta
+    return floydAux(id1, id2, pi)
+}
+
+void floydAux(int a, int b, int P[][])
+{
+    if (P[a][b] == b)
+    {
+        cout << b << " ";
+        return;
+    }
+    floydAux(a, P[a][b], P);
+    cout << b << " ";
 }
 
 // TODO: @dudaribeiro7
