@@ -140,20 +140,33 @@ No *GrafoDir::fechoTransInd(int id)
 // TODO: @vitor-frnds
 // @param id ID de um vértice do grafo
 // @return Coeficiente de agrupamento local do vértice
-int Grafo::coeficienteAgrupamentoLocal(int id)
+int GrafoDir::coeficienteAgrupamentoLocal(int id)
 {
 }
 
+
 // TODO: @vitor-frnds
 // @return Coeficiente de agrupamento médio do grafo
-int Grafo::coeficienteAgrupamentoMedio()
+int GrafoDir::coeficienteAgrupamentoMedio()
 {
+    int coef = 0; // coeficiente de agrupamento local de cada vértice
+    int som = 0;  // somatorio dos coeficientes de agrupamentos locais
+
+    for (int i = 0; i < n_vertices; i++)
+    {
+        coef = coeficienteAgrupamentoLocal(i);
+        som = som + coef;
+        coef = 0;
+    }
+
+    return (som / n_vertices);
 }
+
 
 // TODO: @RiUza02
 // @param id1/id2 dois IDs de vértices do grafo
 // @return O caminho mínimo entre esses dois vértices usando o algoritmo de Dijkstra
-void Grafo::dijkstra(int id1, int id2)
+void GrafoDir::dijkstra(int id1, int id2)
 {
     // https://www.youtube.com/watch?v=dIjGG_1vJYQ (video de onde eu tirei a resolução)
     vector<int> beta;
@@ -241,27 +254,27 @@ void Grafo::dijkstra(int id1, int id2)
 // TODO: @RiUza02
 // @param id1/id2 dois IDs de vértices do grafo
 // @return O caminho mínimo entre esses dois vértices usando o algoritmo de Floyd
-void Grafo::floyd(int id1, int id2)
+void GrafoDir::floyd(int id1, int id2)
 {
 }
 
 // TODO: @dudaribeiro7
 // @param X um subconjunto de vértices de um grafo
 // @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
-void Grafo::prim(vector<int> X)
+void GrafoDir::prim(vector<int> X)
 {
 }
 
 // TODO: @dudaribeiro7
 // @param X um subconjunto de vértices de um grafo
 // @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
-void Grafo::kruskal(vector<int> X)
+void GrafoDir::kruskal(vector<int> X)
 {
 }
 
 // TODO: @marianaricha
 // @param id um ID de vértice
 // @return A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
-void Grafo::caminhamentoProfundidade(int id)
+void GrafoDir::caminhamentoProfundidade(int id)
 {
 }
