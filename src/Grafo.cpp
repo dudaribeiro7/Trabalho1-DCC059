@@ -161,6 +161,7 @@ int *Grafo::dijkstra(int inicio, int destino)
 
     while (flag == 0)
     {
+        //varre todos os adijacentes do nó da interação atual e atualiza seus custos
         w = r;
         for (Aresta *aux = grafo[w]->getProx(); aux != NULL; aux = aux->getProx())
         {
@@ -170,15 +171,21 @@ int *Grafo::dijkstra(int inicio, int destino)
                 pi[aux->getNo()->getId()] = w;
             }
         }
+
+        //pega o primeiro nó que não esta no conjunto solução
         int flagMenor = 0;
-        while (flagMenor == 0)
+        int contador = 0;
+        while ((flagMenor == 0) && (contador < n_vertices))
         {
             if (fi[i] != 1)
             {
-                r = i;
-                flagMenor = 1;
+                r = contador;
+                flagMenor = contador;
             }
+            contador++;
         }
+
+        //escolhe entre todos os nós do conjunto solução o menor deles
         for (int i = 0; i < n_vertices; i++)
         {
             if (fi[i] != 1)
@@ -189,6 +196,8 @@ int *Grafo::dijkstra(int inicio, int destino)
                 }
             }
         }
+
+        //encerra a execução se possivel
         fi[r] = 1;
         if (w == destino)
         {
@@ -196,6 +205,7 @@ int *Grafo::dijkstra(int inicio, int destino)
         }
     }
 
+    //organiza e envia o menor caminho 
     vector<int> solucao;
     flag = 0;
     int aux1 = destino;
