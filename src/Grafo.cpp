@@ -129,13 +129,39 @@ int Grafo::getNumVertices()
 // @return Coeficiente de agrupamento local do vértice
 int Grafo::coeficienteAgrupamentoLocal(int id)
 {
+    Aresta *aux;
+
+    for (int i = 0; i < n_vertices; i++)
+    {
+        aux = grafo[i]->getProx();
+        int cont = 0;
+
+        while (aux != NULL)
+        {
+            cont++;
+            aux = aux->getProx();
+        }
+    }
 }
+
 
 // TODO: @vitor-frnds
 // @return Coeficiente de agrupamento médio do grafo
 int Grafo::coeficienteAgrupamentoMedio()
 {
+    int coef = 0; // coeficiente de agrupamento local de cada vértice
+    int som = 0;  // somatorio dos coeficientes de agrupamentos locais
+
+    for (int i = 0; i < n_vertices; i++)
+    {
+        coef = coeficienteAgrupamentoLocal(i);
+        som = som + coef;
+        coef = 0;
+    }
+
+    return (som / n_vertices);
 }
+
 
 // TODO: @RiUza02
 // @param id1/id2 dois IDs de vértices do grafo
@@ -161,7 +187,7 @@ int *Grafo::dijkstra(int inicio, int destino)
 
     while (flag == 0)
     {
-        //varre todos os adijacentes do nó da interação atual e atualiza seus custos
+        // varre todos os adijacentes do nó da interação atual e atualiza seus custos
         w = r;
         for (Aresta *aux = grafo[w]->getProx(); aux != NULL; aux = aux->getProx())
         {
@@ -172,7 +198,7 @@ int *Grafo::dijkstra(int inicio, int destino)
             }
         }
 
-        //pega o primeiro nó que não esta no conjunto solução
+        // pega o primeiro nó que não esta no conjunto solução
         int flagMenor = 0;
         int contador = 0;
         while ((flagMenor == 0) && (contador < n_vertices))
@@ -185,7 +211,7 @@ int *Grafo::dijkstra(int inicio, int destino)
             contador++;
         }
 
-        //escolhe entre todos os nós do conjunto solução o menor deles
+        // escolhe entre todos os nós do conjunto solução o menor deles
         for (int i = 0; i < n_vertices; i++)
         {
             if (fi[i] != 1)
@@ -197,7 +223,7 @@ int *Grafo::dijkstra(int inicio, int destino)
             }
         }
 
-        //encerra a execução se possivel
+        // encerra a execução se possivel
         fi[r] = 1;
         if (w == destino)
         {
@@ -205,7 +231,7 @@ int *Grafo::dijkstra(int inicio, int destino)
         }
     }
 
-    //organiza e envia o menor caminho 
+    // organiza e envia o menor caminho
     vector<int> solucao;
     flag = 0;
     int aux1 = destino;
