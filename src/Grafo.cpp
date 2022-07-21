@@ -1,5 +1,5 @@
 #include "Grafo.h"
-#define infinito 999999
+#define infinito 999999999
 // Função para ler o arquivo contendo o grafo
 // @param nomeArquivo É o nome do arquivo com as instâncias do grafo a ser lido
 void Grafo::leArquivo(string nomeArquivo)
@@ -144,7 +144,6 @@ int Grafo::coeficienteAgrupamentoLocal(int id)
     }
 }
 
-
 // TODO: @vitor-frnds
 // @return Coeficiente de agrupamento médio do grafo
 int Grafo::coeficienteAgrupamentoMedio()
@@ -162,11 +161,10 @@ int Grafo::coeficienteAgrupamentoMedio()
     return (som / n_vertices);
 }
 
-
 // TODO: @RiUza02
-// @param id1/id2 dois IDs de vértices do grafo
+// @param inicio/destino dois IDs de vértices do grafo
 // @return O caminho mínimo entre esses dois vértices usando o algoritmo de Dijkstra
-int *Grafo::dijkstra(int inicio, int destino)
+void Grafo::dijkstra(int inicio, int destino)
 {
     // https://www.youtube.com/watch?v=dIjGG_1vJYQ (video de onde eu tirei a resolução)
     vector<int> beta;
@@ -231,7 +229,7 @@ int *Grafo::dijkstra(int inicio, int destino)
         }
     }
 
-    // organiza e envia o menor caminho
+    // organiza o menor caminho
     vector<int> solucao;
     flag = 0;
     int aux1 = destino;
@@ -247,15 +245,19 @@ int *Grafo::dijkstra(int inicio, int destino)
             flag = 1;
         }
     }
-    return solucao;
+
+    // imprime a resposta
+    for (int i = 0; i < solucao.size(); i++)
+    {
+        cout << " - " < pi[i] << " - "; 
+    }
 }
 
 // TODO: @RiUza02
 // @param id1/id2 dois IDs de vértices do grafo
 // @return O caminho mínimo entre esses dois vértices usando o algoritmo de Floyd
-int *Grafo::floyd(int id1, int id2)
+void Grafo::floyd(int id1, int id2)
 {
-
     int matrizAdj[n_vertices][n_vertices];
     No *auxNo;
     Aresta *auxAresta;
@@ -311,7 +313,7 @@ int *Grafo::floyd(int id1, int id2)
     }
 
     // imprime a resposta
-    return floydAux(id1, id2, pi)
+    floydAux(id1, id2, pi)
 }
 
 void floydAux(int a, int b, int P[][])
