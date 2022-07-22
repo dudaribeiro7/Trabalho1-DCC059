@@ -14,7 +14,7 @@ class Arco
 private:
     No *no_origem;      // Origem do arco
     No *no_destino;     // Destino do arco
-    Arco *proxArco;         // Próximo Arco que conecta o nó aos seus demais adjacentes.
+    Arco *proxArco;     // Próximo Arco que conecta o nó aos seus demais adjacentes.
     int peso;           // Peso do arco
 
 public:

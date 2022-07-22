@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     // Inicializa o gerador de números aleatórios com o valor da função time(NULL).
     // Desta forma, a cada execução o valor aleatório gerado será diferente.
     srand(time(NULL));
-    // Gera um valor aleatório entre 0 e o nº total de vertices do grafo:
+    // Gera valores aleatórios entre 0 e o nº total de vertices do grafo:
     int id = rand() % grafo.getNumVertices();
     int id2 = rand() % grafo.getNumVertices();
 
