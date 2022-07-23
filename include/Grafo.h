@@ -19,7 +19,7 @@ using namespace std;
 class Grafo
 {
     private:    
-        No **grafo;       // vetor de vetores do tipo nó (lista de adjacência)
+        No **nos_grafo;       // vetor de vetores do tipo nó (lista de adjacência)
         int n_vertices;   // número de vertices do grafo
         bool direcionado;
         bool ponderadoArestas;
@@ -27,8 +27,11 @@ class Grafo
         
         void leArquivo(string nomeArquivo); 
         void floyd(int id1, int id2,int P[][]); // função auxiliar para o algoritmo de floyd
+        Grafo subgrafoVerticeInduzido(vector<int> X);
+
     public:
         Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos);
+        Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bool _pesoNos);
         ~Grafo();
         void printGrafo();
         bool verificaAresta(int id1, int id2);

@@ -20,14 +20,14 @@ void Grafo::leArquivo(string nomeArquivo)
     n_vertices = stoi(line);
 
     // instanciando o vetor de vetores com o numero de vertices:
-    grafo = new No *[n_vertices];
+    nos_grafo = new No *[n_vertices];
     // preenche os vetores de nós:
     for (int i = 0; i < n_vertices; i++){
-        grafo[i] = new No(i);
+        nos_grafo[i] = new No(i);
         if(ponderadoNos)
-            grafo[i]->setPesoNo(i);
+            nos_grafo[i]->setPesoNo(i);
         else
-            grafo[i]->setPesoNo(1);
+            nos_grafo[i]->setPesoNo(1);
     }
 
     // enquanto ainda houverem linhas a serem lidas:
@@ -55,15 +55,15 @@ void Grafo::leArquivo(string nomeArquivo)
         {
             if (verificaArco(no1, no2)){
                 // conecta o nó ao arco que o liga ao seu nó adjacente SUCESSOR:
-                grafo[no1]->adcArco(grafo[no1], grafo[no2], pesoAresta);
+                nos_grafo[no1]->adcArco(nos_grafo[no1], nos_grafo[no2], pesoAresta);
             }
         }
         else
         {
             if (verificaAresta(no1, no2)){
                 // conecta aos nós as arestas que os ligam aos seus adjacentes:
-                grafo[no1]->adcAresta(grafo[no2], pesoAresta);
-                grafo[no2]->adcAresta(grafo[no1], pesoAresta);
+                nos_grafo[no1]->adcAresta(nos_grafo[no2], pesoAresta);
+                nos_grafo[no2]->adcAresta(nos_grafo[no1], pesoAresta);
             }
         }
     }
@@ -92,15 +92,33 @@ Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
     leArquivo(nomeArquivo);
 }
 
+Grafo Grafo::subgrafoVerticeInduzido(vector<int> X)
+{
+    No **nos_subgrafo;
+    for(int i = 0; i < X.size; i++)
+    {
+        nos_subgrafo[]
+    }
+}
+
+Grafo::Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bool _pesoNos)
+{
+    this->nos_grafo = _nos_grafo;
+    this->n_vertices = _n_vertices;
+    this->direcionado = _direc;
+    this->ponderadoArestas = _pesoAresta;
+    this->ponderadoNos = _pesoNos;
+}
+
 // Destrutor
 Grafo::~Grafo()
 {
     for (int i = 0; i < n_vertices; i++)
     {
-        delete grafo[i];
+        delete nos_grafo[i];
     }
 
-    delete[] grafo;
+    delete[] nos_grafo;
 }
 
 // Imprime o grafo na tela
@@ -110,8 +128,8 @@ void Grafo::printGrafo()
     {
         for (int i = 0; i < n_vertices; i++)
         {
-            cout << grafo[i]->getId() << " -> ";
-            Arco *aux = grafo[i]->getProxArco();
+            cout << nos_grafo[i]->getId() << " -> ";
+            Arco *aux = nos_grafo[i]->getProxArco();
             while (aux != NULL)
             {
                 cout << aux->getNo()->getId() << " -> ";
@@ -125,8 +143,8 @@ void Grafo::printGrafo()
     {
         for (int i = 0; i < n_vertices; i++)
         {
-            cout << grafo[i]->getId() << " - ";
-            Aresta *aux = grafo[i]->getProx();
+            cout << nos_grafo[i]->getId() << " - ";
+            Aresta *aux = nos_grafo[i]->getProx();
             while (aux != NULL)
             {
                 cout << aux->getNo()->getId() << " - ";
@@ -148,7 +166,7 @@ bool Grafo::verificaAresta(int id1, int id2)
     if (id1 == id2)
         return false;
 
-    Aresta *aux = grafo[id1]->getProx();
+    Aresta *aux = nos_grafo[id1]->getProx();
 
     if (aux != NULL)
     {
@@ -175,7 +193,7 @@ bool Grafo::verificaArco(int id1, int id2)
     if (id1 == id2)
         return false;
 
-    Arco *aux = grafo[id1]->getProxArco();
+    Arco *aux = nos_grafo[id1]->getProxArco();
 
     if (aux != NULL)
     {
@@ -230,7 +248,7 @@ int Grafo::coeficienteAgrupamentoLocal(int id)
 
         for (int i = 0; i < n_vertices; i++)
         {
-            aux = grafo[i]->getProx();
+            aux = nos_grafo[i]->getProx();
             int cont = 0;
 
             while (aux != NULL)
@@ -290,7 +308,7 @@ void Grafo::dijkstra(int inicio, int destino)
         {
             // varre todos os adijacentes do nó da interação atual e atualiza seus custos
             w = r;
-            for (Aresta *aux = grafo[w]->getProx(); aux != NULL; aux = aux->getProx())
+            for (Aresta *aux = nos_grafo[w]->getProx(); aux != NULL; aux = aux->getProx())
             {
                 if (beta[aux->getNo()->getId()] > beta[w] + aux->getPeso())
                 {
@@ -339,7 +357,7 @@ void Grafo::dijkstra(int inicio, int destino)
         {
             // varre todos os adijacentes do nó da interação atual e atualiza seus custos
             w = r;
-            for (Aresta *aux = grafo[w]->getProx(); aux != NULL; aux = aux->getProx())
+            for (Aresta *aux = nos_grafo[w]->getProx(); aux != NULL; aux = aux->getProx())
             {
                 if (beta[aux->getNo()->getId()] > beta[w] + aux->getPeso())
                 {
@@ -442,7 +460,7 @@ void Grafo::floyd(int id1, int id2)
         // Inserindo os valores iniciais
         for (int i = 0; i < this->getNumVertices(); i++)
         {
-            auxNo = grafo[i];
+            auxNo = nos_grafo[i];
             auxAresta = auxNo->getProx();
 
             while (auxAresta != NULL)
