@@ -5,6 +5,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <stdio.h>
+
 #include "No.h"
 
 using namespace std;
@@ -13,19 +15,16 @@ class Aresta
 {
 
 private:
-    No *no;       // Nó ao qual esta aponta (destino).
-    Aresta *prox; // Próxima aresta que conecta o nó aos seus demais adjacentes.
-    int peso;     // Peso da aresta
+    No *no;    // Nó ao qual a aresta está ligada
+    int peso;   // Peso da aresta
 
 public:
-    Aresta(No *no, Aresta *prox, int peso); // Construtor
-    ~Aresta();                              // Destrutor
+    Aresta(No *_no, int _peso);
+    ~Aresta();
     No *getNo();
-    void setNo(No *no);
-    Aresta *getProx();
-    void setProx(Aresta *prox);
+    void setNo(No *_no);
     int getPeso();
-    void setPeso(int peso);
+    void setPeso(int _peso);
 };
 
 #endif

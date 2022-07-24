@@ -11,6 +11,7 @@
 #include <stack>
 #include <climits>
 #include <math.h>
+#include <stdio.h>
 
 #include "No.h"
 

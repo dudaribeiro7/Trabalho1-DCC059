@@ -33,14 +33,14 @@ int main(int argc, char *argv[])
     else
         print_help(argv[0]);
 
-    Grafo grafo = new Grafo(arquivo_entrada, opc_direc, opc_peso_aresta, opc_peso_nos);
+    Grafo *grafo = new Grafo(arquivo_entrada, opc_direc, opc_peso_aresta, opc_peso_nos);
 
     // Inicializa o gerador de números aleatórios com o valor da função time(NULL).
     // Desta forma, a cada execução o valor aleatório gerado será diferente.
     srand(time(NULL));
     // Gera valores aleatórios entre 0 e o nº total de vertices do grafo:
-    int id = rand() % grafo.getNumVertices();
-    int id2 = rand() % grafo.getNumVertices();
+    int id = rand() % grafo->getNumVertices();
+    int id2 = rand() % grafo->getNumVertices();
 
     /*
     -----------------------------------------------------------------------------------------------------
@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
     */
     if(opc_direc == 1)
     {
-        No *fechoT_direto = grafo.fechoTransDir(id);
-        No *fechoT_indireto = grafo.fechoTransInd(id);
+        No *fechoT_direto = grafo->fechoTransDir(id);
+        No *fechoT_indireto = grafo->fechoTransInd(id);
     }
 
     /*
@@ -58,16 +58,16 @@ int main(int argc, char *argv[])
     Funcionalidades C e D:
     -----------------------------------------------------------------------------------------------------
     */
-    int coefA_local = grafo.coeficienteAgrupamentoLocal(id);
-    int coefA_medio = grafo.coeficienteAgrupamentoMedio();
+    int coefA_local = grafo->coeficienteAgrupamentoLocal(id);
+    int coefA_medio = grafo->coeficienteAgrupamentoMedio();
 
     /*
     -----------------------------------------------------------------------------------------------------
     Funcionalidades E e F:
     -----------------------------------------------------------------------------------------------------
     */
-    grafo.dijkstra(id, id2);
-    grafo.floyd(id, id2);
+    grafo->dijkstra(id, id2);
+    grafo->floyd(id, id2);
 
     /*
     -----------------------------------------------------------------------------------------------------
@@ -77,16 +77,16 @@ int main(int argc, char *argv[])
     vector<int> X; //subconjunto de vértices
     int n = rand() % 100; // número de vertices do subconjunto X (valor aleatório entre 0 e 100)
     for(int i=0; i<n; i++)
-        X.push_back(rand() % grafo.getNumVertices());
-    grafo.prim(X);
-    grafo.kruskal(X);
+        X.push_back(rand() % grafo->getNumVertices());
+    grafo->prim(X);
+    grafo->kruskal(X);
     
     /*
     -----------------------------------------------------------------------------------------------------
     Funcionalidade I:
     -----------------------------------------------------------------------------------------------------
     */
-    grafo.caminhamentoProfundidade(id);
+    grafo->caminhamentoProfundidade(id);
 
     return 0;   
 }

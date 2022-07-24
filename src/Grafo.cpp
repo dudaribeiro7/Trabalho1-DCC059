@@ -1,4 +1,5 @@
 #include "Grafo.h"
+
 #define infinito 999999999
 
 // Função para ler o arquivo contendo o grafo
@@ -55,7 +56,7 @@ void Grafo::leArquivo(string nomeArquivo)
         {
             if (verificaArco(no1, no2)){
                 // conecta o nó ao arco que o liga ao seu nó adjacente SUCESSOR:
-                nos_grafo[no1]->adcArco(nos_grafo[no1], nos_grafo[no2], pesoAresta);
+                nos_grafo[no1]->adcArco(nos_grafo[no2], pesoAresta);
             }
         }
         else
@@ -94,11 +95,34 @@ Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
 
 Grafo Grafo::subgrafoVerticeInduzido(vector<int> X)
 {
-    No **nos_subgrafo;
-    for(int i = 0; i < X.size; i++)
+    No **nos_subgrafo = new No *[X.size()];
+    for(int i = 0; i < X.size(); i++)
     {
-        nos_subgrafo[]
+        nos_subgrafo[i] = new No(this->nos_grafo[X[i]]->getId());
+        if(this->ponderadoNos)
+            nos_subgrafo[i]->setPesoNo(this->nos_grafo[X[i]]->getPesoNo());
+        else
+            nos_subgrafo[i]->setPesoNo(1);
+
+        if(this->direcionado)
+        {
+
+        }
+        else
+        {
+
+        }
     }
+
+    
+}
+
+bool searchInVector(vector<int> vet, int id)
+{
+    for (int i=0; i<vet.size(); i++)
+        if(vet[i] == id)
+            return true;
+    return false;
 }
 
 Grafo::Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bool _pesoNos)
@@ -129,13 +153,13 @@ void Grafo::printGrafo()
         for (int i = 0; i < n_vertices; i++)
         {
             cout << nos_grafo[i]->getId() << " -> ";
-            Arco *aux = nos_grafo[i]->getProxArco();
-            while (aux != NULL)
+            Arco *aux = nos_grafo[i]->getArcos()[0];
+            for(int j = 0; j < nos_grafo[i]->getGrauSaida(); j++)
             {
-                cout << aux->getNo()->getId() << " -> ";
-                aux = aux->getProxArco();
+                cout << aux->getNoDestino()->getId() << " -> ";
+                if(j+1 < nos_grafo[i]->getGrauSaida())
+                    aux = nos_grafo[i]->getArcos()[j+1];
             }
-
             cout << endl;
         }
     }
@@ -144,11 +168,12 @@ void Grafo::printGrafo()
         for (int i = 0; i < n_vertices; i++)
         {
             cout << nos_grafo[i]->getId() << " - ";
-            Aresta *aux = nos_grafo[i]->getProx();
-            while (aux != NULL)
+            Aresta *aux = nos_grafo[i]->getArestas()[0];
+            for(int j = 0; j < nos_grafo[i]->getGrau(); j++)
             {
                 cout << aux->getNo()->getId() << " - ";
-                aux = aux->getProx();
+                if(j+1 < nos_grafo[i]->getGrau())
+                    aux = nos_grafo[i]->getArestas()[j];
             }
 
             cout << endl;
@@ -166,16 +191,16 @@ bool Grafo::verificaAresta(int id1, int id2)
     if (id1 == id2)
         return false;
 
-    Aresta *aux = nos_grafo[id1]->getProx();
-
-    if (aux != NULL)
+    if (! nos_grafo[id1]->getArestas().empty())
     {
-        while (aux != NULL)
+        Aresta *aux = nos_grafo[id1]->getArestas()[0];
+        for(int j = 0; j < nos_grafo[id1]->getGrau(); j++)
         {
             if (aux->getNo()->getId() == id2)
                 return false;
-
-            aux = aux->getProx();
+            
+            if(j+1 < nos_grafo[id1]->getGrau())
+                aux = nos_grafo[id1]->getArestas()[j+1];
         }
         return true;
     }
@@ -193,16 +218,16 @@ bool Grafo::verificaArco(int id1, int id2)
     if (id1 == id2)
         return false;
 
-    Arco *aux = nos_grafo[id1]->getProxArco();
-
-    if (aux != NULL)
+    if (! nos_grafo[id1]->getArcos().empty())
     {
-        while (aux != NULL)
+        Arco *aux = nos_grafo[id1]->getArcos()[0];
+        for(int j = 0; j < nos_grafo[id1]->getGrauSaida(); j++)
         {
-            if (aux->getNo()->getId() == id2)
+            if (aux->getNoDestino()->getId() == id2)
                 return false;
-
-            aux = aux->getProxArco();
+            
+            if(j+1 < nos_grafo[id1]->getGrauSaida())
+                aux = nos_grafo[id1]->getArcos()[j+1];
         }
         return true;
     }
@@ -248,13 +273,14 @@ int Grafo::coeficienteAgrupamentoLocal(int id)
 
         for (int i = 0; i < n_vertices; i++)
         {
-            aux = nos_grafo[i]->getProx();
+            aux = nos_grafo[i]->getArestas()[0];
             int cont = 0;
 
-            while (aux != NULL)
+            for(int j = 0; j < nos_grafo[i]->getGrau(); j++)
             {
                 cont++;
-                aux = aux->getProx();
+                if(j+1 < nos_grafo[i]->getGrau())
+                    aux = nos_grafo[i]->getArestas()[j];
             }
         }
     }
@@ -420,7 +446,7 @@ void Grafo::dijkstra(int inicio, int destino)
     // imprime a resposta
     for (int i = 0; i < solucao.size(); i++)
     {
-        cout << " - " < pi[i] << " - "; 
+        cout << " - " << pi[i] << " - "; 
     }
 }
 

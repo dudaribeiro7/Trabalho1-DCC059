@@ -1,85 +1,158 @@
 #include "No.h"
 
-// Identificação do no e inicialização do no
-No::No(int id)
+// Construtor da classe No
+// @param _id ID do novo nó
+// @param _peso peso do novo nó
+No::No(int _id, int _peso)
 {
-    this->id = id;
-    this->prox = NULL;
-    this->proxArco = NULL;
+    id = _id;
+    pesoNo = _peso;
+    grau = 0;
+    grau_entrada = 0;
+    grau_saida = 0;
 }
 
 // Destrutor do objeto No
 No::~No()
 {
-    if (prox != NULL)
-    {
-        delete prox;
-    }
+    for(int i=0; i<arestas.size(); i++)
+        delete arestas[i];
+    if(!arestas.empty())
+        arestas.clear();
 
-    if (proxArco != NULL)
-    {
-        delete proxArco;
-    }
+    for(int i=0; i<arcos.size(); i++)
+        delete arcos[i];
+    if(!arcos.empty())
+        arcos.clear();
+
+    for(int i=0; i<nos_adjacentes.size(); i++)
+        delete nos_adjacentes[i];
+    if(!nos_adjacentes.empty())
+        nos_adjacentes.clear();
 }
 
-// Retorna o id do nó atual
+// Retorna o ID do nó
+// @return int
 int No::getId()
 {
     return this->id;
 }
 
-// Modifica o id do nó atual
+// Modifica o ID do nó
+// @param id novo ID a ser colocado no nó
 void No::setId(int id)
 {
     this->id = id;
 }
 
-// Determina o peso do nó atual
-void No::setPesoNo(int peso)
+// Retorna o grau do nó
+// @return int
+int No::getGrau()
 {
-    this->pesoNo = peso;
+    return this->grau;
 }
 
-// Retorna o peso do nó atual
+// Modifica o grau do nó
+// @param _grau novo grau do nó
+void No::setGrau(int _grau)
+{
+    this->grau = _grau;
+}
+
+// Incrementa em uma unidade o grau do nó
+void No::incrementaGrau()
+{
+    this->grau++; 
+}
+
+// Retorna o grau de entrada do nó
+// @return int
+int No::getGrauEntrada()
+{
+    return this->grau_entrada;
+}
+
+// Modifica o grau de entrada do nó
+// @param _grau_entrada novo grau de entrada do nó
+void No::setGrauEntrada(int _grau_entrada)
+{
+    this->grau_entrada = _grau_entrada;
+}
+
+// Incrementa em uma unidade o grau de entrada do nó
+void No::incrementaGrauEntrada()
+{
+    this->grau_entrada++; 
+}
+
+// Retorna o grau de saida do nó
+// @return int
+int No::getGrauSaida()
+{
+    return this->grau_saida;
+}
+
+// Modifica o grau de saida do nó
+// @param _grau_saida novo grau de saida do nó
+void No::setGrauSaida(int _grau_saida)
+{
+    this->grau_saida = _grau_saida;
+}
+
+// Incrementa em uma unidade o grau de saida do no
+void No::incrementaGrauSaida()
+{
+    this->grau_saida++; 
+}
+
+// Retorna o peso do nó
+// @return int
 int No::getPesoNo()
 {
     return this->pesoNo;
 }
 
-// Retorna aresta da lista encadeada das arestas
-Aresta *No::getProx()
+// Modifica o peso do nó
+// @param peso novo peso a ser colocado no nó
+void No::setPesoNo(int peso)
 {
-    return this->prox;
+    this->pesoNo = peso;
 }
 
-// Determina a proxima aresta da lista encadeada de arestas
-void No::setProx(Aresta *prox)
+// Retorna o vetor contendo as arestas ligadas ao nó
+// @return vector<Aresta*>
+vector<Aresta*> No::getArestas()
 {
-    this->prox = prox;
+    return this->arestas;
 }
 
-// Adiciona aresta na lista encadeada das arestas
+// Adiciona aresta ao nó
+// @param n nó adjacente ao nó atual, ligados pela aresta que será adicionada
+// @param peso peso da aresta a ser adicionada
 void No::adcAresta(No *n, int peso)
 {
-    Aresta *a = new Aresta(n, this->getProx(), peso);
-    this->setProx(a);
+    Aresta *aux = new Aresta(n, peso);
+    this->arestas.push_back(aux);
+    this->nos_adjacentes.push_back(n);
+    this->incrementaGrau();
+    delete aux;
 }
 
-// Retorna o arco SUCESSOR da lista encadeada de arcos
-Arco *No::getProxArco()
+// Retorna o vetor contendo os arcos que saem do nó
+// @return vector<Arco*>
+vector<Arco*> No::getArcos()
 {
-    return this->proxArco;
+    return this->arcos;
 }
 
-// Determina o proximo arco SUCESSOR da lista encadeada de arcos
-void No::setProxArco(Arco *proxArco)
+// Adiciona arco ao nó, que é o nó origem do arco
+// @param n nó destino do arco
+void No::adcArco(No *n, int peso)
 {
-    this->proxArco = proxArco;
-}
-
-// Adiciona arco na lista encadeada de arcos SUCESSORES
-void No::adcArco(No *n1, No *n2, int peso)
-{
-    Arco *a = new Arco(n1, n2, this->getProxArco(), peso);
-    this->setProxArco(a);
+    Arco *aux = new Arco(n, peso);
+    this->arcos.push_back(aux);
+    this->nos_sucessores.push_back(n);
+    this->incrementaGrauSaida();
+    n->incrementaGrauEntrada();
+    delete aux;
 }

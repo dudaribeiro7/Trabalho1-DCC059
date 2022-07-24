@@ -1,54 +1,44 @@
 #include "Aresta.h"
 
-//Construtor
-Aresta::Aresta(No *no, Aresta *prox, int peso)
+// Construtor
+// @param _no vértice ao qual a aresta está ligada
+// @param _peso peso da aresta
+Aresta::Aresta(No *_no, int _peso)
 {
-    this->no = no;
-    this->prox = prox;
-    this->peso = peso;
+    this->no = _no;
+    this->peso = _peso;
 }
 
-//Destrutor
+// Destrutor
 Aresta::~Aresta()
 {
-    if (prox != NULL)
-    {
-        delete prox;
-    }
+    delete no;
 }
 
-// Retorna o nó atual
-No *Aresta::getNo()
+// Retorna um dos nós ao qual a aresta está ligada
+// @return No*
+No* Aresta::getNo()
 {
     return this->no;
 }
 
-// Determina o nó atual
-void Aresta::setNo(No *no)
+// Modifica um dos nós ao qual a aresta está ligada
+// @param _no1 nó que será colocado na aresta
+void Aresta::setNo(No *_no)
 {
-    this->no = no;
-}
-
-// Retorna o próximo nó
-Aresta *Aresta::getProx()
-{
-    return this->prox;
-}
-
-// Determina o próximo nó
-void Aresta::setProx(Aresta *prox)
-{
-    this->prox = prox;
+    this->no = _no;
 }
 
 // Retorna o peso da aresta
+// @return int
 int Aresta::getPeso()
 {
     return this->peso;
 }
 
-// Determina o peso da aresta
-void Aresta::setPeso(int peso)
+// Modifica o peso da aresta
+// @param _peso novo peso da aresta
+void Aresta::setPeso(int _peso)
 {
-    this->peso = peso;
+    this->peso = _peso;
 }

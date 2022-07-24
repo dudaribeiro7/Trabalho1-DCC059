@@ -1,67 +1,44 @@
 #include "Arco.h"
 
-//Construtor
-Arco::Arco(No *no_origem, No *no_destino, Arco *prox, int peso)
+// Construtor
+// @param _no_destino vértice de destino do arco
+// @param _peso peso do arco
+Arco::Arco(No *_no_destino, int _peso)
 {
-    this->no_origem = no_origem;
-    this->no_destino = no_destino;
-    this->proxArco = prox;
-    this->peso = peso;
+    this->no_destino = _no_destino;
+    this->peso = _peso;
 }
 
-//Destrutor
+// Destrutor
 Arco::~Arco()
 {
-    if (prox != NULL)
-    {
-        delete prox;
-    }
-}
-
-// Retorna o nó origem atual
-No *Arco::getNoOrigem()
-{
-    return this->no_origem;
-}
-
-// Determina o nó origem atual
-void Arco::setNoOrigem(No *no)
-{
-    this->no_origem = no;
+    delete no_destino;
 }
 
 // Retorna o nó destino atual
-No *Arco::getNoDestino()
+// @return  No*
+No* Arco::getNoDestino()
 {
     return this->no_destino;
 }
 
-// Determina o nó destino atual
+// Modifica o nó destino atual
+// @param no nó de destino a ser colocado no arco
 void Arco::setNoDestino(No *no)
 {
     this->no_destino = no;
 }
 
-// Retorna o próximo nó
-Arco *Arco::getProxArco()
-{
-    return this->proxArco;
-}
-
-// Determina o próximo nó
-void Arco::setProxArco(Arco *prox)
-{
-    this->proxArco = prox;
-}
-
 // Retorna o peso da Arco
+// @return int
 int Arco::getPeso()
 {
     return this->peso;
 }
 
 // Determina o peso da Arco
-void Arco::setPeso(int peso)
+// @param _peso novo peso do arco
+void Arco::setPeso(int _peso)
 {
-    this->peso = peso;
+    this->peso = _peso;
 }
