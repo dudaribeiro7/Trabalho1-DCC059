@@ -23,12 +23,13 @@ void Grafo::leArquivo(string nomeArquivo)
     // instanciando o vetor de vetores com o numero de vertices:
     nos_grafo = new No *[n_vertices];
     // preenche os vetores de nós:
+    int pesoNo;
     for (int i = 0; i < n_vertices; i++){
-        nos_grafo[i] = new No(i);
         if(ponderadoNos)
-            nos_grafo[i]->setPesoNo(i);
+            pesoNo=i; //qual é o peso do nó????
         else
-            nos_grafo[i]->setPesoNo(1);
+            pesoNo=1;
+        nos_grafo[i] = new No(i, pesoNo);  
     }
 
     // enquanto ainda houverem linhas a serem lidas:
@@ -98,11 +99,13 @@ Grafo Grafo::subgrafoVerticeInduzido(vector<int> X)
     No **nos_subgrafo = new No *[X.size()];
     for(int i = 0; i < X.size(); i++)
     {
-        nos_subgrafo[i] = new No(this->nos_grafo[X[i]]->getId());
+        int pesoNo;
         if(this->ponderadoNos)
-            nos_subgrafo[i]->setPesoNo(this->nos_grafo[X[i]]->getPesoNo());
+            pesoNo=this->nos_grafo[X[i]]->getPesoNo();
         else
-            nos_subgrafo[i]->setPesoNo(1);
+            pesoNo=1;
+        
+        nos_subgrafo[i] = new No(this->nos_grafo[X[i]]->getId(), pesoNo);
 
         if(this->direcionado)
         {

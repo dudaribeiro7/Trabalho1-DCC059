@@ -28,7 +28,7 @@ private:
     int grau_saida;              // Grau de saída do nó (Grafo Direcionado)
 
 public:
-    No(int id);
+    No(int _id, int _peso);
     ~No();
     int getId();
     void setId(int id);
