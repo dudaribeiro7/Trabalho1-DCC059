@@ -552,7 +552,7 @@ void Grafo::kruskal(vector<int> X)
 void Grafo::cP(int id){
     bool visitados[n_vertices];
     for(int i=0; i<n_vertices; i++){
-        visitados[i]=false;
+        visitados[i]=false; //a posição no vetor de visitados será igual ao id do vértice
     }
     caminhamentoProfundidade(id, visitados);
 }
@@ -566,11 +566,11 @@ void Grafo::caminhamentoProfundidade(int id, bool v[])
     cout<<"Visitando o vértice "<<id<<endl;
 
     for(int j=0; j < nos_grafo[id]->getNosAdj().size();j++ ) { //verifica se é folha
-        if(!v[j]){
-            caminhamentoProfundidade(nos_grafo[id][j].getId(), v);
+        int w=nos_grafo[id]->getNosAdj()[j]->getId();
+        if(!v[w]){
+            caminhamentoProfundidade(w, v);
         }
         cout<<"Volta para o vértice "<<id<<endl;
-        j++;
             
     }
 

@@ -20,7 +20,7 @@ using namespace std;
 class Grafo
 {
     private:    
-        No **nos_grafo;       // vetor de vetores do tipo nó (lista de adjacência)
+        No **nos_grafo;       // vetor de ponteiros do tipo nó (lista de adjacência)
         int n_vertices;   // número de vertices do grafo
         bool direcionado;
         bool ponderadoArestas;
