@@ -624,7 +624,7 @@ void Grafo::floyd(int inicio, int destino)
                 {
                     for (int k = 0; k < n_vertices; k++)
                     {
-                        if ((matrizAdj[j][i] != INT_MAX) && (matrizAdj[i][k] != INT_MAX))
+                        if ((matrizAdj[j][i] != infinito) && (matrizAdj[i][k] != infinito))
                         {
                             if (matrizAdj[j][k] > (matrizAdj[j][i] + matrizAdj[i][k]))
                             {
