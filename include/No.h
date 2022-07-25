@@ -48,8 +48,9 @@ public:
     void adcAresta(No *n, int peso);
     vector<Arco*> getArcos();
     void adcArco(No *n, int peso);
-    // void setVisitado(bool v);
-    // bool getVisitado();
+    vector<No*> getNosAdj();
+    vector<No*> getNosSuc();
+
 };
 
 #endif

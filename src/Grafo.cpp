@@ -565,8 +565,7 @@ void Grafo::caminhamentoProfundidade(int id, bool v[])
     v[id]=true;
     cout<<"Visitando o vértice "<<id<<endl;
 
-    int j=0;
-    while(true){ //verifica se é folha
+    for(int j=0; j < nos_grafo[id]->getNosAdj().size();j++ ) { //verifica se é folha
         if(!v[j]){
             caminhamentoProfundidade(nos_grafo[id][j].getId(), v);
         }

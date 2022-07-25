@@ -156,3 +156,13 @@ void No::adcArco(No *n, int peso)
     n->incrementaGrauEntrada();
     delete aux;
 }
+
+vector<No*> No::getNosAdj()
+{
+    return this->nos_adjacentes;
+}
+
+vector<No*> No::getNosSuc()
+{
+    return this->nos_sucessores;
+}
