@@ -17,7 +17,8 @@
   "C_Cpp_Runner.compilerArgs": [],
   "C_Cpp_Runner.linkerArgs": [],
   "C_Cpp_Runner.includePaths": [
-    "${workspaceFolder}/include/**"
+    "${workspaceFolder}/include/**",
+    "${workspaceFolder}/include"
   ],
   "C_Cpp_Runner.includeSearch": [
     "*",
@@ -33,6 +34,10 @@
   ],
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "clang-diagnostic-error",
+    "clang-diagnostic-error",
     "clang-diagnostic-error"
-  ]
+  ],
+  "files.associations": {
+    "iostream": "cpp"
+  }
 }

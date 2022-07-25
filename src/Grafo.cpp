@@ -284,7 +284,28 @@ bool Grafo::verificaArco(No **_nos_grafo, int id1, int id2)
 // @return n_vertices (int)
 int Grafo::getNumVertices()
 {
-    return n_vertices;
+    return this->n_vertices;
+}
+
+// Retorna se o grafo é direcionado ou não
+// @return bool
+bool Grafo::isDirecionado()
+{
+    return this->direcionado;
+}
+
+// Retorna se o grafo é ponderado nas arestas ou não
+// @return bool
+bool Grafo::isPonderadoArestas()
+{
+    return this->ponderadoArestas;
+}
+
+// Retorna se o grafo é ponderado nos nós ou não
+// @return bool
+bool Grafo::isPonderadoNos()
+{
+    return this->ponderadoNos;
 }
 
 // TODO: @mariana_richa
@@ -684,11 +705,6 @@ void Grafo::floyd(int inicio, int destino)
     // Saída: A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
     void Grafo::caminhamentoProfundidade(int id)
     {
-        if (this->direcionado)
-        {
-            cout << "Não é possível fazer o caminhamento em profundidade em grafos direcionados." << endl;
-            return;
-        }
         bool visitados[n_vertices];
         for (int i = 0; i < n_vertices; i++)
         {

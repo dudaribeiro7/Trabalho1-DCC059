@@ -35,6 +35,9 @@ class Grafo
         bool verificaAresta(No** _nos_grafo, int id1, int id2);
         bool verificaArco(No** _nos_grafo, int id1, int id2);
         int getNumVertices();
+        bool isDirecionado();
+        bool isPonderadoArestas();
+        bool isPonderadoNos();
         No* fechoTransDir(int id);
         No* fechoTransInd (int id);
         int coeficienteAgrupamentoLocal(int id);
