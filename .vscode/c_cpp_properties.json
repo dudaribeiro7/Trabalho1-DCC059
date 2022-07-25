@@ -4,7 +4,8 @@
       "name": "linux-gcc-x64",
       "includePath": [
         "${workspaceFolder}/**",
-        "${workspaceFolder}/include/**"
+        "${workspaceFolder}/include/**",
+        "${workspaceFolder}/include"
       ],
       "defines": [
         "_DEBUG",
@@ -14,7 +15,8 @@
       "cStandard": "${default}",
       "cppStandard": "${default}",
       "intelliSenseMode": "linux-gcc-x64",
-      "compilerPath": "/usr/bin/gcc"
+      "compilerPath": "/usr/bin/gcc",
+      "configurationProvider": "ms-vscode.makefile-tools"
     }
   ],
   "version": 4
