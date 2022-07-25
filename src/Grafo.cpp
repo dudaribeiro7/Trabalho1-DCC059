@@ -27,11 +27,11 @@ void Grafo::leArquivo(string nomeArquivo)
     int pesoNo;
     for (int i = 0; i < n_vertices; i++)
     {
-        if(ponderadoNos)
-            pesoNo=i; //qual é o peso do nó????
+        if (ponderadoNos)
+            pesoNo = i; // qual é o peso do nó????
         else
-            pesoNo=1;
-        nos_grafo[i] = new No(i, pesoNo);  
+            pesoNo = 1;
+        nos_grafo[i] = new No(i, pesoNo);
     }
 
     // enquanto ainda houverem linhas a serem lidas:
@@ -50,21 +50,23 @@ void Grafo::leArquivo(string nomeArquivo)
         int no1 = vet[0];
         int no2 = vet[1];
         int pesoAresta;
-        if(ponderadoArestas)
+        if (ponderadoArestas)
             pesoAresta = vet[2];
         else
             pesoAresta = 1;
 
-        if(direcionado)
+        if (direcionado)
         {
-            if (verificaArco(this->nos_grafo, no1, no2)){
+            if (verificaArco(this->nos_grafo, no1, no2))
+            {
                 // conecta o nó ao arco que o liga ao seu nó adjacente SUCESSOR:
                 nos_grafo[no1]->adcArco(nos_grafo[no2], pesoAresta);
             }
         }
         else
         {
-            if (verificaAresta(this->nos_grafo, no1, no2)){
+            if (verificaAresta(this->nos_grafo, no1, no2))
+            {
                 // conecta aos nós as arestas que os ligam aos seus adjacentes:
                 nos_grafo[no1]->adcAresta(nos_grafo[no2], pesoAresta);
                 nos_grafo[no2]->adcAresta(nos_grafo[no1], pesoAresta);
@@ -78,17 +80,17 @@ void Grafo::leArquivo(string nomeArquivo)
 // @param nomeArquivo É o nome do arquivo com as instâncias do grafo a ser lido
 Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
 {
-    if(direc == 0)
+    if (direc == 0)
         direcionado = false;
     else
         direcionado = true;
-    
-    if(peso_aresta == 0)
+
+    if (peso_aresta == 0)
         ponderadoArestas = false;
-    else 
+    else
         ponderadoArestas = true;
 
-    if(peso_nos == 0)
+    if (peso_nos == 0)
         ponderadoNos = false;
     else
         ponderadoNos = true;
@@ -99,13 +101,13 @@ Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
 // Retorna um subgrafo vértice induzido pelo conjunto de vértices passados por parâmetro:
 // @param X subconjunto de vértices do grafo para achar o subgrafo vértice induzido
 // @return Grafo* - o subgrafo vértice induzido
-Grafo* Grafo::subgrafoVerticeInduzido(vector<int> X)
+Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
 {
     // Aloca um novo vetor de ponteiros para os nós do subgrafo vertice induzido que será retornado:
     No **nos_subgrafo = new No *[X.size()];
 
     // Percorre o vetor que contém os IDs dos nós do subgrafo:
-    for(int i = 0; i < X.size(); i++)
+    for (int i = 0; i < X.size(); i++)
     {
         // Resgata o peso do nó a ser adicionado no subgrafo:
         int pesoNo = this->nos_grafo[X[i]]->getPesoNo();
@@ -113,19 +115,20 @@ Grafo* Grafo::subgrafoVerticeInduzido(vector<int> X)
         nos_subgrafo[i] = new No(this->nos_grafo[X[i]]->getId(), pesoNo);
 
         // Verifica se é direcionado ou não:
-        if(this->direcionado)
+        if (this->direcionado)
         {
             // Percorre os nós sucessores aos nós contidos no vetor X:
-            for(int j = 0; j < this->nos_grafo[X[i]]->getGrauSaida(); j++)
+            for (int j = 0; j < this->nos_grafo[X[i]]->getGrauSaida(); j++)
             {
                 // Resgata o ID do no sucessor:
                 int id_sucessor = this->nos_grafo[X[i]]->getNosSuc()[j]->getId();
                 // Verifica se o nó sucessor também está contido no vetor X:
-                if(searchInVector(X, id_sucessor))
+                if (searchInVector(X, id_sucessor))
                 {
                     // Se estiver, resgata o peso do arco que será adicionado e verifica se é possível, no subgrafo, existir esse arco:
                     int pesoArco = this->nos_grafo[X[i]]->getArcos()[j]->getPeso();
-                    if(verificaArco(nos_subgrafo, i, id_sucessor)){
+                    if (verificaArco(nos_subgrafo, i, id_sucessor))
+                    {
                         nos_subgrafo[i]->adcArco(nos_subgrafo[id_sucessor], pesoArco);
                     }
                 }
@@ -134,16 +137,16 @@ Grafo* Grafo::subgrafoVerticeInduzido(vector<int> X)
         else
         {
             // Percorre os nós adjacentes dos nós contidos no vetor X:
-            for(int j = 0; j < this->nos_grafo[X[i]]->getGrau(); j++)
+            for (int j = 0; j < this->nos_grafo[X[i]]->getGrau(); j++)
             {
                 // Resgata o ID do nó adjacente:
                 int id_adjacente = this->nos_grafo[X[i]]->getNosAdj()[j]->getId();
                 // Verifica se o nó adjacente também está contido no vetor X:
-                if(searchInVector(X, id_adjacente))
+                if (searchInVector(X, id_adjacente))
                 {
                     // Se estiver, resgata o peso da aresta que será adicionada e verifica se é possível, no subgrafo, existir essa aresta:
                     int pesoAresta = this->nos_grafo[X[i]]->getArestas()[j]->getPeso();
-                    if(verificaAresta(nos_subgrafo, i, id_adjacente))
+                    if (verificaAresta(nos_subgrafo, i, id_adjacente))
                     {
                         nos_subgrafo[i]->adcAresta(nos_subgrafo[id_adjacente], pesoAresta);
                         nos_subgrafo[id_adjacente]->adcAresta(nos_subgrafo[i], pesoAresta);
@@ -159,8 +162,8 @@ Grafo* Grafo::subgrafoVerticeInduzido(vector<int> X)
 
 bool Grafo::searchInVector(vector<int> vet, int id)
 {
-    for (int i=0; i<vet.size(); i++)
-        if(vet[i] == id)
+    for (int i = 0; i < vet.size(); i++)
+        if (vet[i] == id)
             return true;
     return false;
 }
@@ -188,17 +191,17 @@ Grafo::~Grafo()
 // Imprime o grafo na tela
 void Grafo::printGrafo()
 {
-    if(direcionado)
+    if (direcionado)
     {
         for (int i = 0; i < n_vertices; i++)
         {
             cout << nos_grafo[i]->getId() << " -> ";
             Arco *aux = nos_grafo[i]->getArcos()[0];
-            for(int j = 0; j < nos_grafo[i]->getGrauSaida(); j++)
+            for (int j = 0; j < nos_grafo[i]->getGrauSaida(); j++)
             {
                 cout << aux->getNoDestino()->getId() << " -> ";
-                if(j+1 < nos_grafo[i]->getGrauSaida())
-                    aux = nos_grafo[i]->getArcos()[j+1];
+                if (j + 1 < nos_grafo[i]->getGrauSaida())
+                    aux = nos_grafo[i]->getArcos()[j + 1];
             }
             cout << endl;
         }
@@ -209,10 +212,10 @@ void Grafo::printGrafo()
         {
             cout << nos_grafo[i]->getId() << " - ";
             Aresta *aux = nos_grafo[i]->getArestas()[0];
-            for(int j = 0; j < nos_grafo[i]->getGrau(); j++)
+            for (int j = 0; j < nos_grafo[i]->getGrau(); j++)
             {
                 cout << aux->getNo()->getId() << " - ";
-                if(j+1 < nos_grafo[i]->getGrau())
+                if (j + 1 < nos_grafo[i]->getGrau())
                     aux = nos_grafo[i]->getArestas()[j];
             }
 
@@ -227,21 +230,21 @@ void Grafo::printGrafo()
 // @param id1 É a identificação do no 1 a ser verificado
 // @param id2 É a identificação do no 2 a ser verificado
 // @return true (se for possível) ou false (se não for possível, pois é multiaresta ou self-loop)
-bool Grafo::verificaAresta(No** _nos_grafo, int id1, int id2)
+bool Grafo::verificaAresta(No **_nos_grafo, int id1, int id2)
 {
     if (id1 == id2)
         return false;
 
-    if (! _nos_grafo[id1]->getArestas().empty())
+    if (!_nos_grafo[id1]->getArestas().empty())
     {
         Aresta *aux = _nos_grafo[id1]->getArestas()[0];
-        for(int j = 0; j < _nos_grafo[id1]->getGrau(); j++)
+        for (int j = 0; j < _nos_grafo[id1]->getGrau(); j++)
         {
             if (aux->getNo()->getId() == id2)
                 return false;
-            
-            if(j+1 < _nos_grafo[id1]->getGrau())
-                aux = _nos_grafo[id1]->getArestas()[j+1];
+
+            if (j + 1 < _nos_grafo[id1]->getGrau())
+                aux = _nos_grafo[id1]->getArestas()[j + 1];
         }
         return true;
     }
@@ -255,21 +258,21 @@ bool Grafo::verificaAresta(No** _nos_grafo, int id1, int id2)
 // @param id1 É a identificação do no 1 a ser verificado
 // @param id2 É a identificação do no 2 a ser verificado
 // @return true (se for possível) ou false (se não for possível, pois é multiarco ou self-loop)
-bool Grafo::verificaArco(No** _nos_grafo, int id1, int id2)
+bool Grafo::verificaArco(No **_nos_grafo, int id1, int id2)
 {
     if (id1 == id2)
         return false;
 
-    if (! _nos_grafo[id1]->getArcos().empty())
+    if (!_nos_grafo[id1]->getArcos().empty())
     {
         Arco *aux = _nos_grafo[id1]->getArcos()[0];
-        for(int j = 0; j < _nos_grafo[id1]->getGrauSaida(); j++)
+        for (int j = 0; j < _nos_grafo[id1]->getGrauSaida(); j++)
         {
             if (aux->getNoDestino()->getId() == id2)
                 return false;
-            
-            if(j+1 < _nos_grafo[id1]->getGrauSaida())
-                aux = _nos_grafo[id1]->getArcos()[j+1];
+
+            if (j + 1 < _nos_grafo[id1]->getGrauSaida())
+                aux = _nos_grafo[id1]->getArcos()[j + 1];
         }
         return true;
     }
@@ -289,7 +292,6 @@ int Grafo::getNumVertices()
 //@return Fecho Transitivo Direto (vetor de vértices)
 No *Grafo::fechoTransDir(int id)
 {
-
 }
 
 // TODO: @mariana_richa
@@ -297,7 +299,6 @@ No *Grafo::fechoTransDir(int id)
 //@return Fecho Transitivo Indireto (vetor de vértices)
 No *Grafo::fechoTransInd(int id)
 {
-
 }
 
 // TODO: @vitor-frnds
@@ -305,9 +306,8 @@ No *Grafo::fechoTransInd(int id)
 // @return Coeficiente de agrupamento local do vértice
 int Grafo::coeficienteAgrupamentoLocal(int id)
 {
-    if(direcionado)
+    if (direcionado)
     {
-
     }
     else
     {
@@ -318,15 +318,14 @@ int Grafo::coeficienteAgrupamentoLocal(int id)
             aux = nos_grafo[i]->getArestas()[0];
             int cont = 0;
 
-            for(int j = 0; j < nos_grafo[i]->getGrau(); j++)
+            for (int j = 0; j < nos_grafo[i]->getGrau(); j++)
             {
                 cont++;
-                if(j+1 < nos_grafo[i]->getGrau())
+                if (j + 1 < nos_grafo[i]->getGrau())
                     aux = nos_grafo[i]->getArestas()[j];
             }
         }
     }
-    
 }
 
 // TODO: @vitor-frnds
@@ -351,16 +350,15 @@ int Grafo::coeficienteAgrupamentoMedio()
 // @return O caminho mínimo entre esses dois vértices usando o algoritmo de Dijkstra
 void Grafo::dijkstra(int inicio, int destino)
 {
-    // https://www.youtube.com/watch?v=dIjGG_1vJYQ (video de onde eu tirei a resolução)
-    
-    vector<int> beta;
-    vector<int> fi;
-    vector<int> pi;
-    int w, r, encerra;
-    encerra = 0;
-    r = inicio;
-    int flag = 0;
+    vector<int> beta;           // vetor de custos
+    vector<int> fi;             // vetor de marcação
+    vector<int> pi;             // vetor de antecessores (para achar a sequencia de vertices do caminho minimo)
+    int w, r, flag, ehPossivel; // auxiliares
 
+    // inicialização
+    ehPossivel = 0;
+    r = inicio;
+    flag = 0;
     for (int i = 0; i < n_vertices; i++)
     {
         beta.push_back(infinito);
@@ -370,67 +368,86 @@ void Grafo::dijkstra(int inicio, int destino)
     beta[inicio] = 0;
     fi[inicio] = 1;
 
-    if(direcionado)
+    if (direcionado)
     {
-        while ((flag == 0) && (encerra < n_vertices))
+        // verifica se o Nó inicial consegue chegar no Nó final
+        No *nos = fechoTransDir(inicio);
+        for (int i = 0; i < nos.size(); i++)
         {
-            // varre todos os adijacentes do nó da interação atual e atualiza seus custos
-            w = r;
-            for (Aresta *aux = nos_grafo[w]->getProx(); aux != NULL; aux = aux->getProx())
+            if (nos[i].getId() == destino)
             {
-                if (beta[aux->getNo()->getId()] > beta[w] + aux->getPeso())
-                {
-                    beta[aux->getNo()->getId()] = beta[w] + aux->getPeso();
-                    pi[aux->getNo()->getId()] = w;
-                }
+                ehPossivel = 1;
             }
-
-            // pega o primeiro nó que não esta no conjunto solução
-            int flagMenor = 0;
-            int contador = 0;
-            while ((flagMenor == 0) && (contador < n_vertices))
+        }
+        if (ehPossivel)
+        {
+            while (flag == 0)
             {
-                if (fi[i] != 1)
-                {
-                    r = contador;
-                    flagMenor = contador;
-                }
-                contador++;
-            }
+                // varre todos os adjacentes do nó da interação atual e atualiza seus custos
+                w = r;
+                vector<Aresta *> auxAresta = nos_grafo[w]->getArestas();
 
-            // escolhe entre todos os nós do conjunto solução o menor deles
-            for (int i = 0; i < n_vertices; i++)
-            {
-                if (fi[i] != 1)
+                for (int i = 0; i < auxAresta.size(); i++)
                 {
-                    if ((beta[i] < beta[r]))
+                    if (beta[auxAresta[i]->getNo()->getId()] > beta[w] + auxAresta[i]->getPeso())
                     {
-                        r = i;
+                        beta[auxAresta[i]->getNo()->getId()] = beta[w] + auxAresta[i]->getPeso();
+                        pi[auxAresta[i]->getNo()->getId()] = w;
                     }
                 }
-            }
 
-            // encerra a execução se possivel
-            fi[r] = 1;
-            if (w == destino)
-            {
-                flag = 1;
+                // pega o primeiro nó que não esta no conjunto solução
+                int flagMenor = 0;
+                int contador = 0;
+                while ((flagMenor == 0) && (contador < n_vertices))
+                {
+                    if (fi[contador] != 1)
+                    {
+                        r = contador;
+                        flagMenor = 1;
+                    }
+                    contador++;
+                }
+
+                // escolhe entre todos os nós do conjunto solução o menor deles
+                for (int i = 0; i < n_vertices; i++)
+                {
+                    if (fi[i] != 1)
+                    {
+                        if ((beta[i] < beta[r]))
+                        {
+                            r = i;
+                        }
+                    }
+                }
+
+                // encerra a execução se possivel
+                fi[r] = 1;
+                if (w == destino)
+                {
+                    flag = 1;
+                }
             }
-            encerra++;
+        }
+        else
+        {
+            cout << "nao existe caminho entre esses vertices";
         }
     }
     else
     {
         while (flag == 0)
         {
-            // varre todos os adijacentes do nó da interação atual e atualiza seus custos
+            // varre todos os adjacentes do nó da interação atual e atualiza seus custos
             w = r;
-            for (Aresta *aux = nos_grafo[w]->getProx(); aux != NULL; aux = aux->getProx())
+            vector<Aresta *> auxAresta = nos_grafo[w]->getArestas();
+
+            for (int i = 0; i < auxAresta.size(); i++)
             {
-                if (beta[aux->getNo()->getId()] > beta[w] + aux->getPeso())
+                if (beta[auxAresta[i]->getNo()->getId()] > beta[w] + auxAresta[i]->getPeso())
                 {
-                    beta[aux->getNo()->getId()] = beta[w] + aux->getPeso();
-                    pi[aux->getNo()->getId()] = w;
+                    beta[auxAresta[i]->getNo()->getId()] = beta[w] + auxAresta[i]->getPeso();
+                    pi[auxAresta[i]->getNo()->getId()] = w;
                 }
             }
 
@@ -439,7 +456,7 @@ void Grafo::dijkstra(int inicio, int destino)
             int contador = 0;
             while ((flagMenor == 0) && (contador < n_vertices))
             {
-                if (fi[i] != 1)
+                if (fi[contador] != 1)
                 {
                     r = contador;
                     flagMenor = contador;
@@ -468,82 +485,161 @@ void Grafo::dijkstra(int inicio, int destino)
         }
     }
 
-    // organiza o menor caminho
-    vector<int> solucao;
-    flag = 0;
-    int aux1 = destino;
-    int aux2 = pi[destino];
-    solucao.push_back(aux1);
-    while (flag == 0)
+    if (direcionado)
     {
-        aux1 = aux2;
-        aux2 = pi[aux1];
-        solucao.push_back(aux1);
-        if (aux1 == inicio)
+        if (ehPossivel)
         {
-            flag = 1;
+            // organiza o menor caminho
+            vector<int> solucao;
+            flag = 0;
+            int aux1 = destino;
+            int aux2 = pi[destino];
+            int soma = 0;
+            solucao.push_back(aux1);
+            while (flag == 0)
+            {
+                aux1 = aux2;
+                aux2 = pi[aux1];
+                solucao.push_back(aux1);
+                soma += beta[aux1];
+                if (aux1 == inicio)
+                {
+                    flag = 1;
+                }
+            }
+            // imprime a resposta
+            for (int i = 0; i < solucao.size(); i++)
+            {
+                cout << " - " << pi[i] << " - ";
+            }
+            cout << "custo: " << soma;
         }
     }
-
-    // imprime a resposta
-    for (int i = 0; i < solucao.size(); i++)
+    else
     {
-        cout << " - " << pi[i] << " - "; 
+        // organiza o menor caminho
+        vector<int> solucao;
+        flag = 0;
+        int aux1 = destino;
+        int aux2 = pi[destino];
+        int soma = 0;
+        solucao.push_back(aux1);
+        while (flag == 0)
+        {
+            aux1 = aux2;
+            aux2 = pi[aux1];
+            solucao.push_back(aux1);
+            soma += beta[aux1];
+            if (aux1 == inicio)
+            {
+                flag = 1;
+            }
+        }
+
+        // imprime a resposta
+        for (int i = 0; i < solucao.size(); i++)
+        {
+            cout << " - " << pi[i] << " - ";
+        }
+        cout << "custo: " << soma;
     }
 }
 
 // TODO: @RiUza02
 // @param id1/id2 dois IDs de vértices do grafo
 // @return O caminho mínimo entre esses dois vértices usando o algoritmo de Floyd
-void Grafo::floyd(int id1, int id2)
+void Grafo::floyd(int inicio, int destino)
 {
-    if(direcionado)
+    int matrizAdj[n_vertices][n_vertices]; // matriz de custos
+    int pi[n_vertices][n_vertices];        // matriz de antecessores (para achar a sequencia de vertices do caminho minimo)
+    vector<Aresta *> auxAresta;            // auxiliar
+    int ehPossivel;
+    // Inicialização
+    ehPossivel = 0;
+    for (int i = 0; i < n_vertices; i++)
     {
-
-    }
-    else 
-    {
-        int matrizAdj[n_vertices][n_vertices];
-        No *auxNo;
-        Aresta *auxAresta;
-        int pi[n_vertices][n_vertices];
-
-        // Inicialização da matriz e o vetor caminho
-        for (int i = 0; i < this->getNumVertices(); i++)
+        for (int j = 0; j < n_vertices; j++)
         {
-            for (int j = 0; j < this->getNumVertices(); j++)
+            if (i == j)
             {
-                if (i == j)
-                {
-                    matrizAdj[i][j] = 0;
-                }
-                else
-                {
-                    matrizAdj[i][j] = INT_MAX;
-                }
-                pi[i][j] = 0;
+                matrizAdj[i][j] = 0;
+            }
+            else
+            {
+                matrizAdj[i][j] = infinito;
+            }
+            pi[i][j] = 0;
+        }
+    }
+
+    if (direcionado)
+    {
+        // verifica se o Nó inicial consegue chegar no Nó final
+        No *nos = fechoTransDir(inicio);
+        for (int i = 0; i < nos.size(); i++)
+        {
+            if (nos[i].getId() == destino)
+            {
+                ehPossivel = 1;
             }
         }
 
-        // Inserindo os valores iniciais
-        for (int i = 0; i < this->getNumVertices(); i++)
+        if (ehPossivel)
         {
-            auxNo = nos_grafo[i];
-            auxAresta = auxNo->getProx();
-
-            while (auxAresta != NULL)
+            // Inserindo os valores iniciais
+            for (int i = 0; i < n_vertices; i++)
             {
-                matrizAdj[i][auxAresta->getNo()->getId()] = auxAresta->getPeso();
-                auxAresta = auxAresta->getProx();
+                auxAresta = nos_grafo[i]->getArestas();
+                for (int j = 0; j < auxAresta.size(); j++)
+                {
+                    matrizAdj[i][auxAresta[j]->getNo()->getId()] = auxAresta[j]->getPeso();
+                }
+            }
+
+            // preenchimento dos valores de distancias
+            for (int i = 0; i < n_vertices; i++)
+            {
+                for (int j = 0; j < n_vertices; j++)
+                {
+                    for (int k = 0; k < n_vertices; k++)
+                    {
+                        if ((matrizAdj[j][i] != INT_MAX) && (matrizAdj[i][k] != INT_MAX))
+                        {
+                            if (matrizAdj[j][k] > (matrizAdj[j][i] + matrizAdj[i][k]))
+                            {
+                                matrizAdj[j][k] = matrizAdj[j][i] + matrizAdj[i][k];
+                                pi[j][k] = i;
+                            }
+                        }
+                    }
+                }
+            }
+            // imprime a resposta
+            floydAux(inicio, destino, pi);
+        }
+        else
+        {
+            cout << "nao existe caminho entre esses vertices";
+        }
+    }
+    else
+    {
+        // Inserindo os valores iniciais
+        for (int i = 0; i < n_vertices; i++)
+        {
+            auxAresta = nos_grafo[i]->getArestas();
+            for (int j = 0; j < auxAresta.size(); j++)
+            {
+                matrizAdj[i][auxAresta[j]->getNo()->getId()] = auxAresta[j]->getPeso();
             }
         }
 
         // preenchimento dos valores de distancias
-        for (int i = 0; i < this->getNumVertices(); i++)
+        for (int i = 0; i < n_vertices; i++)
         {
-            for (int j = 0; j < this->getNumVertices(); j++)
+            for (int j = 0; j < n_vertices; j++)
             {
-                for (int k = 0; k < this->getNumVertices(); k++)
+                for (int k = 0; k < n_vertices; k++)
                 {
                     if ((matrizAdj[j][i] != INT_MAX) && (matrizAdj[i][k] != INT_MAX))
                     {
@@ -557,64 +653,62 @@ void Grafo::floyd(int id1, int id2)
             }
         }
     }
-
-    // imprime a resposta
-    floydAux(id1, id2, pi)
 }
-
-void floydAux(int a, int b, int P[][])
-{
-    if (P[a][b] == b)
+    void Grafo::floydAux(int a, int b, int P[][])
     {
-        cout << b << " ";
-        return;
-    }
-    floydAux(a, P[a][b], P);
-    cout << b << " ";
-}
-
-// TODO: @dudaribeiro7
-// @param X um subconjunto de vértices de um grafo
-// @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
-void Grafo::prim(vector<int> X)
-{
-}
-
-// TODO: @dudaribeiro7
-// @param X um subconjunto de vértices de um grafo
-// @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
-void Grafo::kruskal(vector<int> X)
-{
-}
-
-// TODO: @marianaricha
-// @param id um ID de vértice
-// Saída: A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
-void Grafo::caminhamentoProfundidade(int id){
-    if(this->direcionado){
-        cout << "Não é possível fazer o caminhamento em profundidade em grafos direcionados." << endl;
-        return;
-    }
-    bool visitados[n_vertices];
-    for(int i=0; i<n_vertices; i++){
-        visitados[i]=false; //a posição no vetor de visitados será igual ao id do vértice
-    }
-    cP(id, visitados);
-}
-
-
-void Grafo::cP(int id, bool v[])
-{
-    v[id]=true;
-    cout<<"Visitando o vértice "<< id <<endl;
-
-    for(int j=0; j < nos_grafo[id]->getNosAdj().size();j++ ) { //verifica se é folha
-        int w=nos_grafo[id]->getNosAdj()[j]->getId();
-        if(!v[w]){
-            cP(w, v);
+        if (P[a][b] == b)
+        {
+            cout << b << " ";
+            return;
         }
-        cout<<"Volta para o vértice "<< id << " pela aresta (" << id << "," << j << ")" << endl;
-            
+        floydAux(a, P[a][b], P);
+        cout << b << " ";
     }
 
-}
+    // TODO: @dudaribeiro7
+    // @param X um subconjunto de vértices de um grafo
+    // @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
+    void Grafo::prim(vector<int> X)
+    {
+    }
+
+    // TODO: @dudaribeiro7
+    // @param X um subconjunto de vértices de um grafo
+    // @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
+    void Grafo::kruskal(vector<int> X)
+    {
+    }
+
+    // TODO: @marianaricha
+    // @param id um ID de vértice
+    // Saída: A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
+    void Grafo::caminhamentoProfundidade(int id)
+    {
+        if (this->direcionado)
+        {
+            cout << "Não é possível fazer o caminhamento em profundidade em grafos direcionados." << endl;
+            return;
+        }
+        bool visitados[n_vertices];
+        for (int i = 0; i < n_vertices; i++)
+        {
+            visitados[i] = false; // a posição no vetor de visitados será igual ao id do vértice
+        }
+        cP(id, visitados);
+    }
+
+    void Grafo::cP(int id, bool v[])
+    {
+        v[id] = true;
+        cout << "Visitando o vértice " << id << endl;
+
+        for (int j = 0; j < nos_grafo[id]->getNosAdj().size(); j++)
+        { // verifica se é folha
+            int w = nos_grafo[id]->getNosAdj()[j]->getId();
+            if (!v[w])
+            {
+                cP(w, v);
+            }
+            cout << "Volta para o vértice " << id << " pela aresta (" << id << "," << j << ")" << endl;
+        }
+    }

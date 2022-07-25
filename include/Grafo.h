@@ -23,7 +23,7 @@ class Grafo
         bool ponderadoNos;
         
         void leArquivo(string nomeArquivo); 
-        void floyd(int id1, int id2, int P[][]); // função auxiliar para o algoritmo de floyd
+        void floydAux(int id1, int id2, int P[][]); // função auxiliar para o algoritmo de floyd
         Grafo* subgrafoVerticeInduzido(vector<int> X);
         bool searchInVector(vector<int> vet, int id);
 
