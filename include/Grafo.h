@@ -27,16 +27,17 @@ class Grafo
         bool ponderadoNos;
         
         void leArquivo(string nomeArquivo); 
-        void floyd(int id1, int id2,int P[][]); // função auxiliar para o algoritmo de floyd
-        Grafo subgrafoVerticeInduzido(vector<int> X);
+        void floyd(int id1, int id2, int P[][]); // função auxiliar para o algoritmo de floyd
+        Grafo* subgrafoVerticeInduzido(vector<int> X);
+        bool searchInVector(vector<int> vet, int id);
 
     public:
         Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos);
         Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bool _pesoNos);
         ~Grafo();
         void printGrafo();
-        bool verificaAresta(int id1, int id2);
-        bool verificaArco(int id1, int id2);
+        bool verificaAresta(No** _nos_grafo, int id1, int id2);
+        bool verificaArco(No** _nos_grafo, int id1, int id2);
         int getNumVertices();
         No* fechoTransDir(int id);
         No* fechoTransInd (int id);

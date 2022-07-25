@@ -25,7 +25,8 @@ void Grafo::leArquivo(string nomeArquivo)
     nos_grafo = new No *[n_vertices];
     // preenche os vetores de nós:
     int pesoNo;
-    for (int i = 0; i < n_vertices; i++){
+    for (int i = 0; i < n_vertices; i++)
+    {
         if(ponderadoNos)
             pesoNo=i; //qual é o peso do nó????
         else
@@ -56,14 +57,14 @@ void Grafo::leArquivo(string nomeArquivo)
 
         if(direcionado)
         {
-            if (verificaArco(no1, no2)){
+            if (verificaArco(this->nos_grafo, no1, no2)){
                 // conecta o nó ao arco que o liga ao seu nó adjacente SUCESSOR:
                 nos_grafo[no1]->adcArco(nos_grafo[no2], pesoAresta);
             }
         }
         else
         {
-            if (verificaAresta(no1, no2)){
+            if (verificaAresta(this->nos_grafo, no1, no2)){
                 // conecta aos nós as arestas que os ligam aos seus adjacentes:
                 nos_grafo[no1]->adcAresta(nos_grafo[no2], pesoAresta);
                 nos_grafo[no2]->adcAresta(nos_grafo[no1], pesoAresta);
@@ -95,33 +96,68 @@ Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
     leArquivo(nomeArquivo);
 }
 
-Grafo Grafo::subgrafoVerticeInduzido(vector<int> X)
+// Retorna um subgrafo vértice induzido pelo conjunto de vértices passados por parâmetro:
+// @param X subconjunto de vértices do grafo para achar o subgrafo vértice induzido
+// @return Grafo* - o subgrafo vértice induzido
+Grafo* Grafo::subgrafoVerticeInduzido(vector<int> X)
 {
+    // Aloca um novo vetor de ponteiros para os nós do subgrafo vertice induzido que será retornado:
     No **nos_subgrafo = new No *[X.size()];
+
+    // Percorre o vetor que contém os IDs dos nós do subgrafo:
     for(int i = 0; i < X.size(); i++)
     {
-        int pesoNo;
-        if(this->ponderadoNos)
-            pesoNo=this->nos_grafo[X[i]]->getPesoNo();
-        else
-            pesoNo=1;
-        
+        // Resgata o peso do nó a ser adicionado no subgrafo:
+        int pesoNo = this->nos_grafo[X[i]]->getPesoNo();
+        // Adiciona o nó no subgrafo:
         nos_subgrafo[i] = new No(this->nos_grafo[X[i]]->getId(), pesoNo);
 
+        // Verifica se é direcionado ou não:
         if(this->direcionado)
         {
-
+            // Percorre os nós sucessores aos nós contidos no vetor X:
+            for(int j = 0; j < this->nos_grafo[X[i]]->getGrauSaida(); j++)
+            {
+                // Resgata o ID do no sucessor:
+                int id_sucessor = this->nos_grafo[X[i]]->getNosSuc()[j]->getId();
+                // Verifica se o nó sucessor também está contido no vetor X:
+                if(searchInVector(X, id_sucessor))
+                {
+                    // Se estiver, resgata o peso do arco que será adicionado e verifica se é possível, no subgrafo, existir esse arco:
+                    int pesoArco = this->nos_grafo[X[i]]->getArcos()[j]->getPeso();
+                    if(verificaArco(nos_subgrafo, i, id_sucessor)){
+                        nos_subgrafo[i]->adcArco(nos_subgrafo[id_sucessor], pesoArco);
+                    }
+                }
+            }
         }
         else
         {
-
+            // Percorre os nós adjacentes dos nós contidos no vetor X:
+            for(int j = 0; j < this->nos_grafo[X[i]]->getGrau(); j++)
+            {
+                // Resgata o ID do nó adjacente:
+                int id_adjacente = this->nos_grafo[X[i]]->getNosAdj()[j]->getId();
+                // Verifica se o nó adjacente também está contido no vetor X:
+                if(searchInVector(X, id_adjacente))
+                {
+                    // Se estiver, resgata o peso da aresta que será adicionada e verifica se é possível, no subgrafo, existir essa aresta:
+                    int pesoAresta = this->nos_grafo[X[i]]->getArestas()[j]->getPeso();
+                    if(verificaAresta(nos_subgrafo, i, id_adjacente))
+                    {
+                        nos_subgrafo[i]->adcAresta(nos_subgrafo[id_adjacente], pesoAresta);
+                        nos_subgrafo[id_adjacente]->adcAresta(nos_subgrafo[i], pesoAresta);
+                    }
+                }
+            }
         }
     }
 
-    
+    Grafo *subgrafo = new Grafo(nos_subgrafo, X.size(), this->direcionado, this->ponderadoArestas, this->ponderadoNos);
+    return subgrafo;
 }
 
-bool searchInVector(vector<int> vet, int id)
+bool Grafo::searchInVector(vector<int> vet, int id)
 {
     for (int i=0; i<vet.size(); i++)
         if(vet[i] == id)
@@ -187,24 +223,25 @@ void Grafo::printGrafo()
 
 // Verifica se é possível existir uma aresta entre os nós.
 // Elimina a possibilidade de existência de self-loops e multiarestas.
+// @param _nos_grafo São os nós do grafo que se desfeja verificar a existência da aresta
 // @param id1 É a identificação do no 1 a ser verificado
 // @param id2 É a identificação do no 2 a ser verificado
 // @return true (se for possível) ou false (se não for possível, pois é multiaresta ou self-loop)
-bool Grafo::verificaAresta(int id1, int id2)
+bool Grafo::verificaAresta(No** _nos_grafo, int id1, int id2)
 {
     if (id1 == id2)
         return false;
 
-    if (! nos_grafo[id1]->getArestas().empty())
+    if (! _nos_grafo[id1]->getArestas().empty())
     {
-        Aresta *aux = nos_grafo[id1]->getArestas()[0];
-        for(int j = 0; j < nos_grafo[id1]->getGrau(); j++)
+        Aresta *aux = _nos_grafo[id1]->getArestas()[0];
+        for(int j = 0; j < _nos_grafo[id1]->getGrau(); j++)
         {
             if (aux->getNo()->getId() == id2)
                 return false;
             
-            if(j+1 < nos_grafo[id1]->getGrau())
-                aux = nos_grafo[id1]->getArestas()[j+1];
+            if(j+1 < _nos_grafo[id1]->getGrau())
+                aux = _nos_grafo[id1]->getArestas()[j+1];
         }
         return true;
     }
@@ -214,24 +251,25 @@ bool Grafo::verificaAresta(int id1, int id2)
 
 // Verifica se é possível existir um arco entre os nós.
 // Elimina a possibilidade de existência de self-loops e multiarcos.
+// @param _nos_grafo São os nós do grafo que se desfeja verificar a existência do arco
 // @param id1 É a identificação do no 1 a ser verificado
 // @param id2 É a identificação do no 2 a ser verificado
 // @return true (se for possível) ou false (se não for possível, pois é multiarco ou self-loop)
-bool Grafo::verificaArco(int id1, int id2)
+bool Grafo::verificaArco(No** _nos_grafo, int id1, int id2)
 {
     if (id1 == id2)
         return false;
 
-    if (! nos_grafo[id1]->getArcos().empty())
+    if (! _nos_grafo[id1]->getArcos().empty())
     {
-        Arco *aux = nos_grafo[id1]->getArcos()[0];
-        for(int j = 0; j < nos_grafo[id1]->getGrauSaida(); j++)
+        Arco *aux = _nos_grafo[id1]->getArcos()[0];
+        for(int j = 0; j < _nos_grafo[id1]->getGrauSaida(); j++)
         {
             if (aux->getNoDestino()->getId() == id2)
                 return false;
             
-            if(j+1 < nos_grafo[id1]->getGrauSaida())
-                aux = nos_grafo[id1]->getArcos()[j+1];
+            if(j+1 < _nos_grafo[id1]->getGrauSaida())
+                aux = _nos_grafo[id1]->getArcos()[j+1];
         }
         return true;
     }
