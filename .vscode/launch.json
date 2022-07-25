@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/dudaribeirof/Trabalho1-DCC059/input",
-      "program": "/home/dudaribeirof/Trabalho1-DCC059/input/build/Debug/outDebug",
+      "cwd": "/home/dudaribeirof/Trabalho1-DCC059",
+      "program": "/home/dudaribeirof/Trabalho1-DCC059/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

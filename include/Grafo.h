@@ -6,10 +6,6 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <climits>
 #include <math.h>
 #include <stdio.h>
 
@@ -47,8 +43,8 @@ class Grafo
         void floyd(int id1, int id2);
         void prim(vector<int> X);
         void kruskal(vector<int> X);
-        void cP(int id);
-        void caminhamentoProfundidade(int id, bool v[]);
+        void cP(int id, bool v[]);
+        void caminhamentoProfundidade(int id);
 };
 
 #endif
