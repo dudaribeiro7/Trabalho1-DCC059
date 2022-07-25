@@ -1,4 +1,5 @@
 #include "Grafo.h"
+#include <stack>
 
 #define infinito 999999999
 
@@ -548,9 +549,30 @@ void Grafo::kruskal(vector<int> X)
 {
 }
 
+void Grafo::cP(int id){
+    bool visitados[n_vertices];
+    for(int i=0; i<n_vertices; i++){
+        visitados[i]=false;
+    }
+    caminhamentoProfundidade(id, visitados);
+}
+
 // TODO: @marianaricha
 // @param id um ID de vértice
 // @return A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
-void Grafo::caminhamentoProfundidade(int id)
+void Grafo::caminhamentoProfundidade(int id, bool v[])
 {
+    v[id]=true;
+    cout<<"Visitando o vértice "<<id<<endl;
+
+    int j=0;
+    while(true){ //verifica se é folha
+        if(!v[j]){
+            caminhamentoProfundidade(nos_grafo[id][j].getId(), v);
+        }
+        cout<<"Volta para o vértice "<<id<<endl;
+        j++;
+            
+    }
+
 }

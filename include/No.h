@@ -26,6 +26,7 @@ private:
     int grau;                    // Grau do vértice
     int grau_entrada;            // Grau de entrada do nó (Grafo Direcionado)
     int grau_saida;              // Grau de saída do nó (Grafo Direcionado)
+    // bool visitado;               // Para busca em profundidade
 
 public:
     No(int _id, int _peso);
@@ -47,6 +48,8 @@ public:
     void adcAresta(No *n, int peso);
     vector<Arco*> getArcos();
     void adcArco(No *n, int peso);
+    // void setVisitado(bool v);
+    // bool getVisitado();
 };
 
 #endif

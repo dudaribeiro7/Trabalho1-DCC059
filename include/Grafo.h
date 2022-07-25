@@ -46,7 +46,8 @@ class Grafo
         void floyd(int id1, int id2);
         void prim(vector<int> X);
         void kruskal(vector<int> X);
-        void caminhamentoProfundidade(int id);
+        void cP(int id);
+        void caminhamentoProfundidade(int id, bool v[]);
 };
 
 #endif
