@@ -16,7 +16,9 @@
   "C_Cpp_Runner.warningsAsError": false,
   "C_Cpp_Runner.compilerArgs": [],
   "C_Cpp_Runner.linkerArgs": [],
-  "C_Cpp_Runner.includePaths": [],
+  "C_Cpp_Runner.includePaths": [
+    "${workspaceFolder}/include/**"
+  ],
   "C_Cpp_Runner.includeSearch": [
     "*",
     "**/*"
@@ -28,5 +30,9 @@
     "**/.*/**",
     "**/.vscode",
     "**/.vscode/**"
+  ],
+  "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+    "clang-diagnostic-error",
+    "clang-diagnostic-error"
   ]
 }

@@ -587,28 +587,33 @@ void Grafo::kruskal(vector<int> X)
 {
 }
 
-void Grafo::cP(int id){
+// TODO: @marianaricha
+// @param id um ID de vértice
+// Saída: A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
+void Grafo::caminhamentoProfundidade(int id){
+    if(this->direcionado){
+        cout << "Não é possível fazer o caminhamento em profundidade em grafos direcionados." << endl;
+        return;
+    }
     bool visitados[n_vertices];
     for(int i=0; i<n_vertices; i++){
         visitados[i]=false; //a posição no vetor de visitados será igual ao id do vértice
     }
-    caminhamentoProfundidade(id, visitados);
+    cP(id, visitados);
 }
 
-// TODO: @marianaricha
-// @param id um ID de vértice
-// @return A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
-void Grafo::caminhamentoProfundidade(int id, bool v[])
+
+void Grafo::cP(int id, bool v[])
 {
     v[id]=true;
-    cout<<"Visitando o vértice "<<id<<endl;
+    cout<<"Visitando o vértice "<< id <<endl;
 
     for(int j=0; j < nos_grafo[id]->getNosAdj().size();j++ ) { //verifica se é folha
         int w=nos_grafo[id]->getNosAdj()[j]->getId();
         if(!v[w]){
-            caminhamentoProfundidade(w, v);
+            cP(w, v);
         }
-        cout<<"Volta para o vértice "<<id<<endl;
+        cout<<"Volta para o vértice "<< id << " pela aresta (" << id << "," << j << ")" << endl;
             
     }
 
