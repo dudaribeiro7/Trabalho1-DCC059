@@ -26,15 +26,18 @@ class Grafo
         void floydAux(int id1, int id2, int P[][]); // função auxiliar para o algoritmo de floyd
         Grafo* subgrafoVerticeInduzido(vector<int> X);
         bool searchInVector(vector<int> vet, int id);
+        bool searchNoInVector(vector<No*> vet, No* id);
+        bool verificaAresta(No** _nos_grafo, int id1, int id2);
+        bool verificaArco(No** _nos_grafo, int id1, int id2);
+        void cP(int id, bool v[]);
 
     public:
         Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos);
         Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bool _pesoNos);
         ~Grafo();
         void printGrafo();
-        bool verificaAresta(No** _nos_grafo, int id1, int id2);
-        bool verificaArco(No** _nos_grafo, int id1, int id2);
         int getNumVertices();
+        No** getNosGrafo();
         bool isDirecionado();
         bool isPonderadoArestas();
         bool isPonderadoNos();
@@ -46,7 +49,6 @@ class Grafo
         void floyd(int id1, int id2);
         void prim(vector<int> X);
         void kruskal(vector<int> X);
-        void cP(int id, bool v[]);
         void caminhamentoProfundidade(int id);
 };
 

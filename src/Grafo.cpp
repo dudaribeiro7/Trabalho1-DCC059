@@ -98,7 +98,7 @@ Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
     leArquivo(nomeArquivo);
 }
 
-// Retorna um subgrafo vértice induzido pelo conjunto de vértices passados por parâmetro:
+// Retorna um subgrafo vértice induzido pelo conjunto de vértices passados por parâmetro.
 // @param X subconjunto de vértices do grafo para achar o subgrafo vértice induzido
 // @return Grafo* - o subgrafo vértice induzido
 Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
@@ -168,6 +168,14 @@ bool Grafo::searchInVector(vector<int> vet, int id)
     return false;
 }
 
+bool Grafo::searchNoInVector(vector<No*> vet, No* id)
+{
+    for (int i = 0; i < vet.size(); i++)
+        if (vet[i] == id)
+            return true;
+    return false;
+}
+
 Grafo::Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bool _pesoNos)
 {
     this->nos_grafo = _nos_grafo;
@@ -214,7 +222,7 @@ void Grafo::printGrafo()
             Aresta *aux = nos_grafo[i]->getArestas()[0];
             for (int j = 0; j < nos_grafo[i]->getGrau(); j++)
             {
-                cout << aux->getNo()->getId() << " - ";
+                cout << aux->getNo2()->getId() << " - ";
                 if (j + 1 < nos_grafo[i]->getGrau())
                     aux = nos_grafo[i]->getArestas()[j];
             }
@@ -240,7 +248,7 @@ bool Grafo::verificaAresta(No **_nos_grafo, int id1, int id2)
         Aresta *aux = _nos_grafo[id1]->getArestas()[0];
         for (int j = 0; j < _nos_grafo[id1]->getGrau(); j++)
         {
-            if (aux->getNo()->getId() == id2)
+            if (aux->getNo2()->getId() == id2)
                 return false;
 
             if (j + 1 < _nos_grafo[id1]->getGrau())
@@ -285,6 +293,11 @@ bool Grafo::verificaArco(No **_nos_grafo, int id1, int id2)
 int Grafo::getNumVertices()
 {
     return this->n_vertices;
+}
+
+No** Grafo::getNosGrafo()
+{
+    return this->nos_grafo;
 }
 
 // Retorna se o grafo é direcionado ou não
@@ -463,10 +476,10 @@ void Grafo::dijkstra(int inicio, int destino)
             vector<Aresta *> auxAresta = nos_grafo[w]->getArestas();
             for (int i = 0; i < auxAresta.size(); i++)
             {
-                if (beta[auxAresta[i]->getNo()->getId()] > beta[w] + auxAresta[i]->getPeso())
+                if (beta[auxAresta[i]->getNo2()->getId()] > beta[w] + auxAresta[i]->getPeso())
                 {
-                    beta[auxAresta[i]->getNo()->getId()] = beta[w] + auxAresta[i]->getPeso();
-                    pi[auxAresta[i]->getNo()->getId()] = w;
+                    beta[auxAresta[i]->getNo2()->getId()] = beta[w] + auxAresta[i]->getPeso();
+                    pi[auxAresta[i]->getNo2()->getId()] = w;
                 }
             }
 
@@ -649,7 +662,7 @@ void Grafo::floyd(int inicio, int destino)
             auxAresta = nos_grafo[i]->getArestas();
             for (int j = 0; j < n_vertices; j++)
             {
-                matrizAdj[i][auxAresta[j]->getNo()->getId()] = auxAresta[j]->getPeso();
+                matrizAdj[i][auxAresta[j]->getNo2()->getId()] = auxAresta[j]->getPeso();
             }
         }
 
@@ -676,6 +689,7 @@ void Grafo::floyd(int inicio, int destino)
         floydAux(inicio, destino, pi);
     }
 }
+
 void Grafo::floydAux(int a, int b, int P[][])
 {
     if (P[a][b] == b)
@@ -687,11 +701,148 @@ void Grafo::floydAux(int a, int b, int P[][])
     cout << b << " ";
 }
 
+Aresta* arestaMenorPeso(Grafo *grafo)
+{
+    int menorPeso = grafo->getNosGrafo()[0]->getArestas()[0]->getPeso();
+    int idx_i = 0;
+    int idx_j = 0;
+    for(int i = 0; i < grafo->getNumVertices(); i++)
+    {
+        for(int j = 0; j < grafo->getNosGrafo()[i]->getGrau(); j++)
+        {
+            int peso = grafo->getNosGrafo()[i]->getArestas()[j]->getPeso();
+            if(peso < menorPeso)
+            {
+                menorPeso = peso;
+                idx_i = i;
+                idx_j = j;
+            }
+        }
+    }
+    return grafo->getNosGrafo()[idx_i]->getArestas()[idx_j];
+}
+
+// Aresta* arestaMenorPeso(No *node)
+// {
+//     int menorPeso = node->getArestas()[0]->getPeso();
+//     int idx = 0;
+//     for(int i = 0; i < node->getGrau(); i++)
+//     {
+//         int peso = node->getArestas()[i]->getPeso();
+//         if(peso < menorPeso)
+//         {
+//             menorPeso = peso;
+//             idx = i;
+//         }
+//     }
+//     return node->getArestas()[idx];
+// }
+
+auto findIndex(const vector<No*> arr, No* item) 
+{
+    for (auto i = 0; i < arr.size(); ++i) {
+        if (arr[i] == item)
+            return i;
+    }
+}
+
 // TODO: @dudaribeiro7
 // @param X um subconjunto de vértices de um grafo
 // @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
 void Grafo::prim(vector<int> X)
 {
+    Grafo *subgrafo = subgrafoVerticeInduzido(X);
+    vector<Aresta*> S;
+    vector<No*> nos_conectados;
+    vector<No*> nos_nao_conectados;
+    vector<Aresta*> aux_arestas_menorPeso;
+    int menorPeso;
+    int peso;
+    int idx;
+
+    for(int i = 0; i < subgrafo->getNumVertices(); i++)
+        nos_nao_conectados.push_back(subgrafo->nos_grafo[i]);
+
+    // Adiciona a aresta de menor peso do subgrafo no vetor de solução:
+    S.push_back(arestaMenorPeso(subgrafo));
+
+    // Adiciona os nós da aresta de menor peso do subgrafo no vetor de nós ja conectados:
+    nos_conectados.push_back(arestaMenorPeso(subgrafo)->getNo1());
+    nos_conectados.push_back(arestaMenorPeso(subgrafo)->getNo2());
+
+    // Remove esses nós do vetor de nós não conectados:
+    nos_nao_conectados.erase(nos_nao_conectados.begin() + findIndex(nos_nao_conectados, arestaMenorPeso(subgrafo)->getNo1()));
+    nos_nao_conectados.erase(nos_nao_conectados.begin() + findIndex(nos_nao_conectados, arestaMenorPeso(subgrafo)->getNo2()));
+
+    while(! nos_nao_conectados.empty())
+    {
+        // Encontra, para cada nó já conectado, a aresta de menor peso que o liga a um nó ainda não conectado, se esta aresta existir:
+        for(int i = 0; i < nos_conectados.size(); i++)
+        {
+            for(int j = 0; j < nos_conectados[i]->getGrau(); j++)
+            {
+                if(searchNoInVector(nos_nao_conectados, nos_conectados[i]->getNosAdj()[j]))
+                {
+                    menorPeso = nos_conectados[i]->getArestas()[j]->getPeso();
+                    for(int k = 0; k < nos_conectados[i]->getGrau(); k++)
+                    {
+                        if(searchNoInVector(nos_nao_conectados, nos_conectados[i]->getNosAdj()[k]))
+                        {
+                            peso = nos_conectados[i]->getArestas()[k]->getPeso();
+                            idx = k;
+                            if(peso < menorPeso)
+                            {
+                                menorPeso = peso;
+                                idx = k;
+                            }
+                        }
+                    }
+                    aux_arestas_menorPeso.push_back(nos_conectados[i]->getArestas()[idx]);
+                    break;
+                }
+            }
+                    
+        }
+        // Encontra, dentre as arestas de menor peso dos nós já conectados, aquela que tem o menor peso de todos:
+        if(!aux_arestas_menorPeso.empty())
+        {
+            menorPeso = aux_arestas_menorPeso[0]->getPeso();
+            idx = 0;
+            for(int i = 0; i < aux_arestas_menorPeso.size(); i++)
+            {
+                peso = aux_arestas_menorPeso[i]->getPeso();
+                if(peso < menorPeso)
+                {
+                    menorPeso = peso;
+                    idx = i;
+                }
+            }
+
+            // Adiciona a aresta de menor peso encontrada no vetor de solução:
+            S.push_back(aux_arestas_menorPeso[idx]);
+
+            // Adiciona os nós da aresta de menor peso encontrada no vetor de nós ja conectados (se eles já não estiverem no vetor):
+            if(! searchNoInVector(nos_conectados, aux_arestas_menorPeso[idx]->getNo1()))
+                nos_conectados.push_back(aux_arestas_menorPeso[idx]->getNo1());
+            if(! searchNoInVector(nos_conectados, aux_arestas_menorPeso[idx]->getNo2()))
+                nos_conectados.push_back(aux_arestas_menorPeso[idx]->getNo2());
+
+            // Remove esses nós do vetor de nós não conectados (se eles estiverem no vetor):
+            if(searchNoInVector(nos_nao_conectados, aux_arestas_menorPeso[idx]->getNo1()))
+                nos_nao_conectados.erase(nos_nao_conectados.begin() + findIndex(nos_nao_conectados, aux_arestas_menorPeso[idx]->getNo1()));
+            if(searchNoInVector(nos_nao_conectados, aux_arestas_menorPeso[idx]->getNo2()))
+                nos_nao_conectados.erase(nos_nao_conectados.begin() + findIndex(nos_nao_conectados, aux_arestas_menorPeso[idx]->getNo2()));    
+
+            // Esvazia o vetor auxiliar de arestas de menor peso:
+            aux_arestas_menorPeso.clear();
+        }
+    }
+
+    cout << "O conjunto solução das arestas da Árvore Geradora Mínima é:" << endl;
+    cout << "S = { ";
+    for(int i = 0; i < S.size(); i++)
+        cout << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << "), ";
+    cout << " }";
 }
 
 // TODO: @dudaribeiro7
@@ -699,6 +850,7 @@ void Grafo::prim(vector<int> X)
 // @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
 void Grafo::kruskal(vector<int> X)
 {
+    Grafo *subgrafo = subgrafoVerticeInduzido(X);
 }
 
 // TODO: @marianaricha
