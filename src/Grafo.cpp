@@ -419,14 +419,13 @@ void Grafo::dijkstra(int inicio, int destino)
             {
                 // varre todos os adjacentes do nó da interação atual e atualiza seus custos
                 w = r;
-                vector<Aresta *> auxAresta = nos_grafo[w]->getArestas();
-
+                vector<Arco *> auxAresta = nos_grafo[w]->getArcos();
                 for (int i = 0; i < auxAresta.size(); i++)
                 {
-                    if (beta[auxAresta[i]->getNo2()->getId()] > beta[w] + auxAresta[i]->getPeso())
+                    if (beta[auxAresta[i]->getNoDestino()->getId()] > beta[w] + auxAresta[i]->getPeso())
                     {
-                        beta[auxAresta[i]->getNo2()->getId()] = beta[w] + auxAresta[i]->getPeso();
-                        pi[auxAresta[i]->getNo2()->getId()] = w;
+                        beta[auxAresta[i]->getNoDestino()->getId()] = beta[w] + auxAresta[i]->getPeso();
+                        pi[auxAresta[i]->getNoDestino()->getId()] = w;
                     }
                 }
 
@@ -475,7 +474,6 @@ void Grafo::dijkstra(int inicio, int destino)
             // varre todos os adjacentes do nó da interação atual e atualiza seus custos
             w = r;
             vector<Aresta *> auxAresta = nos_grafo[w]->getArestas();
-
             for (int i = 0; i < auxAresta.size(); i++)
             {
                 if (beta[auxAresta[i]->getNo2()->getId()] > beta[w] + auxAresta[i]->getPeso())
@@ -528,25 +526,24 @@ void Grafo::dijkstra(int inicio, int destino)
             flag = 0;
             int aux1 = destino;
             int aux2 = pi[destino];
-            int soma = 0;
             solucao.push_back(aux1);
             while (flag == 0)
             {
                 aux1 = aux2;
                 aux2 = pi[aux1];
                 solucao.push_back(aux1);
-                soma += beta[aux1];
                 if (aux1 == inicio)
                 {
                     flag = 1;
                 }
             }
+
             // imprime a resposta
             for (int i = 0; i < solucao.size(); i++)
             {
                 cout << " - " << pi[i] << " - ";
             }
-            cout << "custo: " << soma;
+            cout << "custo: " << beta[destino];
         }
     }
     else
@@ -556,14 +553,12 @@ void Grafo::dijkstra(int inicio, int destino)
         flag = 0;
         int aux1 = destino;
         int aux2 = pi[destino];
-        int soma = 0;
         solucao.push_back(aux1);
         while (flag == 0)
         {
             aux1 = aux2;
             aux2 = pi[aux1];
             solucao.push_back(aux1);
-            soma += beta[aux1];
             if (aux1 == inicio)
             {
                 flag = 1;
@@ -575,7 +570,7 @@ void Grafo::dijkstra(int inicio, int destino)
         {
             cout << " - " << pi[i] << " - ";
         }
-        cout << "custo: " << soma;
+        cout << "custo: " << beta[destino];
     }
 }
 
@@ -586,8 +581,8 @@ void Grafo::floyd(int inicio, int destino)
 {
     int matrizAdj[n_vertices][n_vertices]; // matriz de custos
     int pi[n_vertices][n_vertices];        // matriz de antecessores (para achar a sequencia de vertices do caminho minimo)
-    vector<Aresta *> auxAresta;            // auxiliar
-    int ehPossivel;
+    int ehPossivel;                        // auxiliar
+
     // Inicialização
     ehPossivel = 0;
     for (int i = 0; i < n_vertices; i++)
@@ -620,13 +615,14 @@ void Grafo::floyd(int inicio, int destino)
 
         if (ehPossivel)
         {
-            // Inserindo os valores iniciais
+            // Inserindos os valores dos Nós imediatos
+            vector<Arco *> auxAresta;
             for (int i = 0; i < n_vertices; i++)
             {
-                auxAresta = nos_grafo[i]->getArestas();
-                for (int j = 0; j < auxAresta.size(); j++)
+                auxAresta = nos_grafo[i]->getArcos();
+                for (int j = 0; j < n_vertices; j++)
                 {
-                    matrizAdj[i][auxAresta[j]->getNo2()->getId()] = auxAresta[j]->getPeso();
+                    matrizAdj[i][auxAresta[j]->getNoDestino()->getId()] = auxAresta[j]->getPeso();
                 }
             }
 
@@ -637,7 +633,7 @@ void Grafo::floyd(int inicio, int destino)
                 {
                     for (int k = 0; k < n_vertices; k++)
                     {
-                        if ((matrizAdj[j][i] != INT_MAX) && (matrizAdj[i][k] != INT_MAX))
+                        if ((matrizAdj[j][i] != infinito) && (matrizAdj[i][k] != infinito))
                         {
                             if (matrizAdj[j][k] > (matrizAdj[j][i] + matrizAdj[i][k]))
                             {
@@ -648,6 +644,7 @@ void Grafo::floyd(int inicio, int destino)
                     }
                 }
             }
+            
             // imprime a resposta
             floydAux(inicio, destino, pi);
         }
@@ -658,11 +655,12 @@ void Grafo::floyd(int inicio, int destino)
     }
     else
     {
-        // Inserindo os valores iniciais
+        // Inserindos os valores dos Nós imediatos
+        vector<Aresta *> auxAresta;
         for (int i = 0; i < n_vertices; i++)
         {
             auxAresta = nos_grafo[i]->getArestas();
-            for (int j = 0; j < auxAresta.size(); j++)
+            for (int j = 0; j < n_vertices; j++)
             {
                 matrizAdj[i][auxAresta[j]->getNo2()->getId()] = auxAresta[j]->getPeso();
             }
@@ -675,7 +673,7 @@ void Grafo::floyd(int inicio, int destino)
             {
                 for (int k = 0; k < n_vertices; k++)
                 {
-                    if ((matrizAdj[j][i] != INT_MAX) && (matrizAdj[i][k] != INT_MAX))
+                    if ((matrizAdj[j][i] != infinito) && (matrizAdj[i][k] != infinito))
                     {
                         if (matrizAdj[j][k] > (matrizAdj[j][i] + matrizAdj[i][k]))
                         {
@@ -686,6 +684,9 @@ void Grafo::floyd(int inicio, int destino)
                 }
             }
         }
+
+        // imprime a resposta
+        floydAux(inicio, destino, pi);
     }
 }
 
