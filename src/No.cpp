@@ -131,7 +131,7 @@ vector<Aresta*> No::getArestas()
 // @param peso peso da aresta a ser adicionada
 void No::adcAresta(No *n, int peso)
 {
-    Aresta *aux = new Aresta(n, peso);
+    Aresta *aux = new Aresta(this, n, peso);
     this->arestas.push_back(aux);
     this->nos_adjacentes.push_back(n);
     this->incrementaGrau();
