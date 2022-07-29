@@ -16,16 +16,16 @@ class Aresta
 
 private:
     No *no1;    // Nó ao qual a aresta está ligada
-    No *no2;
+    No *no2;    // Nó ao qual a aresta está ligada
     int peso;   // Peso da aresta
 
 public:
     Aresta(No *_no1, No *_no2, int _peso);
     ~Aresta();
     No *getNo1();
-    void setNo1(No *_no);
+    void setNo1(No *_no1);
     No *getNo2();
-    void setNo2(No *_no);
+    void setNo2(No *_no2);
     int getPeso();
     void setPeso(int _peso);
 };

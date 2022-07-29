@@ -1,7 +1,7 @@
 #include "Aresta.h"
 
 // Construtor
-// @param _no vértice ao qual a aresta está ligada
+// @param _no1/_no2 vértices aos quais a aresta está ligada
 // @param _peso peso da aresta
 Aresta::Aresta(No *_no1, No *_no2, int _peso)
 {

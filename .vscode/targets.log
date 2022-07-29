@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jul 25 15:10:50 2022
+# Make data base, printed on Fri Jul 29 14:47:43 2022
 
 # Variables
 
@@ -53,7 +51,7 @@ CONDA_PREFIX = /home/dudaribeirof/miniconda3
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-7ee79388-4af8-4697-b0be-7e8b4f04dd44.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-f5c2d9df-abf0-446c-b42f-243d53f6b471.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -67,7 +65,7 @@ PWD = /home/dudaribeirof/Trabalho1-DCC059
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/2795_interop
+WSL_INTEROP = /run/WSL/9717_interop
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -153,9 +151,11 @@ TERM = xterm-256color
 # environment
 WSL_DISTRO_NAME = Ubuntu
 # environment
+MOTD_SHOWN = update-motd
+# environment
 _CE_CONDA = 
 # variable set hash-table stats:
-# Load=71/1024=7%, Rehash=0, Collisions=6/93=6%
+# Load=72/1024=7%, Rehash=0, Collisions=6/94=6%
 
 # Pattern-specific Variable Values
 
@@ -163,9 +163,9 @@ _CE_CONDA =
 
 # Directories
 
-# . (device 2064, inode 68873): 10 files, no impossibilities.
+# . (device 2064, inode 69107): 9 files, no impossibilities.
 
-# 10 files, no impossibilities in 1 directories.
+# 9 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -215,12 +215,14 @@ GNUmakefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 18 / storage = 150 B / avg = 8 B
-# current buf: size = 8162 B / used = 150 B / count = 18 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 17 / storage = 147 B / avg = 8 B
+# current buf: size = 8162 B / used = 147 B / count = 17 / avg = 8 B
 
-# strcache performance: lookups = 21 / hit rate = 14%
+# strcache performance: lookups = 20 / hit rate = 15%
 # hash-table stats:
-# Load=18/8192=0%, Rehash=0, Collisions=1/21=5%
-# Finished Make data base on Mon Jul 25 15:10:50 2022
+# Load=17/8192=0%, Rehash=0, Collisions=1/20=5%
+# Finished Make data base on Fri Jul 29 14:47:43 2022
 
  
+make: *** No rule to make target 'all'.  Stop.
+

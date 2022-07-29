@@ -8,6 +8,7 @@
 #include <vector>
 #include <math.h>
 #include <stdio.h>
+#include <stack>
 
 #include "No.h"
 
@@ -16,14 +17,14 @@ using namespace std;
 class Grafo
 {
     private:    
-        No **nos_grafo;       // vetor de ponteiros do tipo nó (lista de adjacência)
-        int n_vertices;   // número de vertices do grafo
-        bool direcionado;
-        bool ponderadoArestas;
-        bool ponderadoNos;
+        No **nos_grafo;         // Vetor de ponteiros do tipo No (lista de adjacência)
+        int n_vertices;         // Número de vertices do grafo
+        bool direcionado;       // Variável que determina se o grafo é direcionado ou não
+        bool ponderadoArestas;  // Variável que determina se o grafo é ponderado nas arestas ou não
+        bool ponderadoNos;      // Variável que determina se o grafo é ponderado nos vértices ou não
         
         void leArquivo(string nomeArquivo); 
-        void floydAux(int id1, int id2, int P[][]); // função auxiliar para o algoritmo de floyd
+        void floydAux(int id1, int id2, int P[][]);
         Grafo* subgrafoVerticeInduzido(vector<int> X);
         bool searchInVector(vector<int> vet, int id);
         bool searchNoInVector(vector<No*> vet, No* id);

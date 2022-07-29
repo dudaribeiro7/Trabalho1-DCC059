@@ -1,5 +1,4 @@
 #include "Grafo.h"
-#include <stack>
 
 #define infinito 999999999
 
@@ -76,28 +75,6 @@ void Grafo::leArquivo(string nomeArquivo)
     arq.close();
 }
 
-// Construtor
-// @param nomeArquivo É o nome do arquivo com as instâncias do grafo a ser lido
-Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
-{
-    if (direc == 0)
-        direcionado = false;
-    else
-        direcionado = true;
-
-    if (peso_aresta == 0)
-        ponderadoArestas = false;
-    else
-        ponderadoArestas = true;
-
-    if (peso_nos == 0)
-        ponderadoNos = false;
-    else
-        ponderadoNos = true;
-
-    leArquivo(nomeArquivo);
-}
-
 // Retorna um subgrafo vértice induzido pelo conjunto de vértices passados por parâmetro.
 // @param X subconjunto de vértices do grafo para achar o subgrafo vértice induzido
 // @return Grafo* - o subgrafo vértice induzido
@@ -160,6 +137,10 @@ Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
     return subgrafo;
 }
 
+// Verifica se um determinado ID está presente no vetor
+// @param vet É o vetor no qual se deseja buscar o ID
+// @param id É o ID do nó que se deseja buscar
+// @return TRUE se encontrar e FALSE caso contrário
 bool Grafo::searchInVector(vector<int> vet, int id)
 {
     for (int i = 0; i < vet.size(); i++)
@@ -168,6 +149,10 @@ bool Grafo::searchInVector(vector<int> vet, int id)
     return false;
 }
 
+// Verifica se um determinado vértice está presente no vetor
+// @param vet É o vetor no qual se deseja buscar o vertice
+// @param id É o nó que se deseja buscar
+// @return TRUE se encontrar e FALSE caso contrário
 bool Grafo::searchNoInVector(vector<No*> vet, No* id)
 {
     for (int i = 0; i < vet.size(); i++)
@@ -176,6 +161,37 @@ bool Grafo::searchNoInVector(vector<No*> vet, No* id)
     return false;
 }
 
+// Construtor
+// @param nomeArquivo É o nome do arquivo com as instâncias do grafo a ser lido
+// @param direc contém a opção do grafo ser direcionado (1) ou não (0)
+// @param peso_aresta contém a opção do grafo ser ponderado nas arestas (1) ou não (0)
+// @param peso_nos contém a opção do grafo ser ponderado nos vértices (1) ou não (0)
+Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
+{
+    if (direc == 0)
+        direcionado = false;
+    else
+        direcionado = true;
+
+    if (peso_aresta == 0)
+        ponderadoArestas = false;
+    else
+        ponderadoArestas = true;
+
+    if (peso_nos == 0)
+        ponderadoNos = false;
+    else
+        ponderadoNos = true;
+
+    leArquivo(nomeArquivo);
+}
+
+// Construtor
+// @param _nos_grafo É o vetor de ponteiros dos nós do grafo
+// @param _n_vertices É o número de vértices do grafo
+// @param _direc Informação sobre se o grafo é direcionado ou não
+// @param _pesoAresta Informação sobre se o grafo é ponderado nas arestas ou não
+// @param _pesoNos Informação sobre se o grafo é ponderado nos vértices ou não
 Grafo::Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bool _pesoNos)
 {
     this->nos_grafo = _nos_grafo;
@@ -295,6 +311,8 @@ int Grafo::getNumVertices()
     return this->n_vertices;
 }
 
+// Retorna o vetor de ponteiros para os nós do grafo
+// @return No**
 No** Grafo::getNosGrafo()
 {
     return this->nos_grafo;
@@ -690,6 +708,9 @@ void Grafo::floyd(int inicio, int destino)
     }
 }
 
+// TODO: @RiUza02 
+// 1- fazer o comentario que explica essa função
+// 2- corrigir o erro em P[][]
 void Grafo::floydAux(int a, int b, int P[][])
 {
     if (P[a][b] == b)
@@ -855,7 +876,7 @@ void Grafo::kruskal(vector<int> X)
 
 // TODO: @marianaricha
 // @param id um ID de vértice
-// Saída: A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
+// @return A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
 void Grafo::caminhamentoProfundidade(int id)
 {
     bool visitados[n_vertices];
@@ -866,6 +887,8 @@ void Grafo::caminhamentoProfundidade(int id)
     cP(id, visitados);
 }
 
+// TODO: @marianaricha
+// fazer o comentario que explica essa função
 void Grafo::cP(int id, bool v[])
 {
     v[id] = true;

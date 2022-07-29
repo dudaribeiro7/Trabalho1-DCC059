@@ -29,14 +29,14 @@ void Arco::setNoDestino(No *no)
     this->no_destino = no;
 }
 
-// Retorna o peso da Arco
+// Retorna o peso do Arco
 // @return int
 int Arco::getPeso()
 {
     return this->peso;
 }
 
-// Determina o peso da Arco
+// Determina o peso do Arco
 // @param _peso novo peso do arco
 void Arco::setPeso(int _peso)
 {
