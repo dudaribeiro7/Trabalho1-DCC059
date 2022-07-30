@@ -866,12 +866,146 @@ void Grafo::prim(vector<int> X)
     cout << " }";
 }
 
+// Função de comparação cujo critério é o peso da aresta
+// @param a/b Duas arestas a serem comparadas
+// @return TRUE se o peso da aresta "b" for menor do que o peso da aresta "a" ; FALSE caso contrário
+bool compara(Aresta* &a, Aresta* &b)
+{
+    // Vai haver troca se o peso do segundo for menor que o do primeiro
+    return b->getPeso() < a->getPeso();
+}
+
+// Método que troca a posição de dois elementos de um array
+template <typename T>
+void troca(T* a, T *b)
+{
+    T* tmp = a;
+    a      = b;
+    b      = tmp;
+}
+
+// Função de particionamento para o método de ordenação QUICKSORT
+template <typename T>
+int particionamento(T* array, int low, int high, bool (*compare)(T&, T&)){
+	
+	T pivo = array[high];
+	int i = low - 1;
+	for (int j = low; j <= high - 1; j++){
+        if(compare(array[j], pivo))
+        {
+            i++;
+			troca(&array[i],&array[j]);
+		}
+	}
+	troca(&array[i+1],&array[high]);
+	return i+1;
+}
+
+// Função auxiliar do método de ordenação de arrays
+template <typename T>
+void quicksort_internal(T* array, int low, int high, bool (*compare)(T&, T&))
+{
+	if(low < high)
+    {
+		int middle = particionamento(array,low,high,compare);
+		quicksort_internal(array,low,middle-1,compare);
+		quicksort_internal(array,middle+1,high,compare);
+	}
+}
+
+// Método de ordenação de arrays
+// @return Devolve um array ordenado de acordo com o critério da função de comparação passada por parâmetro
+template <typename T>
+void quick_sort(T* array, int size, bool (*compare)(T&, T&))  
+{
+    quicksort_internal<T>(array, 0, size-1, compare);
+}
+
 // TODO: @dudaribeiro7
 // @param X um subconjunto de vértices de um grafo
 // @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
 void Grafo::kruskal(vector<int> X)
 {
-    Grafo *subgrafo = subgrafoVerticeInduzido(X);
+    Grafo *subgrafo = subgrafoVerticeInduzido(X);   // subgrafo vertice induzido por X
+    vector<Aresta*> S;                              // vetor de arestas solução
+    vector<Aresta*> arestas;                        // vetor com todas as arestas do subgrafo, ordenadas em ordem crescente de pesos
+    int c = 0;                                      // número de arestas inseridas na AGM
+    int c_max = subgrafo->getNumVertices() - 1;     // número máximo de arestas que podem ser inseridas na AGM
+    
+    // Adiciona todas as arestas do subgrafo no vetor arestas:
+    for(int i = 0; i < subgrafo->getNumVertices(); i++)
+        for(int j = 0; j < subgrafo->nos_grafo[i]->getGrau(); j++)
+            arestas.push_back(subgrafo->nos_grafo[i]->getArestas()[j]);
+    
+    // Ordena o vetor arestas com o método QUICKSORT:
+    int tam = arestas.size();
+    Aresta** aux_arestas = arestas.data();
+    quick_sort<Aresta*>(aux_arestas, tam, compara);
+    arestas.clear();
+    for(int i = 0; i < tam; i++)
+        arestas.push_back(aux_arestas[i]);
+
+    // Subarvores contendo cada uma um nó isolado:
+    int n_subarvores = subgrafo->getNumVertices();
+    vector<No*> *subarvores = new vector<No*>[n_subarvores];
+    for(int i = 0; i < n_subarvores; i++)
+        subarvores[i].push_back(subgrafo->nos_grafo[i]);
+
+    // Adiciona a aresta no vetor de soluções se ela não formar ciclos com as arestas que já estão na solução:
+    int i = 0;
+    while((c < c_max) && (i < tam))
+    {
+        No* u = arestas[i]->getNo1();
+        No* v = arestas[i]->getNo2();
+        bool ciclo = false;
+
+        // Verifica se u e v estão na mesma subárvore:
+        for(int j = 0; j < n_subarvores; j++)
+        {
+            // Procura os nós em todas as subarvores
+            if(searchNoInVector(subarvores[j], u) && searchNoInVector(subarvores[j], v))
+            {
+                // Se u e v estiverem na mesma subárvore:
+                ciclo = true;
+                break;
+            }
+        }
+
+        // Se u e v não estão na mesma subárvore:
+        if(!ciclo)
+        {
+            // Adiciona a aresta na solução:
+            S.push_back(arestas[i]);
+            c++;
+
+            // Une as subárvores que contém u e v:
+            int idx_u, idx_v;
+            for(int j = 0; j < n_subarvores; j++)
+                if(searchNoInVector(subarvores[j], u))
+                {
+                    idx_u = j;
+                    break;
+                }
+            for(int j = 0; j < n_subarvores; j++)
+                if(searchNoInVector(subarvores[j], v))
+                {
+                    idx_v = j;
+                    break;
+                }
+            for(int t = 0; t < subarvores[idx_v].size(); t++)
+                subarvores[idx_u].push_back(subarvores[idx_v][t]);
+            subarvores[idx_v].clear();
+        }
+
+        i++;
+    }
+
+    cout << "O conjunto solução das arestas da Árvore Geradora Mínima é:" << endl;
+    cout << "S = { ";
+    for(int i = 0; i < S.size(); i++)
+        cout << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << "), ";
+    cout << " }";
+
 }
 
 // TODO: @marianaricha
