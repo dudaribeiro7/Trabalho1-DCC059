@@ -557,11 +557,12 @@ void Grafo::dijkstra(int inicio, int destino)
             }
 
             // imprime a resposta
+            cout << endl;
             for (int i = 0; i < solucao.size(); i++)
             {
                 cout << " - " << pi[i] << " - ";
             }
-            cout << "custo: " << beta[destino];
+            cout << endl << "custo: " << beta[destino];
         }
     }
     else
@@ -584,11 +585,12 @@ void Grafo::dijkstra(int inicio, int destino)
         }
 
         // imprime a resposta
+        cout << endl;
         for (int i = 0; i < solucao.size(); i++)
         {
             cout << " - " << pi[i] << " - ";
         }
-        cout << "custo: " << beta[destino];
+        cout << endl << "custo: " << beta[destino];
     }
 }
 
@@ -704,6 +706,7 @@ void Grafo::floyd(int inicio, int destino)
         }
 
         // imprime a resposta
+        cout << endl;
         floydAux(inicio, destino, pi);
     }
 }
