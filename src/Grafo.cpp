@@ -575,10 +575,10 @@ void Grafo::dijkstra(int inicio, int destino)
     if (direcionado)
     {
         // verifica se o Nó inicial consegue chegar no Nó final
-        No *nos = fechoTransDir(inicio);
+        vector<No*> nos = fechoTransDir(inicio);
         for (int i = 0; i < nos.size(); i++)
         {
-            if (nos[i].getId() == destino)
+            if (nos[i]->getId() == destino)
             {
                 ehPossivel = 1;
             }
@@ -778,10 +778,10 @@ void Grafo::floyd(int inicio, int destino)
     if (direcionado)
     {
         // verifica se o Nó inicial consegue chegar no Nó final
-        No *nos = fechoTransDir(inicio);
+        vector<No*> nos = fechoTransDir(inicio);
         for (int i = 0; i < nos.size(); i++)
         {
-            if (nos[i].getId() == destino)
+            if (nos[i]->getId() == destino)
             {
                 ehPossivel = 1;
             }

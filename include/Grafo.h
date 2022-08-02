@@ -44,8 +44,8 @@ class Grafo
         bool isDirecionado();
         bool isPonderadoArestas();
         bool isPonderadoNos();
-        No* fechoTransDir(int id);
-        No* fechoTransInd (int id);
+        vector<No*> fechoTransDir(int id);
+        vector<No*> fechoTransInd (int id);
         float coeficienteAgrupamentoLocal(int id);
         float coeficienteAgrupamentoMedio();
         void dijkstra(int inicio, int destino);
