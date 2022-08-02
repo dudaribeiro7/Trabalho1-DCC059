@@ -25,7 +25,6 @@ class Grafo
         bool ponderadoNos;      // Variável que determina se o grafo é ponderado nos vértices ou não
         
         void leArquivo(string nomeArquivo); 
-        void floydAux(int id1, int id2, int P[][]);
         Grafo* subgrafoVerticeInduzido(vector<int> X);
         bool searchInVector(vector<int> vet, int id);
         bool searchNoInVector(vector<No*> vet, No* id);
@@ -44,6 +43,7 @@ class Grafo
         bool isDirecionado();
         bool isPonderadoArestas();
         bool isPonderadoNos();
+        Aresta* arestaMenorPeso();
         vector<No*> fechoTransDir(int id);
         vector<No*> fechoTransInd (int id);
         float coeficienteAgrupamentoLocal(int id);
