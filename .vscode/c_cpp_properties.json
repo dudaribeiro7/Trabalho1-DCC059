@@ -5,7 +5,12 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include/**",
+<<<<<<< HEAD
                 "${workspaceFolder}/include"
+=======
+                "${workspaceFolder}/include",
+                "/home/mariana_richa"
+>>>>>>> f75dcdaeaf46bcfaebe5dc46b5af91fff847ad3d
             ],
             "defines": [
                 "_DEBUG",
@@ -15,7 +20,11 @@
             "cStandard": "${default}",
             "cppStandard": "${default}",
             "intelliSenseMode": "linux-gcc-x64",
+<<<<<<< HEAD
             "compilerPath": "C:/MinGW/bin/g++.exe",
+=======
+            "compilerPath": "C:/MinGW/bin/g++.exe",
+>>>>>>> f75dcdaeaf46bcfaebe5dc46b5af91fff847ad3d
             "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#include "Grafo.h"
+#include <Grafo>
 
 void funcionalidades(char opc, Grafo *grafo);
 
