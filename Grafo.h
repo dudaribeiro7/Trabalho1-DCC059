@@ -28,7 +28,6 @@ class Grafo
         Grafo* subgrafoVerticeInduzido(vector<int> X);
         bool searchInVector(vector<int> vet, int id);
         bool searchNoInVector(vector<No*> vet, No* id);
-        No* getNoInVector(No** _nos_grafo, int id);
         bool verificaAresta(No** _nos_grafo, int id1, int id2);
         bool verificaArco(No** _nos_grafo, int id1, int id2);
         void cP(int id, bool v[], vector<No*> *vetor);

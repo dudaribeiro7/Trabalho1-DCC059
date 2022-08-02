@@ -79,6 +79,22 @@ void Grafo::leArquivo(string nomeArquivo)
     arq.close();
 }
 
+// @brief Retorna a posição de um vértice a partir do ID
+// @param _nos_grafo São os nós do grafo que se desfeja verificar o vértice específico
+// @param id É a identificação do nó a ser verificado
+// @param tam É o numero de vertices no vetor
+// @return int - A posição do nó de ID id 
+int getPosId(No **_nos_grafo, int id, int tam)
+{
+    for (int i = 0; i < tam; i++)
+    {
+        if (_nos_grafo[i]->getId() == id)
+            return i;
+    }
+
+    return -1;
+}
+
 // @brief Retorna um subgrafo vértice induzido pelo conjunto de vértices passados por parâmetro.
 // @param X subconjunto de vértices do grafo para achar o subgrafo vértice induzido
 // @return Grafo* - o subgrafo vértice induzido
@@ -86,7 +102,6 @@ Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
 {
     // Aloca um novo vetor de ponteiros para os nós do subgrafo vertice induzido que será retornado:
     No **nos_subgrafo = new No *[X.size()];
-
     // Percorre o vetor que contém os IDs dos nós do subgrafo:
     for (int i = 0; i < X.size(); i++)
     {
@@ -94,7 +109,11 @@ Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
         int pesoNo = this->nos_grafo[X[i]]->getPesoNo();
         // Adiciona o nó no subgrafo:
         nos_subgrafo[i] = new No(this->nos_grafo[X[i]]->getId(), pesoNo);
+    }
 
+    // Percorre o vetor que contém os IDs dos nós do subgrafo:
+    for (int i = 0; i < X.size(); i++)
+    {
         // Verifica se é direcionado ou não:
         if (this->direcionado)
         {
@@ -108,9 +127,9 @@ Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
                 {
                     // Se estiver, resgata o peso do arco que será adicionado e verifica se é possível, no subgrafo, existir esse arco:
                     int pesoArco = this->nos_grafo[X[i]]->getArcos()[j]->getPeso();
-                    if (verificaArco(nos_subgrafo, i, id_sucessor))
+                    if (verificaArco(nos_subgrafo, j, id_sucessor))
                     {
-                        nos_subgrafo[i]->adcArco(nos_subgrafo[id_sucessor], pesoArco);
+                        nos_subgrafo[getPosId(nos_subgrafo, j, X.size())]->adcArco(nos_subgrafo[getPosId(nos_subgrafo, id_sucessor, X.size())], pesoArco);
                     }
                 }
             }
@@ -127,10 +146,10 @@ Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
                 {
                     // Se estiver, resgata o peso da aresta que será adicionada e verifica se é possível, no subgrafo, existir essa aresta:
                     int pesoAresta = this->nos_grafo[X[i]]->getArestas()[j]->getPeso();
-                    if (verificaAresta(nos_subgrafo, i, id_adjacente))
+                    if (verificaAresta(nos_subgrafo, j, id_adjacente))
                     {
-                        nos_subgrafo[i]->adcAresta(nos_subgrafo[id_adjacente], pesoAresta);
-                        nos_subgrafo[id_adjacente]->adcAresta(nos_subgrafo[i], pesoAresta);
+                        nos_subgrafo[getPosId(nos_subgrafo, j, X.size())]->adcAresta(nos_subgrafo[getPosId(nos_subgrafo, id_adjacente, X.size())], pesoAresta);
+                        nos_subgrafo[getPosId(nos_subgrafo, id_adjacente, X.size())]->adcAresta(nos_subgrafo[getPosId(nos_subgrafo, j, X.size())], pesoAresta);
                     }
                 }
             }
@@ -250,22 +269,6 @@ void Grafo::printGrafo()
             cout << endl;
         }
     }
-}
-
-// @author @vitor-frnds
-// @brief Retorna um vértice a partir do ID
-// @param _nos_grafo São os nós do grafo que se desfeja verificar o vértice específico
-// @param id É a identificação do nó a ser verificado
-// @return No* - O nó caso seja encontrado ou nullptr caso contrário
-No *Grafo::getNoInVector(No **_nos_grafo, int id)
-{
-    for (int i = 0; i < n_vertices; i++)
-    {
-        if (_nos_grafo[i]->getId() == id)
-            return _nos_grafo[i];
-    }
-
-    return nullptr;
 }
 
 // @brief Verifica se é possível existir uma aresta entre os nós.
