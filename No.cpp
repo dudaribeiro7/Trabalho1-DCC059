@@ -140,7 +140,6 @@ void No::adcAresta(No *n, int peso)
     this->arestas.push_back(aux);
     this->nos_adjacentes.push_back(n);
     this->incrementaGrau();
-    delete aux;
 }
 
 // Retorna o vetor contendo os arcos que saem do nó
@@ -159,7 +158,6 @@ void No::adcArco(No *n, int peso)
     this->nos_sucessores.push_back(n);
     this->incrementaGrauSaida();
     n->incrementaGrauEntrada();
-    delete aux;
 }
 
 vector<No*> No::getNosAdj()

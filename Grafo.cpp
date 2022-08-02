@@ -28,7 +28,7 @@ void Grafo::leArquivo(string nomeArquivo)
     for (int i = 0; i < n_vertices; i++)
     {
         if (ponderadoNos)
-            pesoNo = i; // qual é o peso do nó????
+            pesoNo = i; 
         else
             pesoNo = 1;
         nos_grafo[i] = new No(i, pesoNo);
@@ -40,13 +40,10 @@ void Grafo::leArquivo(string nomeArquivo)
         // separa a linha, obtendo os nós e os pesos das arestas:
         stringstream ss(line);
         string aux;
-        int cont = 0;
         vector<int> vet;
         while (getline(ss, aux, ' ')) // espaços separam os nós e peso da aresta no arquivo
-        {
-            vet[cont] = stoi(aux);
-            cont++;
-        }
+            vet.push_back(stoi(aux));
+    
         int no1 = vet[0];
         int no2 = vet[1];
         int pesoAresta;
@@ -72,7 +69,13 @@ void Grafo::leArquivo(string nomeArquivo)
                 nos_grafo[no2]->adcAresta(nos_grafo[no1], pesoAresta);
             }
         }
+
+        cout << "oi" << endl;
+    
     }
+
+    cout << "oi 2" << endl;
+    
     arq.close();
 }
 
@@ -284,7 +287,7 @@ bool Grafo::verificaAresta(No **_nos_grafo, int id1, int id2)
             if (aux->getNo2()->getId() == id2)
                 return false;
 
-            if (j + 1 < _nos_grafo[id1]->getGrau())
+            if ((j + 1) < _nos_grafo[id1]->getGrau())
                 aux = _nos_grafo[id1]->getArestas()[j + 1];
         }
         return true;
@@ -431,34 +434,37 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
 {
     if (direcionado)
     {
-        No *NoAux = nullptr;
-        No *no = this->getNoInVector(nos_grafo, id);
+        No *NoAux;
+        // No *no = this->getNoInVector(nos_grafo, id);
+        No *no = nos_grafo[id];
 
-        Arco *arco1 = nullptr;
-        Arco *arco2 = nullptr;
+        Arco *arco1;
+        // Arco *arco2 = nullptr;
 
         float coef;
-        float grau = no->getGrau();
+        float grau = no->getGrauSaida();
         float pv = 0;
-        int proxId;
+        // int proxId;
 
         int a1 = 0; // indice para o arco 1
-        int a2 = 0; // indice para o arco 2
+        // int a2 = 0; // indice para o arco 2
 
-        if (no != nullptr)
-        {
+        // if (no != nullptr)
+        // {
             arco1 = no->getArcos()[a1];
 
-            while (arco1 != nullptr)
+            // while (arco1 != nullptr)
+            for(int k = 0; k < no->getGrauSaida(); k++)
             {
-                proxId = arco1->getNoDestino()->getId();
+                // proxId = arco1->getNoDestino()->getId();
                 NoAux = arco1->getNoDestino();
 
-                if (NoAux != nullptr)
-                {
-                    arco2 = NoAux->getArcos()[0];
+                // if (NoAux != nullptr)
+                // {
+                    // arco2 = NoAux->getArcos()[0];
 
-                    while (arco2 != nullptr)
+                    // while (arco2 != nullptr)
+                    for(int l = 0; l < NoAux->getGrauSaida(); l++)
                     {
                         vector<No *> suc = no->getNosSuc();
 
@@ -467,19 +473,19 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
                             if (suc[i]->getId() == NoAux->getId())
                             {
                                 pv++;
-                                break;
+                                // break;
                             }
                         }
 
-                        a2++;
-                        arco2 = NoAux->getArcos()[a2];
+                        // a2++;
+                        // arco2 = NoAux->getArcos()[a2];
                     }
-                }
+                // }
 
                 a1++;
                 arco1 = NoAux->getArcos()[a1];
             }
-        }
+        // }
 
         coef = float(pv / ((pow(grau, 2) - 1) / 2));
 
@@ -487,34 +493,37 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
     }
     else
     {
-        No *NoAux = nullptr;
-        No *no = this->getNoInVector(nos_grafo, id);
+        No *NoAux;
+        // No *no = this->getNoInVector(nos_grafo, id);
+        No *no = nos_grafo[id];
 
-        Aresta *aresta1 = nullptr;
-        Aresta *aresta2 = nullptr;
+        Aresta *aresta1;
+        // Aresta *aresta2 = nullptr;
 
         float coef;
         float grau = no->getGrau();
         float pv = 0;
-        int proxId;
+        // int proxId;
 
         int a1 = 0; // indice para a aresta 1
-        int a2 = 0; // indice para a aresta 2
+        // int a2 = 0; // indice para a aresta 2
 
-        if (no != nullptr)
-        {
+        // if (no != nullptr)
+        // {
             aresta1 = no->getArestas()[a1];
 
-            while (aresta1 != nullptr)
+            // while (aresta1 != nullptr)
+            for(int k = 0; k < no->getGrau(); k++)
             {
-                proxId = aresta1->getNo2()->getId();
+                // proxId = aresta1->getNo2()->getId();
                 NoAux = aresta1->getNo2();
 
-                if (NoAux != nullptr)
-                {
-                    aresta2 = NoAux->getArestas()[0];
+                // if (NoAux != nullptr)
+                // {
+                    // aresta2 = NoAux->getArestas()[0];
 
-                    while (aresta2 != nullptr)
+                    // while (aresta2 != nullptr)
+                    for(int l = 0; l < NoAux->getGrau(); l++)
                     {
                         vector<No *> adj = no->getNosAdj();
 
@@ -523,19 +532,19 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
                             if (adj[i]->getId() == NoAux->getId())
                             {
                                 pv++;
-                                break;
+                                // break;
                             }
                         }
 
-                        a2++;
-                        aresta2 = NoAux->getArestas()[a2];
+                        // a2++;
+                        // aresta2 = NoAux->getArestas()[a2];
                     }
-                }
+                // }
 
                 a1++;
                 aresta1 = no->getArestas()[a1];
             }
-        }
+        // }
 
         coef = float(pv / ((pow(grau, 2) - 1) / 2));
 
@@ -921,6 +930,7 @@ auto findIndex(const vector<No *> arr, No *item)
         if (arr[i] == item)
             return i;
     }
+    return -1;
 }
 
 // @author @dudaribeiro7
@@ -935,7 +945,7 @@ void Grafo::prim(vector<int> X)
     vector<Aresta *> aux_arestas_menorPeso;
     int menorPeso;
     int peso;
-    int idx;
+    int idx = 0;
 
     for (int i = 0; i < subgrafo->getNumVertices(); i++)
         nos_nao_conectados.push_back(subgrafo->nos_grafo[i]);
