@@ -9,6 +9,8 @@
 #include "No.h"
 
 using namespace std;
+
+class No;
 class Arco
 {
 

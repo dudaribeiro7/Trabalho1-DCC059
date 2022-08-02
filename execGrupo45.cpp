@@ -5,6 +5,10 @@ using namespace std;
 
 #include "Grafo.h"
 
+#define INPUT_POND_DIR "./input/ponderados/"
+#define INPUT_NAO_POND_DIR "./input/nao_ponderados/"
+
+
 void funcionalidades(char opc, Grafo *grafo);
 
 void print_help(char *argv)
@@ -246,7 +250,13 @@ int main(int argc, char *argv[])
     else
         print_help(argv[0]);
 
-    Grafo *grafo = new Grafo(arquivo_entrada, opc_direc, opc_peso_aresta, opc_peso_nos);
+    string input;
+    if(opc_peso_aresta == 1)
+        input = INPUT_POND_DIR + arquivo_entrada;
+    else
+        input = INPUT_NAO_POND_DIR + arquivo_entrada;
+
+    Grafo *grafo = new Grafo(input, opc_direc, opc_peso_aresta, opc_peso_nos);
 
     print_menu(grafo);
 

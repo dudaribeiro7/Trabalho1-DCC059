@@ -13,6 +13,9 @@
 
 using namespace std;
 
+class Aresta;
+class Arco;
+
 class No
 {
 

@@ -12,6 +12,7 @@ void Grafo::leArquivo(string nomeArquivo)
     if (!arq.is_open())
     {
         cout << "FALHA AO ABRIR O ARQUIVO" << endl;
+        exit(0);
         return;
     }
 
