@@ -354,14 +354,15 @@ vector<No*> Grafo::caminhamentoProfundidade(int id)
     //         cP(i, visitados);
     // }
     vector<No*> vetor;
-    vetor.push_back(cP(id, visitados)); //adiciona cada nó em que o vetor chega em um vetor de nós
+    cP(id, visitados, vetor); //adiciona cada nó em que o vetor chega em um vetor de nós
+    return vetor;
 }
 
 // TODO: @marianaricha
 // @param id um ID de vértice
-// @return nó alcançado a cada passagem
+// adiciona o nó alcançado ao vetor
 // imprime a árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
-No* Grafo::cP(int id, bool v[])
+void Grafo::cP(int id, bool v[],  vector<No*> vetor)
 {
     v[id] = true;
     cout << "Visitando o vértice " << id << endl;
@@ -375,7 +376,7 @@ No* Grafo::cP(int id, bool v[])
         }
         cout << "Volta para o vértice " << id << " pela aresta (" << id << "," << j << ")" << endl;
     }
-    return nos_grafo[id]; //retorna o nó que ele chegou
+    vetor.push_back(nos_grafo[id]); //retorna o nó que ele chegou
 }
 
 // TODO: @mariana_richa

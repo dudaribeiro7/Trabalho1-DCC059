@@ -31,7 +31,7 @@ class Grafo
         bool searchNoInVector(vector<No*> vet, No* id);
         bool verificaAresta(No** _nos_grafo, int id1, int id2);
         bool verificaArco(No** _nos_grafo, int id1, int id2);
-        vector<No*> cP(int id, bool v[]);
+        void cP(int id, bool v[], vector<No*> vetor);
 
     public:
         Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos);
@@ -51,7 +51,7 @@ class Grafo
         void floyd(int id1, int id2);
         void prim(vector<int> X);
         void kruskal(vector<int> X);
-        No* caminhamentoProfundidade(int id);
+        vector<No*> caminhamentoProfundidade(int id);
 };
 
 #endif
