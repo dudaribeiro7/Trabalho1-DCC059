@@ -44,6 +44,7 @@ class Grafo
         bool isDirecionado();
         bool isPonderadoArestas();
         bool isPonderadoNos();
+        Aresta* arestaMenorPeso();
         vector<No*> fechoTransDir(int id);
         vector<No*> fechoTransInd (int id);
         float coeficienteAgrupamentoLocal(int id);

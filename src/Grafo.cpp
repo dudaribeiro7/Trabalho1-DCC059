@@ -2,7 +2,7 @@
 
 #define infinito 999999999
 
-// Função para ler o arquivo contendo o grafo
+// @brief Função para ler o arquivo contendo o grafo
 // @param nomeArquivo É o nome do arquivo com as instâncias do grafo a ser lido
 void Grafo::leArquivo(string nomeArquivo)
 {
@@ -75,7 +75,7 @@ void Grafo::leArquivo(string nomeArquivo)
     arq.close();
 }
 
-// Retorna um subgrafo vértice induzido pelo conjunto de vértices passados por parâmetro.
+// @brief Retorna um subgrafo vértice induzido pelo conjunto de vértices passados por parâmetro.
 // @param X subconjunto de vértices do grafo para achar o subgrafo vértice induzido
 // @return Grafo* - o subgrafo vértice induzido
 Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
@@ -137,7 +137,7 @@ Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
     return subgrafo;
 }
 
-// Verifica se um determinado ID está presente no vetor
+// @brief Verifica se um determinado ID está presente no vetor
 // @param vet É o vetor no qual se deseja buscar o ID
 // @param id É o ID do nó que se deseja buscar
 // @return TRUE se encontrar e FALSE caso contrário
@@ -149,7 +149,7 @@ bool Grafo::searchInVector(vector<int> vet, int id)
     return false;
 }
 
-// Verifica se um determinado vértice está presente no vetor
+// @brief Verifica se um determinado vértice está presente no vetor
 // @param vet É o vetor no qual se deseja buscar o vertice
 // @param id É o nó que se deseja buscar
 // @return TRUE se encontrar e FALSE caso contrário
@@ -161,11 +161,11 @@ bool Grafo::searchNoInVector(vector<No *> vet, No *id)
     return false;
 }
 
-// Construtor
+// @brief Construtor
 // @param nomeArquivo É o nome do arquivo com as instâncias do grafo a ser lido
-// @param direc contém a opção do grafo ser direcionado (1) ou não (0)
-// @param peso_aresta contém a opção do grafo ser ponderado nas arestas (1) ou não (0)
-// @param peso_nos contém a opção do grafo ser ponderado nos vértices (1) ou não (0)
+// @param direc Contém a opção do grafo ser direcionado (1) ou não (0)
+// @param peso_aresta Contém a opção do grafo ser ponderado nas arestas (1) ou não (0)
+// @param peso_nos Contém a opção do grafo ser ponderado nos vértices (1) ou não (0)
 Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
 {
     if (direc == 0)
@@ -186,7 +186,7 @@ Grafo::Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos)
     leArquivo(nomeArquivo);
 }
 
-// Construtor
+// @brief Construtor
 // @param _nos_grafo É o vetor de ponteiros dos nós do grafo
 // @param _n_vertices É o número de vértices do grafo
 // @param _direc Informação sobre se o grafo é direcionado ou não
@@ -201,7 +201,7 @@ Grafo::Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bo
     this->ponderadoNos = _pesoNos;
 }
 
-// Destrutor
+// @brief Destrutor
 Grafo::~Grafo()
 {
     for (int i = 0; i < n_vertices; i++)
@@ -212,7 +212,7 @@ Grafo::~Grafo()
     delete[] nos_grafo;
 }
 
-// Imprime o grafo na tela
+// @brief Imprime o grafo na tela
 void Grafo::printGrafo()
 {
     if (direcionado)
@@ -248,10 +248,11 @@ void Grafo::printGrafo()
     }
 }
 
-// Retorna um vértice a partir do ID
+// @author @vitor-frnds
+// @brief Retorna um vértice a partir do ID
 // @param _nos_grafo São os nós do grafo que se desfeja verificar o vértice específico
-// @param id1 É a identificação do nó a ser verificado
-// @return o nó caso seja encontrado ou nullptr caso contrário
+// @param id É a identificação do nó a ser verificado
+// @return No* - O nó caso seja encontrado ou nullptr caso contrário
 No *Grafo::getNoInVector(No **_nos_grafo, int id)
 {
     for (int i = 0; i < n_vertices; i++)
@@ -263,12 +264,12 @@ No *Grafo::getNoInVector(No **_nos_grafo, int id)
     return nullptr;
 }
 
-// Verifica se é possível existir uma aresta entre os nós.
-// Elimina a possibilidade de existência de self-loops e multiarestas.
+// @brief Verifica se é possível existir uma aresta entre os nós.
+// @brief Elimina a possibilidade de existência de self-loops e multiarestas.
 // @param _nos_grafo São os nós do grafo que se desfeja verificar a existência da aresta
 // @param id1 É a identificação do no 1 a ser verificado
 // @param id2 É a identificação do no 2 a ser verificado
-// @return true (se for possível) ou false (se não for possível, pois é multiaresta ou self-loop)
+// @return TRUE (se for possível) ou FALSE (se não for possível, pois é multiaresta ou self-loop)
 bool Grafo::verificaAresta(No **_nos_grafo, int id1, int id2)
 {
     if (id1 == id2)
@@ -291,12 +292,12 @@ bool Grafo::verificaAresta(No **_nos_grafo, int id1, int id2)
         return true;
 }
 
-// Verifica se é possível existir um arco entre os nós.
-// Elimina a possibilidade de existência de self-loops e multiarcos.
+// @brief Verifica se é possível existir um arco entre os nós.
+// @brief Elimina a possibilidade de existência de self-loops e multiarcos.
 // @param _nos_grafo São os nós do grafo que se desfeja verificar a existência do arco
 // @param id1 É a identificação do no 1 a ser verificado
 // @param id2 É a identificação do no 2 a ser verificado
-// @return true (se for possível) ou false (se não for possível, pois é multiarco ou self-loop)
+// @return TRUE (se for possível) ou FALSE (se não for possível, pois é multiarco ou self-loop)
 bool Grafo::verificaArco(No **_nos_grafo, int id1, int id2)
 {
     if (id1 == id2)
@@ -319,44 +320,45 @@ bool Grafo::verificaArco(No **_nos_grafo, int id1, int id2)
         return true;
 }
 
-// Retorna o número de vértices do grafo
-// @return n_vertices (int)
+// @brief Retorna o número de vértices do grafo
+// @return int
 int Grafo::getNumVertices()
 {
     return this->n_vertices;
 }
 
-// Retorna o vetor de ponteiros para os nós do grafo
+// @brief Retorna o vetor de ponteiros para os nós do grafo
 // @return No**
 No **Grafo::getNosGrafo()
 {
     return this->nos_grafo;
 }
 
-// Retorna se o grafo é direcionado ou não
+// @brief Retorna se o grafo é direcionado ou não
 // @return bool
 bool Grafo::isDirecionado()
 {
     return this->direcionado;
 }
 
-// Retorna se o grafo é ponderado nas arestas ou não
+// @brief Retorna se o grafo é ponderado nas arestas ou não
 // @return bool
 bool Grafo::isPonderadoArestas()
 {
     return this->ponderadoArestas;
 }
 
-// Retorna se o grafo é ponderado nos nós ou não
+// @brief Retorna se o grafo é ponderado nos nós ou não
 // @return bool
 bool Grafo::isPonderadoNos()
 {
     return this->ponderadoNos;
 }
 
-// TODO: @marianaricha
+// @author @marianaricha
+// @brief Realiza o caminhamento em profundidade a partir de um determinado vértice
 // @param id um ID de vértice
-// @return vetor de nós em que o nó deste id chega
+// @return vector<No*> - Vetor de nós em que o nó deste id chega
 vector<No*> Grafo::caminhamentoProfundidade(int id)
 {
     bool visitados[n_vertices];
@@ -373,10 +375,10 @@ vector<No*> Grafo::caminhamentoProfundidade(int id)
     return vetor;
 }
 
-// TODO: @marianaricha
+// @author @marianaricha
+// @brief Adiciona o nó alcançado ao vetor.
+// @brief Imprime a árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
 // @param id um ID de vértice
-// adiciona o nó alcançado ao vetor
-// imprime a árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
 void Grafo::cP(int id, bool v[],  vector<No*> vetor)
 {
     v[id] = true;
@@ -394,17 +396,19 @@ void Grafo::cP(int id, bool v[],  vector<No*> vetor)
     vetor.push_back(nos_grafo[id]); //retorna o nó que ele chegou
 }
 
-// TODO: @mariana_richa
-//@param id ID de um vértice do grafo
-//@return Fecho Transitivo Direto (vetor de vértices)
+// @author @mariana_richa
+// @brief Encontra o fecho transitivo direto de um nó
+// @param id ID de um vértice do grafo
+// @return vector<No*> - Fecho Transitivo Direto (vetor de vértices)
 vector<No*> Grafo::fechoTransDir(int id)
 {
     return caminhamentoProfundidade(id); //vetor de nós que o nó chega até
 }
 
-// TODO: @mariana_richa
-//@param id ID de um vértice do grafo
-//@return Fecho Transitivo Indireto (vetor de vértices)
+// @author @mariana_richa
+// @brief Encontra o fecho transitivo indireto de um nó
+// @param id ID de um vértice do grafo
+// @return vector<No*> - Fecho Transitivo Indireto (vetor de vértices)
 vector<No*> Grafo::fechoTransInd(int id)
 {
     vector<No*> vetor;
@@ -418,9 +422,10 @@ vector<No*> Grafo::fechoTransInd(int id)
     return vetor;
 }
 
-// TODO: @vitor-frnds
+// @author @vitor-frnds
+// @brief Encontra o coeficiente de agrupamento local de um vertice
 // @param id ID de um vértice do grafo
-// @return Coeficiente de agrupamento local do vértice
+// @return float - Coeficiente de agrupamento local do vértice
 float Grafo::coeficienteAgrupamentoLocal(int id)
 {
     if (direcionado)
@@ -537,7 +542,8 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
     }
 }
 
-// TODO: @vitor-frnds
+// @author @vitor-frnds
+// @brief Encontra o coeficiente de agrupamento médio do grafo
 // @return Coeficiente de agrupamento médio do grafo
 float Grafo::coeficienteAgrupamentoMedio()
 {
@@ -549,9 +555,9 @@ float Grafo::coeficienteAgrupamentoMedio()
     return (som / n_vertices);
 }
 
-// TODO: @RiUza02
+// @author @RiUza02
+// @brief Encontra o caminho mínimo entre esses dois vértices usando o algoritmo de Dijkstra
 // @param inicio/destino dois IDs de vértices do grafo
-// @return O caminho mínimo entre esses dois vértices usando o algoritmo de Dijkstra
 void Grafo::dijkstra(int inicio, int destino)
 {
     vector<int> beta;           // vetor de custos
@@ -748,9 +754,9 @@ void Grafo::dijkstra(int inicio, int destino)
     }
 }
 
-// TODO: @RiUza02
+// @author @RiUza02
+// @brief Encontra o caminho mínimo entre dois vértices usando o algoritmo de Floyd
 // @param id1/id2 dois IDs de vértices do grafo
-// @return O caminho mínimo entre esses dois vértices usando o algoritmo de Floyd
 void Grafo::floyd(int inicio, int destino)
 {
     int matrizAdj[n_vertices][n_vertices]; // matriz de custos
@@ -879,16 +885,19 @@ void Grafo::floydAux(int a, int b, int P[][])
     cout << b << " ";
 }
 
-Aresta *arestaMenorPeso(Grafo *grafo)
+// @author @dudaribeiro7
+// @brief Encontra a aresta de menor peso em todo o grafo
+// @return Aresta* - A aresta de menor peso
+Aresta *Grafo::arestaMenorPeso()
 {
-    int menorPeso = grafo->getNosGrafo()[0]->getArestas()[0]->getPeso();
+    int menorPeso = nos_grafo[0]->getArestas()[0]->getPeso();
     int idx_i = 0;
     int idx_j = 0;
-    for (int i = 0; i < grafo->getNumVertices(); i++)
+    for (int i = 0; i < n_vertices; i++)
     {
-        for (int j = 0; j < grafo->getNosGrafo()[i]->getGrau(); j++)
+        for (int j = 0; j < nos_grafo[i]->getGrau(); j++)
         {
-            int peso = grafo->getNosGrafo()[i]->getArestas()[j]->getPeso();
+            int peso = nos_grafo[i]->getArestas()[j]->getPeso();
             if (peso < menorPeso)
             {
                 menorPeso = peso;
@@ -897,26 +906,15 @@ Aresta *arestaMenorPeso(Grafo *grafo)
             }
         }
     }
-    return grafo->getNosGrafo()[idx_i]->getArestas()[idx_j];
+    return nos_grafo[idx_i]->getArestas()[idx_j];
 }
 
-// Aresta* arestaMenorPeso(No *node)
-// {
-//     int menorPeso = node->getArestas()[0]->getPeso();
-//     int idx = 0;
-//     for(int i = 0; i < node->getGrau(); i++)
-//     {
-//         int peso = node->getArestas()[i]->getPeso();
-//         if(peso < menorPeso)
-//         {
-//             menorPeso = peso;
-//             idx = i;
-//         }
-//     }
-//     return node->getArestas()[idx];
-// }
-
-auto findIndex(const vector<No *> arr, No *item)
+// @author @dudaribeiro7
+// @brief Procura um item dentro de um vetor e retorna a sua posição nele.
+// @param arr É o vetor no qual se deseja buscar a posição do item
+// @param item É o item que se deseja saber a posição
+// @return auto - A posição do item no vetor
+auto findIndex(const vector<No*> arr, No *item)
 {
     for (auto i = 0; i < arr.size(); ++i)
     {
@@ -925,9 +923,9 @@ auto findIndex(const vector<No *> arr, No *item)
     }
 }
 
-// TODO: @dudaribeiro7
+// @author @dudaribeiro7
+// @brief Encontra uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
 // @param X um subconjunto de vértices de um grafo
-// @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
 void Grafo::prim(vector<int> X)
 {
     Grafo *subgrafo = subgrafoVerticeInduzido(X);
@@ -943,15 +941,15 @@ void Grafo::prim(vector<int> X)
         nos_nao_conectados.push_back(subgrafo->nos_grafo[i]);
 
     // Adiciona a aresta de menor peso do subgrafo no vetor de solução:
-    S.push_back(arestaMenorPeso(subgrafo));
+    S.push_back(subgrafo->arestaMenorPeso());
 
     // Adiciona os nós da aresta de menor peso do subgrafo no vetor de nós ja conectados:
-    nos_conectados.push_back(arestaMenorPeso(subgrafo)->getNo1());
-    nos_conectados.push_back(arestaMenorPeso(subgrafo)->getNo2());
+    nos_conectados.push_back(subgrafo->arestaMenorPeso()->getNo1());
+    nos_conectados.push_back(subgrafo->arestaMenorPeso()->getNo2());
 
     // Remove esses nós do vetor de nós não conectados:
-    nos_nao_conectados.erase(nos_nao_conectados.begin() + findIndex(nos_nao_conectados, arestaMenorPeso(subgrafo)->getNo1()));
-    nos_nao_conectados.erase(nos_nao_conectados.begin() + findIndex(nos_nao_conectados, arestaMenorPeso(subgrafo)->getNo2()));
+    nos_nao_conectados.erase(nos_nao_conectados.begin() + findIndex(nos_nao_conectados, subgrafo->arestaMenorPeso()->getNo1()));
+    nos_nao_conectados.erase(nos_nao_conectados.begin() + findIndex(nos_nao_conectados, subgrafo->arestaMenorPeso()->getNo2()));
 
     while (!nos_nao_conectados.empty())
     {
@@ -1023,7 +1021,8 @@ void Grafo::prim(vector<int> X)
     cout << " }";
 }
 
-// Função de comparação cujo critério é o peso da aresta
+// @author @dudaribeiro7
+// @brief Função de comparação cujo critério é o peso da aresta
 // @param a/b Duas arestas a serem comparadas
 // @return TRUE se o peso da aresta "b" for menor do que o peso da aresta "a" ; FALSE caso contrário
 bool compara(Aresta *&a, Aresta *&b)
@@ -1032,7 +1031,8 @@ bool compara(Aresta *&a, Aresta *&b)
     return b->getPeso() < a->getPeso();
 }
 
-// Método que troca a posição de dois elementos de um array
+// @author @dudaribeiro7
+// @brief Método que troca a posição de dois elementos de um array
 template <typename T>
 void troca(T *a, T *b)
 {
@@ -1041,7 +1041,8 @@ void troca(T *a, T *b)
     b = tmp;
 }
 
-// Função de particionamento para o método de ordenação QUICKSORT
+// @author @dudaribeiro7
+// @brief Função de particionamento para o método de ordenação QUICKSORT
 template <typename T>
 int particionamento(T *array, int low, int high, bool (*compare)(T &, T &))
 {
@@ -1060,7 +1061,8 @@ int particionamento(T *array, int low, int high, bool (*compare)(T &, T &))
     return i + 1;
 }
 
-// Função auxiliar do método de ordenação de arrays
+// @author @dudaribeiro7
+// @brief Função auxiliar do método de ordenação de arrays
 template <typename T>
 void quicksort_internal(T *array, int low, int high, bool (*compare)(T &, T &))
 {
@@ -1072,7 +1074,8 @@ void quicksort_internal(T *array, int low, int high, bool (*compare)(T &, T &))
     }
 }
 
-// Método de ordenação de arrays
+// @author @dudaribeiro7
+// @brief Método de ordenação de arrays
 // @return Devolve um array ordenado de acordo com o critério da função de comparação passada por parâmetro
 template <typename T>
 void quick_sort(T *array, int size, bool (*compare)(T &, T &))
@@ -1080,9 +1083,9 @@ void quick_sort(T *array, int size, bool (*compare)(T &, T &))
     quicksort_internal<T>(array, 0, size - 1, compare);
 }
 
-// TODO: @dudaribeiro7
+// @author @dudaribeiro7
+// @brief Encontra uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
 // @param X um subconjunto de vértices de um grafo
-// @return Uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
 void Grafo::kruskal(vector<int> X)
 {
     Grafo *subgrafo = subgrafoVerticeInduzido(X); // subgrafo vertice induzido por X

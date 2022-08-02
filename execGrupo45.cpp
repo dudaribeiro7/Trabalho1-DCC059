@@ -84,7 +84,7 @@ void funcionalidades(char opc, Grafo *grafo)
         {
             cout << "Digite o ID de um vértice do grafo: ";
             cin >> id;
-            No *fechoT_direto = grafo->fechoTransDir(id);
+            vector<No*> fechoT_direto = grafo->fechoTransDir(id);
 
             // TODO: @marianaricha 
             // imprimir o fecho transitivo direto do vertice.
@@ -99,7 +99,7 @@ void funcionalidades(char opc, Grafo *grafo)
         {
             cout << "Digite o ID de um vértice do grafo: ";
             cin >> id;
-            No *fechoT_indireto = grafo->fechoTransInd(id);
+            vector<No*> fechoT_indireto = grafo->fechoTransInd(id);
 
             // TODO: @marianaricha
             // imprimir o fecho transitivo indireto do vertice.
@@ -113,22 +113,13 @@ void funcionalidades(char opc, Grafo *grafo)
         cout << "Digite o ID de um vértice do grafo: ";
         cin >> id;
         coefA_local = grafo->coeficienteAgrupamentoLocal(id);
-
-        // TODO: @vitor-frnds
-        // imprimir o coef agrup local do vertice
-        
-
-        cout << "O coeficiente de agrupamento local do nó " << id << " é igual a: " << grafo->coeficienteAgrupamentoLocal(id) << endl;
+        cout << "O coeficiente de agrupamento local do nó " << id << " é igual a: " << coefA_local << endl;
 
         break;
 
     case 'd':
         coefA_medio = grafo->coeficienteAgrupamentoMedio();
-
-        // TODO: @vitor-frnds
-        // imprimir o coef agrup medio do grafo
-
-        cout << "O coeficiente de agrupamento médio do grafo é igual a: " << grafo->coeficienteAgrupamentoMedio() << endl;
+        cout << "O coeficiente de agrupamento médio do grafo é igual a: " << coefA_medio << endl;
 
         break;
 
