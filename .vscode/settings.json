@@ -40,6 +40,9 @@
   "files.associations": {
     "iostream": "cpp",
     "vector": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "memory": "cpp",
+    "functional": "cpp",
+    "istream": "cpp"
   }
 }
