@@ -19,6 +19,7 @@ private:
     No *no2;    // Nó ao qual a aresta está ligada 
     int peso;   // Peso da aresta 
 
+
 public: 
     Aresta(No *_no1, No *_no2, int _peso); 
     ~Aresta(); 
@@ -31,3 +32,4 @@ public:
 }; 
  
 #endif 
+
