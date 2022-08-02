@@ -359,7 +359,7 @@ bool Grafo::isPonderadoNos()
 // @brief Realiza o caminhamento em profundidade a partir de um determinado vértice
 // @param id um ID de vértice
 // @return vector<No*> - Vetor de nós em que o nó deste id chega
-vector<No*> Grafo::caminhamentoProfundidade(int id)
+vector<No *> Grafo::caminhamentoProfundidade(int id)
 {
     bool visitados[n_vertices];
     for (int i = 0; i < n_vertices; i++)
@@ -370,8 +370,8 @@ vector<No*> Grafo::caminhamentoProfundidade(int id)
     //     if(visitados[i]==false)
     //         cP(i, visitados);
     // }
-    vector<No*> vetor;
-    cP(id, visitados, vetor); //adiciona cada nó em que o vetor chega em um vetor de nós
+    vector<No *> vetor;
+    cP(id, visitados, vetor); // adiciona cada nó em que o vetor chega em um vetor de nós
     return vetor;
 }
 
@@ -379,7 +379,7 @@ vector<No*> Grafo::caminhamentoProfundidade(int id)
 // @brief Adiciona o nó alcançado ao vetor.
 // @brief Imprime a árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
 // @param id um ID de vértice
-void Grafo::cP(int id, bool v[],  vector<No*> vetor)
+void Grafo::cP(int id, bool v[], vector<No *> vetor)
 {
     v[id] = true;
     cout << "Visitando o vértice " << id << endl;
@@ -389,34 +389,34 @@ void Grafo::cP(int id, bool v[],  vector<No*> vetor)
         int w = nos_grafo[id]->getNosAdj()[j]->getId();
         if (!v[w])
         {
-            cP(w, v, vetor); //recurssividade
+            cP(w, v, vetor); // recurssividade
         }
         cout << "Volta para o vértice " << id << " pela aresta (" << id << "," << j << ")" << endl;
     }
-    vetor.push_back(nos_grafo[id]); //retorna o nó que ele chegou
+    vetor.push_back(nos_grafo[id]); // retorna o nó que ele chegou
 }
 
 // @author @mariana_richa
 // @brief Encontra o fecho transitivo direto de um nó
 // @param id ID de um vértice do grafo
 // @return vector<No*> - Fecho Transitivo Direto (vetor de vértices)
-vector<No*> Grafo::fechoTransDir(int id)
+vector<No *> Grafo::fechoTransDir(int id)
 {
-    return caminhamentoProfundidade(id); //vetor de nós que o nó chega até
+    return caminhamentoProfundidade(id); // vetor de nós que o nó chega até
 }
 
 // @author @mariana_richa
 // @brief Encontra o fecho transitivo indireto de um nó
 // @param id ID de um vértice do grafo
 // @return vector<No*> - Fecho Transitivo Indireto (vetor de vértices)
-vector<No*> Grafo::fechoTransInd(int id)
+vector<No *> Grafo::fechoTransInd(int id)
 {
-    vector<No*> vetor;
-    for(int i=0; i<n_vertices; i++){
-        vector<No*> aux = caminhamentoProfundidade(i);
-        if(searchNoInVector(aux, nos_grafo[id]) && i!=id)
-            vetor.push_back(nos_grafo[i]); //vetor de nós que contém o nó procurado em seu fecho transitivo direto
-
+    vector<No *> vetor;
+    for (int i = 0; i < n_vertices; i++)
+    {
+        vector<No *> aux = caminhamentoProfundidade(i);
+        if (searchNoInVector(aux, nos_grafo[id]) && i != id)
+            vetor.push_back(nos_grafo[i]); // vetor de nós que contém o nó procurado em seu fecho transitivo direto
     }
 
     return vetor;
@@ -479,7 +479,7 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
                 arco1 = NoAux->getArcos()[a1];
             }
         }
-        
+
         coef = float(pv / ((pow(grau, 2) - 1) / 2));
 
         return coef;
@@ -581,7 +581,7 @@ void Grafo::dijkstra(int inicio, int destino)
     if (direcionado)
     {
         // verifica se o Nó inicial consegue chegar no Nó final
-        vector<No*> nos = fechoTransDir(inicio);
+        vector<No *> nos = fechoTransDir(inicio);
         for (int i = 0; i < nos.size(); i++)
         {
             if (nos[i]->getId() == destino)
@@ -784,7 +784,7 @@ void Grafo::floyd(int inicio, int destino)
     if (direcionado)
     {
         // verifica se o Nó inicial consegue chegar no Nó final
-        vector<No*> nos = fechoTransDir(inicio);
+        vector<No *> nos = fechoTransDir(inicio);
         for (int i = 0; i < nos.size(); i++)
         {
             if (nos[i]->getId() == destino)
@@ -796,13 +796,13 @@ void Grafo::floyd(int inicio, int destino)
         if (ehPossivel)
         {
             // Inserindos os valores dos Nós imediatos
-            vector<Arco *> auxAresta;
+            vector<Arco *> auxArcos;
             for (int i = 0; i < n_vertices; i++)
             {
-                auxAresta = nos_grafo[i]->getArcos();
+                auxArcos = nos_grafo[i]->getArcos();
                 for (int j = 0; j < n_vertices; j++)
                 {
-                    matrizAdj[i][auxAresta[j]->getNoDestino()->getId()] = auxAresta[j]->getPeso();
+                    matrizAdj[i][auxArcos[j]->getNoDestino()->getId()] = auxArcos[j]->getPeso();
                 }
             }
 
@@ -826,7 +826,14 @@ void Grafo::floyd(int inicio, int destino)
             }
 
             // imprime a resposta
-            floydAux(inicio, destino, pi);
+            cout << endl;
+            int a = inicio;
+            int b = destino;
+            while (pi[a][b] != b)
+            {
+                cout << "-" << b << "-";
+                b = pi[a][b];
+            }
         }
         else
         {
@@ -867,22 +874,14 @@ void Grafo::floyd(int inicio, int destino)
 
         // imprime a resposta
         cout << endl;
-        floydAux(inicio, destino, pi);
+        int a = inicio;
+        int b = destino;
+        while (pi[a][b] != b)
+        {
+            cout << "-" << b << "-";
+            b = pi[a][b];
+        }
     }
-}
-
-// TODO: @RiUza02
-// 1- fazer o comentario que explica essa função
-// 2- corrigir o erro em P[][]
-void Grafo::floydAux(int a, int b, int P[][])
-{
-    if (P[a][b] == b)
-    {
-        cout << b << " ";
-        return;
-    }
-    floydAux(a, P[a][b], P);
-    cout << b << " ";
 }
 
 // @author @dudaribeiro7
@@ -914,7 +913,7 @@ Aresta *Grafo::arestaMenorPeso()
 // @param arr É o vetor no qual se deseja buscar a posição do item
 // @param item É o item que se deseja saber a posição
 // @return auto - A posição do item no vetor
-auto findIndex(const vector<No*> arr, No *item)
+auto findIndex(const vector<No *> arr, No *item)
 {
     for (auto i = 0; i < arr.size(); ++i)
     {
@@ -1168,4 +1167,3 @@ void Grafo::kruskal(vector<int> X)
         cout << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << "), ";
     cout << " }";
 }
-
