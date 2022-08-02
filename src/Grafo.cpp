@@ -339,18 +339,67 @@ bool Grafo::isPonderadoNos()
     return this->ponderadoNos;
 }
 
+// TODO: @marianaricha
+// @param id um ID de vértice
+// @return vetor de nós em que o nó deste id chega
+vector<No*> Grafo::caminhamentoProfundidade(int id)
+{
+    bool visitados[n_vertices];
+    for (int i = 0; i < n_vertices; i++)
+    {
+        visitados[i] = false; // a posição no vetor de visitados será igual ao id do vértice
+    }
+    // for(int i=id; i<n_vertices; i++){
+    //     if(visitados[i]==false)
+    //         cP(i, visitados);
+    // }
+    vector<No*> vetor;
+    vetor.push_back(cP(id, visitados)); //adiciona cada nó em que o vetor chega em um vetor de nós
+}
+
+// TODO: @marianaricha
+// @param id um ID de vértice
+// @return nó alcançado a cada passagem
+// imprime a árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
+No* Grafo::cP(int id, bool v[])
+{
+    v[id] = true;
+    cout << "Visitando o vértice " << id << endl;
+
+    for (int j = 0; j < nos_grafo[id]->getNosAdj().size(); j++)
+    { // verifica se é folha
+        int w = nos_grafo[id]->getNosAdj()[j]->getId();
+        if (!v[w])
+        {
+            cP(w, v); //recurssividade
+        }
+        cout << "Volta para o vértice " << id << " pela aresta (" << id << "," << j << ")" << endl;
+    }
+    return nos_grafo[id]; //retorna o nó que ele chegou
+}
+
 // TODO: @mariana_richa
 //@param id ID de um vértice do grafo
 //@return Fecho Transitivo Direto (vetor de vértices)
-No *Grafo::fechoTransDir(int id)
+vector<No*> Grafo::fechoTransDir(int id)
 {
+    return caminhamentoProfundidade(id); //vetor de nós que o nó chega até
 }
 
 // TODO: @mariana_richa
 //@param id ID de um vértice do grafo
 //@return Fecho Transitivo Indireto (vetor de vértices)
-No *Grafo::fechoTransInd(int id)
+vector<No*> Grafo::fechoTransInd(int id)
 {
+    vector<No*> vetor;
+    for(int i=0; i<n_vertices; i++){
+        vector<No*> aux = caminhamentoProfundidade(i);
+        if(searchNoInVector(aux, nos_grafo[id]) && i!=id)
+            vetor.push_back(nos_grafo[i]); //vetor de nós que contém o nó procurado em seu fecho transitivo direto
+
+    }
+
+    return vetor;
 }
 
 // TODO: @vitor-frnds
@@ -1011,33 +1060,3 @@ void Grafo::kruskal(vector<int> X)
 
 }
 
-// TODO: @marianaricha
-// @param id um ID de vértice
-// @return A árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
-void Grafo::caminhamentoProfundidade(int id)
-{
-    bool visitados[n_vertices];
-    for (int i = 0; i < n_vertices; i++)
-    {
-        visitados[i] = false; // a posição no vetor de visitados será igual ao id do vértice
-    }
-    cP(id, visitados);
-}
-
-// TODO: @marianaricha
-// fazer o comentario que explica essa função
-void Grafo::cP(int id, bool v[])
-{
-    v[id] = true;
-    cout << "Visitando o vértice " << id << endl;
-
-    for (int j = 0; j < nos_grafo[id]->getNosAdj().size(); j++)
-    { // verifica se é folha
-        int w = nos_grafo[id]->getNosAdj()[j]->getId();
-        if (!v[w])
-        {
-            cP(w, v);
-        }
-        cout << "Volta para o vértice " << id << " pela aresta (" << id << "," << j << ")" << endl;
-    }
-}
