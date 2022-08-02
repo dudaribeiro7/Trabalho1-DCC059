@@ -88,7 +88,7 @@ void testarNovamente(char s_n, Grafo *grafo)
 void funcionalidades(char opc, Grafo *grafo)
 {
     int id, id1, id2, n;
-    int coefA_local, coefA_medio;
+    float coefA_local, coefA_medio;
     vector<int> X;
 
     switch (opc)
