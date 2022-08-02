@@ -551,7 +551,7 @@ float Grafo::coeficienteAgrupamentoMedio()
     int som = 0; // somatorio dos coeficientes de agrupamentos locais
 
     for (int i = 0; i < n_vertices; i++)
-        som = som + coeficienteAgrupamentoLocal(i);
+        som = som + coeficienteAgrupamentoLocal(nos_grafo[i]->getId());
 
     return (som / n_vertices);
 }
