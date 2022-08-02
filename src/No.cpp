@@ -126,6 +126,11 @@ vector<Aresta*> No::getArestas()
     return this->arestas;
 }
 
+Aresta* No::getPrimeiraAresta()
+{
+    return arestas[0];
+}
+
 // Adiciona aresta ao nó
 // @param n nó adjacente ao nó atual, ligados pela aresta que será adicionada
 // @param peso peso da aresta a ser adicionada

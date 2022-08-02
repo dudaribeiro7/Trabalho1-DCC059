@@ -45,6 +45,7 @@ public:
     int getPesoNo();
     void setPesoNo(int peso);
     vector<Aresta*> getArestas();
+    Aresta* getPrimeiraAresta();
     void adcAresta(No *n, int peso);
     vector<Arco*> getArcos();
     void adcArco(No *n, int peso);

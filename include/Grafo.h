@@ -28,6 +28,7 @@ class Grafo
         Grafo* subgrafoVerticeInduzido(vector<int> X);
         bool searchInVector(vector<int> vet, int id);
         bool searchNoInVector(vector<No*> vet, No* id);
+        No* getNoInVector(No** _nos_grafo, int id);
         bool verificaAresta(No** _nos_grafo, int id1, int id2);
         bool verificaArco(No** _nos_grafo, int id1, int id2);
         void cP(int id, bool v[]);
@@ -44,8 +45,8 @@ class Grafo
         bool isPonderadoNos();
         No* fechoTransDir(int id);
         No* fechoTransInd (int id);
-        int coeficienteAgrupamentoLocal(int id);
-        int coeficienteAgrupamentoMedio();
+        float coeficienteAgrupamentoLocal(int id);
+        float coeficienteAgrupamentoMedio();
         void dijkstra(int inicio, int destino);
         void floyd(int id1, int id2);
         void prim(vector<int> X);

@@ -116,6 +116,9 @@ void funcionalidades(char opc, Grafo *grafo)
 
         // TODO: @vitor-frnds
         // imprimir o coef agrup local do vertice
+        
+
+        cout << "O coeficiente de agrupamento local do nó " << id << " é igual a: " << grafo->coeficienteAgrupamentoLocal(id) << endl;
 
         break;
 
@@ -124,6 +127,8 @@ void funcionalidades(char opc, Grafo *grafo)
 
         // TODO: @vitor-frnds
         // imprimir o coef agrup medio do grafo
+
+        cout << "O coeficiente de agrupamento médio do grafo é igual a: " << grafo->coeficienteAgrupamentoMedio() << endl;
 
         break;
 

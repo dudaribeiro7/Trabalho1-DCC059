@@ -3,18 +3,19 @@
 // Construtor
 // @param _no1/_no2 vértices aos quais a aresta está ligada
 // @param _peso peso da aresta
-Aresta::Aresta(No *_no1, No *_no2, int _peso)
+Aresta::Aresta(No *_no1, No *_no2, int _peso) 
 {
-    this->no1 = _no1;
-    this->no2 = _no2;
-    this->peso = _peso;
+    this->no1 = _no1; 
+    this->no2 = _no2; 
+    this->peso = _peso; 
 }
 
 // Destrutor
-Aresta::~Aresta()
+Aresta::~Aresta() 
 { 
-
-}
+    delete no1; 
+    delete no2;
+} 
 
 // Retorna um dos nós ao qual a aresta está ligada
 // @return No*
