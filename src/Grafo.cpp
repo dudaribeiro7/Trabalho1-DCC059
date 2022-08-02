@@ -372,7 +372,7 @@ void Grafo::cP(int id, bool v[],  vector<No*> vetor)
         int w = nos_grafo[id]->getNosAdj()[j]->getId();
         if (!v[w])
         {
-            cP(w, v); //recurssividade
+            cP(w, v, vetor); //recurssividade
         }
         cout << "Volta para o vértice " << id << " pela aresta (" << id << "," << j << ")" << endl;
     }
