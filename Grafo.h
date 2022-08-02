@@ -31,7 +31,7 @@ class Grafo
         bool searchNoInVector(vector<No*> vet, No* id);
         bool verificaAresta(No** _nos_grafo, int id1, int id2);
         bool verificaArco(No** _nos_grafo, int id1, int id2);
-        void cP(int id, bool v[], vector<No*> vetor);
+        void cP(int id, bool v[], vector<No*> *vetor);
 
     public:
         Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos);
@@ -43,8 +43,8 @@ class Grafo
         bool isDirecionado();
         bool isPonderadoArestas();
         bool isPonderadoNos();
-        No* fechoTransDir(int id);
-        No* fechoTransInd (int id);
+        vector<No*> fechoTransDir(int id);
+        vector<No*> fechoTransInd (int id);
         int coeficienteAgrupamentoLocal(int id);
         int coeficienteAgrupamentoMedio();
         void dijkstra(int inicio, int destino);

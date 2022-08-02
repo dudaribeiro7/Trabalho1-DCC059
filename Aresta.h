@@ -20,7 +20,7 @@ private:
     int peso;   // Peso da aresta
 
 public:
-    Aresta(No *_no1, No *_no2, int _peso);
+    Aresta(No* _no1, No* _no2, int _peso);
     ~Aresta();
     No *getNo1();
     void setNo1(No *_no1);
