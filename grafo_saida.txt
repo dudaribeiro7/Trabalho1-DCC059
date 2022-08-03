@@ -1,5 +1,0 @@
-Funcionalidade g) Árvore Geradora Mínima com algoritmo de Prim:
-Subconjunto de vértices: X = {1, 0, 2, 7, 3}
-Não é possível gerar uma Árvore Geradora Mínima com o algoritmo de Prim para esse subgrafo, pois ele não é conexo.
-
-
