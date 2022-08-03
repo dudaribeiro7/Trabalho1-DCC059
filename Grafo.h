@@ -34,6 +34,7 @@ class Grafo
         void cP(int id, bool v[], vector<No*> *vetor, int aux);
         void fechoaux(int id, bool v[], vector<No*> *vetor, int aux);
 
+
     public:
         Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos);
         Grafo(No **_nos_grafo, int _n_vertices, bool _direc, bool _pesoAresta, bool _pesoNos);
