@@ -382,7 +382,7 @@ vector<No *> Grafo::caminhamentoProfundidade(int id, string arquivo_saida)
     }
    
     vector<No*> vetor;
-    cP(id, visitados, &vetor, -1, "arqDotCaminhamento"); //adiciona cada nó em que o vetor chega em um vetor de nós
+    cP(id, visitados, &vetor, -1); //adiciona cada nó em que o vetor chega em um vetor de nós
     arq<<"}";
     return vetor;
 }
@@ -1095,7 +1095,7 @@ void Grafo::prim(vector<int> X, string arquivo_saida)
         exit(0);
     }
 
-    if(!isPonderadoArestas){
+    if(!isPonderadoArestas()){
         arq<<"graph G {"<<endl;
         for (int i = 0; i < S.size(); i++){
         arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<endl;
@@ -1103,10 +1103,10 @@ void Grafo::prim(vector<int> X, string arquivo_saida)
         arq<<"}";
     }
 
-    if(isPonderadoArestas){
+    if(isPonderadoArestas()){
         arq<<"graph G {"<<endl;
         for (int i = 0; i < S.size(); i++){
-        arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<"[label=\""<< S[i]->getPeso<<"\"]"<<endl;
+        arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<"[label=\""<< S[i]->getPeso()<<"\"]"<<endl;
         }
         arq<<"}";
     }
@@ -1294,7 +1294,7 @@ void Grafo::kruskal(vector<int> X, string arquivo_saida)
         exit(0);
     }
 
-    if(!isPonderadoArestas){
+    if(!isPonderadoArestas()){
         arq<<"graph G {"<<endl;
         for (int i = 0; i < S.size(); i++){
         arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<endl;
@@ -1302,10 +1302,10 @@ void Grafo::kruskal(vector<int> X, string arquivo_saida)
         arq<<"}";
     }
 
-    if(isPonderadoArestas){
+    if(isPonderadoArestas()){
         arq<<"graph G {"<<endl;
         for (int i = 0; i < S.size(); i++){
-        arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<"[label=\""<< S[i]->getPeso<<"\"]"<<endl;
+        arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<"[label=\""<< S[i]->getPeso()<<"\"]"<<endl;
         }
         arq<<"}";
     }
