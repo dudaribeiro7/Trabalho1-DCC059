@@ -112,6 +112,14 @@ void funcionalidades(char opc, Grafo *grafo)
                 cin >> id;
             }
             vector<No *> fechoT_direto = grafo->fechoTransDir(id);
+            cout << "f+(" << id << ") = {";
+            for(int i = 0; i < fechoT_direto.size(); i++)
+            {
+                cout << fechoT_direto[i]->getId();
+                if(i+1 < fechoT_direto.size())
+                    cout << ", ";
+            }
+            cout << "}" << endl;
         }
         else
             cout << "Esse grafo não é direcionado. Logo, não é possível realizar esta funcionalidade." << endl;
@@ -129,6 +137,14 @@ void funcionalidades(char opc, Grafo *grafo)
                 cin >> id;
             }
             vector<No *> fechoT_indireto = grafo->fechoTransInd(id);
+            cout << "f-(" << id << ") = {";
+            for(int i = 0; i < fechoT_indireto.size(); i++)
+            {
+                cout << fechoT_indireto[i]->getId();
+                if(i+1 < fechoT_indireto.size())
+                    cout << ", ";
+            }
+            cout << "}" << endl;
         }
         else
             cout << "Esse grafo não é direcionado. Logo, não é possível realizar esta funcionalidade." << endl;
@@ -345,6 +361,14 @@ int main(int argc, char *argv[])
         input = INPUT_NAO_POND_DIR + arquivo_entrada;
 
     Grafo *grafo = new Grafo(input, opc_direc, opc_peso_aresta, opc_peso_nos);
+
+    ofstream arq_out;
+    arq_out.open(arquivo_saida, ios::out);
+    if(!arq_out.is_open())
+    {
+        cout << "FALHA AO ABRIR ARQUIVO DE SAIDA" << endl;
+        exit(0);
+    }
 
     print_menu(grafo);
 

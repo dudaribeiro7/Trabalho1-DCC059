@@ -207,7 +207,7 @@ Grafo *Grafo::subgrafoVerticeInduzido(vector<int> X)
     }
 
     Grafo *subgrafo = new Grafo(nos_subgrafo, X.size(), this->direcionado, this->ponderadoArestas, this->ponderadoNos);
-    subgrafo->printGrafo();
+    // subgrafo->printGrafo();
     return subgrafo;
 }
 
@@ -424,7 +424,7 @@ void Grafo::fechoaux(int id, bool v[],  vector<No*> *vetor, int aux)
         int w = nos_grafo[id]->getNosAdj()[j]->getId();
         if (!v[w])
         {
-            fechoaux(w, v, vetor, id); // recurssividade
+            fechoaux(w, v, vetor, id); // recursividade
             
         }    
     }
@@ -1048,10 +1048,14 @@ void Grafo::prim(vector<int> X)
     }
 
     cout << "O conjunto solução das arestas da Árvore Geradora Mínima é:" << endl;
-    cout << "S = { ";
+    cout << "S = {";
     for (int i = 0; i < S.size(); i++)
-        cout << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << "), ";
-    cout << " }";
+    {
+        cout << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << ")";
+        if (i+1 < S.size())
+            cout << " , ";
+    }
+    cout << "}";
 }
 
 // @author @dudaribeiro7
@@ -1196,8 +1200,12 @@ void Grafo::kruskal(vector<int> X)
     }
 
     cout << "O conjunto solução das arestas da Árvore Geradora Mínima é:" << endl;
-    cout << "S = { ";
+    cout << "S = {";
     for (int i = 0; i < S.size(); i++)
-        cout << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << "), ";
-    cout << " }";
+    {
+        cout << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << ")";
+        if (i+1 < S.size())
+            cout << " , ";
+    }
+    cout << "}";
 }
