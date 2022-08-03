@@ -361,7 +361,7 @@ bool Grafo::isPonderadoNos()
 // @brief Realiza o caminhamento em profundidade a partir de um determinado vértice
 // @param id um ID de vértice
 // @return vector<No*> - Vetor de nós em que o nó deste id chega
-vector<No *> Grafo::caminhamentoProfundidade(int id)
+vector<No *> Grafo::caminhamentoProfundidade(int id, string arquivo_saida)
 {
     bool visitados[n_vertices];
     for (int i = 0; i < n_vertices; i++)
@@ -591,7 +591,7 @@ float Grafo::coeficienteAgrupamentoMedio()
 // @author @RiUza02
 // @brief Encontra o caminho mínimo entre esses dois vértices usando o algoritmo de Dijkstra
 // @param inicio/destino dois IDs de vértices do grafo
-void Grafo::dijkstra(int inicio, int destino)
+void Grafo::dijkstra(int inicio, int destino, string arquivo_saida)
 {
     vector<int> beta;           // vetor de custos
     vector<int> fi;             // vetor de marcação
@@ -790,7 +790,7 @@ void Grafo::dijkstra(int inicio, int destino)
 // @author @RiUza02
 // @brief Encontra o caminho mínimo entre dois vértices usando o algoritmo de Floyd
 // @param id1/id2 dois IDs de vértices do grafo
-void Grafo::floyd(int inicio, int destino)
+void Grafo::floyd(int inicio, int destino, string arquivo_saida)
 {
     int matrizAdj[n_vertices][n_vertices]; // matriz de custos
     int pi[n_vertices][n_vertices];        // matriz de antecessores (para achar a sequencia de vertices do caminho minimo)
@@ -959,7 +959,7 @@ auto findIndex(const vector<No *> arr, No *item)
 // @author @dudaribeiro7
 // @brief Encontra uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
 // @param X um subconjunto de vértices de um grafo
-void Grafo::prim(vector<int> X)
+void Grafo::prim(vector<int> X, string arquivo_saida)
 {
     Grafo *subgrafo = subgrafoVerticeInduzido(X);
     vector<Aresta *> S;
@@ -1123,7 +1123,7 @@ void quick_sort(T *array, int size, bool (*compare)(T &, T &))
 // @author @dudaribeiro7
 // @brief Encontra uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
 // @param X um subconjunto de vértices de um grafo
-void Grafo::kruskal(vector<int> X)
+void Grafo::kruskal(vector<int> X, string arquivo_saida)
 {
     Grafo *subgrafo = subgrafoVerticeInduzido(X); // subgrafo vertice induzido por X
     vector<Aresta *> S;                           // vetor de arestas solução
