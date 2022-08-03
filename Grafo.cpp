@@ -1,4 +1,5 @@
 #include "Grafo.h"
+#include <math.h>
 
 #define infinito 999999999
 
@@ -361,7 +362,7 @@ bool Grafo::isPonderadoNos()
 // @brief Realiza o caminhamento em profundidade a partir de um determinado vértice
 // @param id um ID de vértice
 // @return vector<No*> - Vetor de nós em que o nó deste id chega
-vector<No *> Grafo::caminhamentoProfundidade(int id)
+vector<No *> Grafo::caminhamentoProfundidade(int id, string arquivo_saida)
 {
     // abertura do arquivo de escrita para o dot
     fstream arq;
@@ -481,35 +482,21 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
     if (direcionado)
     {
         No *NoAux;
-        // No *no = this->getNoInVector(nos_grafo, id);
         No *no = nos_grafo[id];
 
         Arco *arco1;
-        // Arco *arco2 = nullptr;
 
         float coef;
         float grau = no->getGrauSaida();
         float pv = 0;
-        // int proxId;
 
         int a1 = 0; // indice para o arco 1
-        // int a2 = 0; // indice para o arco 2
-
-        // if (no != nullptr)
-        // {
             arco1 = no->getArcos()[a1];
 
-            // while (arco1 != nullptr)
             for(int k = 0; k < no->getGrauSaida(); k++)
             {
-                // proxId = arco1->getNoDestino()->getId();
                 NoAux = arco1->getNoDestino();
 
-                // if (NoAux != nullptr)
-                // {
-                    // arco2 = NoAux->getArcos()[0];
-
-                    // while (arco2 != nullptr)
                     for(int l = 0; l < NoAux->getGrauSaida(); l++)
                     {
                         vector<No *> suc = no->getNosSuc();
@@ -517,22 +504,15 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
                         for (int i = 0; i < suc.size(); i++)
                         {
                             if (suc[i]->getId() == NoAux->getId())
-                            {
                                 pv++;
-                                // break;
-                            }
                         }
-
-                        // a2++;
-                        // arco2 = NoAux->getArcos()[a2];
                     }
-                // }
 
                 a1++;
                 arco1 = NoAux->getArcos()[a1];
             }
-        // }
 
+        grau = grau / 2;
         coef = float(pv / ((pow(grau, 2) - 1) / 2));
 
         return coef;
@@ -540,35 +520,22 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
     else
     {
         No *NoAux;
-        // No *no = this->getNoInVector(nos_grafo, id);
         No *no = nos_grafo[id];
 
         Aresta *aresta1;
-        // Aresta *aresta2 = nullptr;
 
         float coef;
         float grau = no->getGrau();
         float pv = 0;
-        // int proxId;
 
         int a1 = 0; // indice para a aresta 1
-        // int a2 = 0; // indice para a aresta 2
 
-        // if (no != nullptr)
-        // {
             aresta1 = no->getArestas()[a1];
 
-            // while (aresta1 != nullptr)
             for(int k = 0; k < no->getGrau(); k++)
             {
-                // proxId = aresta1->getNo2()->getId();
                 NoAux = aresta1->getNo2();
 
-                // if (NoAux != nullptr)
-                // {
-                    // aresta2 = NoAux->getArestas()[0];
-
-                    // while (aresta2 != nullptr)
                     for(int l = 0; l < NoAux->getGrau(); l++)
                     {
                         vector<No *> adj = no->getNosAdj();
@@ -576,22 +543,15 @@ float Grafo::coeficienteAgrupamentoLocal(int id)
                         for (int i = 0; i < adj.size(); i++)
                         {
                             if (adj[i]->getId() == NoAux->getId())
-                            {
                                 pv++;
-                                // break;
-                            }
                         }
-
-                        // a2++;
-                        // aresta2 = NoAux->getArestas()[a2];
                     }
-                // }
 
                 a1++;
                 aresta1 = no->getArestas()[a1];
             }
-        // }
 
+        grau = grau / 2;
         coef = float(pv / ((pow(grau, 2) - 1) / 2));
 
         return coef;
@@ -614,8 +574,16 @@ float Grafo::coeficienteAgrupamentoMedio()
 // @author @RiUza02
 // @brief Encontra o caminho mínimo entre esses dois vértices usando o algoritmo de Dijkstra
 // @param inicio/destino dois IDs de vértices do grafo
-void Grafo::dijkstra(int inicio, int destino)
+void Grafo::dijkstra(int inicio, int destino, string arquivo_saida)
 {
+    ofstream arq_out;
+    arq_out.open(arquivo_saida, ios::app);
+    if(!arq_out.is_open())
+    {
+        std::cout << "FALHA AO ABRIR ARQUIVO DE SAIDA" << endl;
+        exit(0);
+    }
+
     vector<int> beta;           // vetor de custos
     vector<int> fi;             // vetor de marcação
     vector<int> pi;             // vetor de antecessores (para achar a sequencia de vertices do caminho minimo)
@@ -697,6 +665,8 @@ void Grafo::dijkstra(int inicio, int destino)
         else
         {
             cout << "nao existe caminho entre esses vertices";
+            arq_out << "nao existe caminho entre esses vertices";
+            return;
         }
     }
     else
@@ -775,8 +745,11 @@ void Grafo::dijkstra(int inicio, int destino)
             for (int i = 0; i < solucao.size(); i++)
             {
                 cout << " - " << pi[i] << " - ";
+                arq_out << " - " << pi[i] << " - ";
             }
             cout << endl
+                 << "custo: " << beta[destino];
+            arq_out << endl
                  << "custo: " << beta[destino];
         }
     }
@@ -804,17 +777,29 @@ void Grafo::dijkstra(int inicio, int destino)
         for (int i = 0; i < solucao.size(); i++)
         {
             cout << " - " << pi[i] << " - ";
+            arq_out << " - " << pi[i] << " - ";
         }
         cout << endl
              << "custo: " << beta[destino];
+        arq_out << endl
+             << "custo: " << beta[destino];
     }
+    arq_out.close();
 }
 
 // @author @RiUza02
 // @brief Encontra o caminho mínimo entre dois vértices usando o algoritmo de Floyd
 // @param id1/id2 dois IDs de vértices do grafo
-void Grafo::floyd(int inicio, int destino)
+void Grafo::floyd(int inicio, int destino, string arquivo_saida)
 {
+    ofstream arq_out;
+    arq_out.open(arquivo_saida, ios::app);
+    if(!arq_out.is_open())
+    {
+        std::cout << "FALHA AO ABRIR ARQUIVO DE SAIDA" << endl;
+        exit(0);
+    }
+
     int matrizAdj[n_vertices][n_vertices]; // matriz de custos
     int pi[n_vertices][n_vertices];        // matriz de antecessores (para achar a sequencia de vertices do caminho minimo)
     int ehPossivel;                        // auxiliar
@@ -888,12 +873,15 @@ void Grafo::floyd(int inicio, int destino)
             while (pi[a][b] != b)
             {
                 cout << "-" << b << "-";
+                arq_out << "-" << b << "-";
                 b = pi[a][b];
             }
         }
         else
         {
             cout << "nao existe caminho entre esses vertices";
+            arq_out << "nao existe caminho entre esses vertices";
+            return;
         }
     }
     else
@@ -935,9 +923,11 @@ void Grafo::floyd(int inicio, int destino)
         while (pi[a][b] != b)
         {
             cout << "-" << b << "-";
+            arq_out << "-" << b << "-";
             b = pi[a][b];
         }
     }
+    arq_out.close();
 }
 
 // @author @dudaribeiro7
@@ -979,12 +969,38 @@ auto findIndex(const vector<No *> arr, No *item)
     return -1;
 }
 
+bool ehConexo(Grafo *grafo)
+{
+    vector<No*> fechoT_dir;
+    for (int i = 0; i < grafo->getNumVertices(); i++)
+    {
+        fechoT_dir = grafo->fechoTransDir(grafo->getNosGrafo()[i]->getId());
+        if(fechoT_dir.size() != grafo->getNumVertices() - 1)
+            return false;
+    }
+    return true;
+}
+
 // @author @dudaribeiro7
 // @brief Encontra uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
 // @param X um subconjunto de vértices de um grafo
-void Grafo::prim(vector<int> X)
+void Grafo::prim(vector<int> X, string arquivo_saida)
 {
+    ofstream arq_out;
+    arq_out.open(arquivo_saida, ios::app);
+    if(!arq_out.is_open())
+    {
+        std::cout << "FALHA AO ABRIR ARQUIVO DE SAIDA" << endl;
+        exit(0);
+    }
+
     Grafo *subgrafo = subgrafoVerticeInduzido(X);
+    if(!ehConexo(subgrafo))
+    {
+        std::cout << "Não é possível gerar uma Árvore Geradora Mínima com o algoritmo de Prim para esse subgrafo, pois ele não é conexo." << endl;
+        arq_out << "Não é possível gerar uma Árvore Geradora Mínima com o algoritmo de Prim para esse subgrafo, pois ele não é conexo." << endl;
+        return;
+    }
     vector<Aresta *> S;
     vector<No *> nos_conectados;
     vector<No *> nos_nao_conectados;
@@ -1106,6 +1122,18 @@ void Grafo::prim(vector<int> X)
             cout << " , ";
     }
     cout << "}";
+
+    arq_out << "O conjunto solução das arestas da Árvore Geradora Mínima é:" << endl;
+    arq_out << "S = {";
+    for (int i = 0; i < S.size(); i++)
+    {
+        arq_out << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << ")";
+        if (i+1 < S.size())
+            arq_out << " , ";
+    }
+    arq_out << "}";
+
+    arq_out.close();
 }
 
 // @author @dudaribeiro7
@@ -1173,8 +1201,16 @@ void quick_sort(T *array, int size, bool (*compare)(T &, T &))
 // @author @dudaribeiro7
 // @brief Encontra uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Kruskal
 // @param X um subconjunto de vértices de um grafo
-void Grafo::kruskal(vector<int> X)
+void Grafo::kruskal(vector<int> X, string arquivo_saida)
 {
+    ofstream arq_out;
+    arq_out.open(arquivo_saida, ios::app);
+    if(!arq_out.is_open())
+    {
+        std::cout << "FALHA AO ABRIR ARQUIVO DE SAIDA" << endl;
+        exit(0);
+    }
+
     Grafo *subgrafo = subgrafoVerticeInduzido(X); // subgrafo vertice induzido por X
     vector<Aresta *> S;                           // vetor de arestas solução
     vector<Aresta *> arestas;                     // vetor com todas as arestas do subgrafo, ordenadas em ordem crescente de pesos
@@ -1285,4 +1321,16 @@ void Grafo::kruskal(vector<int> X)
             cout << " , ";
     }
     cout << "}";
+
+    arq_out << "O conjunto solução das arestas da Árvore Geradora Mínima é:" << endl;
+    arq_out << "S = {";
+    for (int i = 0; i < S.size(); i++)
+    {
+        arq_out << "(" << S[i]->getNo1()->getId() << ", " << S[i]->getNo2()->getId() << ")";
+        if (i+1 < S.size())
+            arq_out << " , ";
+    }
+    arq_out << "}";
+
+    arq_out.close();
 }

@@ -48,11 +48,11 @@ class Grafo
         vector<No*> fechoTransInd (int id);
         float coeficienteAgrupamentoLocal(int id);
         float coeficienteAgrupamentoMedio();
-        void dijkstra(int inicio, int destino);
-        void floyd(int id1, int id2);
-        void prim(vector<int> X);
-        void kruskal(vector<int> X);
-        vector<No*> caminhamentoProfundidade(int id);
+        void dijkstra(int inicio, int destino, string arquivo_saida);
+        void floyd(int id1, int id2, string arquivo_saida);
+        void prim(vector<int> X, string arquivo_saida);
+        void kruskal(vector<int> X, string arquivo_saida);
+        vector<No*> caminhamentoProfundidade(int id, string arquivo_saida);
 };
 
 #endif
