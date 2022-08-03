@@ -1095,7 +1095,7 @@ void Grafo::prim(vector<int> X, string arquivo_saida)
         exit(0);
     }
 
-    if(!isPonderadoArestas){
+    if(!isPonderadoArestas()){
         arq<<"graph G {"<<endl;
         for (int i = 0; i < S.size(); i++){
         arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<endl;
@@ -1103,10 +1103,10 @@ void Grafo::prim(vector<int> X, string arquivo_saida)
         arq<<"}";
     }
 
-    if(isPonderadoArestas){
+    if(isPonderadoArestas()){
         arq<<"graph G {"<<endl;
         for (int i = 0; i < S.size(); i++){
-        arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<"[label=\""<< S[i]->getPeso<<"\"]"<<endl;
+        arq<< S[i]->getNo1()->getId() << "--" << S[i]->getNo2()->getId() <<"[label=\""<< S[i]->getPeso()<<"\"]"<<endl;
         }
         arq<<"}";
     }
