@@ -1287,7 +1287,7 @@ void Grafo::kruskal(vector<int> X, string arquivo_saida)
 
     //arquivo para dot
     fstream arq;
-    arq.open("arqDotPrim", ios::app);
+    arq.open("arqDotKruskal", ios::app);
     if (!arq.is_open())
     {
         cout << "FALHA AO ABRIR O ARQUIVO" << endl;
