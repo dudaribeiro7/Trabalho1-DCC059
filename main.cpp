@@ -130,7 +130,7 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
             }
             std::cout << "}" << endl;
 
-            arq_out << endl << "Funcionalidade a) Fecho Transitivo Direto:" << endl;
+            arq_out << "Funcionalidade a) Fecho Transitivo Direto:" << endl;
             arq_out << "f+(" << id << ") = {";
             for(int i = 0; i < fechoT_direto.size(); i++)
             {
@@ -138,11 +138,15 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
                 if(i+1 < fechoT_direto.size())
                     arq_out << ", ";
             }
-            arq_out << "}" << endl;
+            arq_out << "}" << endl << endl;
 
         }
         else
+        {
             std::cout << "Esse grafo não é direcionado. Logo, não é possível realizar esta funcionalidade." << endl;
+            arq_out << "Funcionalidade a) Fecho Transitivo Direto:" << endl;
+            arq_out << "Esse grafo não é direcionado. Logo, não é possível realizar esta funcionalidade." << endl << endl;
+        }
 
         break;
 
@@ -166,7 +170,7 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
             }
             std::cout << "}" << endl;
 
-            arq_out << endl << "Funcionalidade b) Fecho Transitivo Indireto:" << endl;
+            arq_out << "Funcionalidade b) Fecho Transitivo Indireto:" << endl;
             arq_out << "f+(" << id << ") = {";
             for(int i = 0; i < fechoT_indireto.size(); i++)
             {
@@ -174,10 +178,14 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
                 if(i+1 < fechoT_indireto.size())
                     arq_out << ", ";
             }
-            arq_out << "}" << endl;
+            arq_out << "}" << endl << endl;
         }
         else
+        {
             std::cout << "Esse grafo não é direcionado. Logo, não é possível realizar esta funcionalidade." << endl;
+            arq_out << "Funcionalidade b) Fecho Transitivo Indireto:" << endl;
+            arq_out << "Esse grafo não é direcionado. Logo, não é possível realizar esta funcionalidade." << endl << endl;
+        }
 
         break;
 
@@ -192,8 +200,8 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
         coefA_local = grafo->coeficienteAgrupamentoLocal(id);
         std::cout << "O coeficiente de agrupamento local do nó " << id << " é igual a " << coefA_local << endl;
 
-        arq_out << endl << "Funcionalidade c) Coeficiente de Agrupamento Local:" << endl;
-        arq_out << "O coeficiente de agrupamento local do nó " << id << " é igual a " << coefA_local << endl;
+        arq_out << "Funcionalidade c) Coeficiente de Agrupamento Local:" << endl;
+        arq_out << "O coeficiente de agrupamento local do nó " << id << " é igual a " << coefA_local << endl << endl;
 
         break;
 
@@ -201,8 +209,8 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
         coefA_medio = grafo->coeficienteAgrupamentoMedio();
         std::cout << "O coeficiente de agrupamento médio do grafo é igual a " << coefA_medio << endl;
 
-        arq_out << endl << "Funcionalidade d) Coeficiente de Agrupamento Médio:" << endl;
-        arq_out << "O coeficiente de agrupamento médio do grafo é igual a " << coefA_local << endl;
+        arq_out << "Funcionalidade d) Coeficiente de Agrupamento Médio:" << endl;
+        arq_out << "O coeficiente de agrupamento médio do grafo é igual a " << coefA_local << endl << endl;
 
         break;
 
@@ -231,7 +239,10 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
                 std::cin >> id2;
             }
         }
-        grafo->dijkstra(id, id2, arquivo_saida);
+        arq_out << "Funcionalidade e) Caminho Mínimo com algoritmo de Dijkstra:" << endl;
+        arq_out << "Caminho entre os vértices " << id1 << " e " << id2 << ":" << endl;
+        grafo->dijkstra(id1, id2, arquivo_saida);
+        arq_out << endl << endl;;
 
         break;
 
@@ -260,7 +271,10 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
                 std::cin >> id2;
             }
         }
-        grafo->floyd(id, id2, arquivo_saida);
+        arq_out << "Funcionalidade f) Caminho Mínimo com algoritmo de Floyd:" << endl;
+        arq_out << "Caminho entre os vértices " << id1 << " e " << id2 << ":" << endl;
+        grafo->floyd(id1, id2, arquivo_saida);
+        arq_out << endl << endl;
 
         break;
 
@@ -297,7 +311,17 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
                 }
                 X.push_back(id);
             }
+            arq_out << "Funcionalidade g) Árvore Geradora Mínima com algoritmo de Prim:" << endl;
+            arq_out << "Subconjunto de vértices: X = {";
+            for(int i = 0; i < X.size(); i++)
+            {
+                arq_out << X[i];
+                if(i+1 < X.size())
+                    arq_out << ", ";
+            }
+            arq_out << "}" << endl;
             grafo->prim(X, arquivo_saida);
+            arq_out << endl << endl;
         }
 
         break;
@@ -335,7 +359,17 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
                 }
                 X.push_back(id);
             }
+            arq_out << "Funcionalidade h) Árvore Geradora Mínima com algoritmo de Kruskal:" << endl;
+            arq_out << "Subconjunto de vértices: X = {";
+            for(int i = 0; i < X.size(); i++)
+            {
+                arq_out << X[i];
+                if(i+1 < X.size())
+                    arq_out << ", ";
+            }
+            arq_out << "}" << endl;
             grafo->kruskal(X, arquivo_saida);
+            arq_out << endl << endl;
         }
 
         break;
@@ -352,7 +386,10 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
                 std::cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
                 std::cin >> id;
             }
+            arq_out << "Funcionalidade i) Árvore dada pela ordem de caminhamento em profundidade:" << endl;
+            arq_out << "Caminhamento a partir do vértice " << id << endl;
             grafo->caminhamentoProfundidade(id, arquivo_saida);
+            arq_out << endl << endl;
         }
 
         break;
