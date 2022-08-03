@@ -411,20 +411,21 @@ vector<No *> Grafo::fechoTransDir(int id)
     }
    
     vector<No*> vetor;
-    fechoaux(id, visitados, &vetor, -1); //adiciona cada nó em que o vetor chega em um vetor de nós
+    fechoaux(id, visitados, &vetor); //adiciona cada nó em que o vetor chega em um vetor de nós
+    vetor.pop_back();
     return vetor; //vetor de nós em que o id chega
 }
 
-void Grafo::fechoaux(int id, bool v[],  vector<No*> *vetor, int aux)
+void Grafo::fechoaux(int id, bool v[],  vector<No*> *vetor)
 {
     v[id] = true;
     
-    for (int j = 0; j < nos_grafo[id]->getNosAdj().size(); j++)
+    for (int j = 0; j < nos_grafo[id]->getNosSuc().size(); j++)
     { // verifica se é folha
-        int w = nos_grafo[id]->getNosAdj()[j]->getId();
+        int w = nos_grafo[id]->getNosSuc()[j]->getId();
         if (!v[w])
         {
-            fechoaux(w, v, vetor, id); // recursividade
+            fechoaux(w, v, vetor); // recursividade
             
         }    
     }

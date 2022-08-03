@@ -30,7 +30,7 @@ class Grafo
         bool searchNoInVector(vector<No*> vet, No* id);
         No* getNoInVector(No** _nos_grafo, int id);
         void cP(int id, bool v[], vector<No*> *vetor, int aux);
-        void fechoaux(int id, bool v[], vector<No*> *vetor, int aux);
+        void fechoaux(int id, bool v[], vector<No*> *vetor);
 
 
     public:
