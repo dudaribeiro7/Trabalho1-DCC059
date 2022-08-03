@@ -1,14 +1,5 @@
-Funcionalidade c) Coeficiente de Agrupamento Local:
-O coeficiente de agrupamento local do nó 5 é igual a 2
-
-Funcionalidade d) Coeficiente de Agrupamento Médio:
-O coeficiente de agrupamento médio do grafo é igual a 4.59135e-41
-
 Funcionalidade g) Árvore Geradora Mínima com algoritmo de Prim:
-O conjunto solução das arestas da Árvore Geradora Mínima é:
-S = {(0, 2) , (0, 3) , (0, 1) , (2, 4) , (3, 5) , (3, 6) , (5, 7)}
-Funcionalidade h) Árvore Geradora Mínima com algoritmo de Kruskal:
-O conjunto solução das arestas da Árvore Geradora Mínima é:
-S = {(0, 1) , (1, 5) , (5, 7)}
-Funcionalidade i) Árvore dada pela ordem de caminhamento em profundidade:
+Subconjunto de vértices: X = {1, 0, 2, 7, 3}
+Não é possível gerar uma Árvore Geradora Mínima com o algoritmo de Prim para esse subgrafo, pois ele não é conexo.
+
 

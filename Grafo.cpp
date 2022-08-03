@@ -947,6 +947,18 @@ auto findIndex(const vector<No *> arr, No *item)
     return -1;
 }
 
+bool ehConexo(Grafo *grafo)
+{
+    vector<No*> fechoT_dir;
+    for (int i = 0; i < grafo->getNumVertices(); i++)
+    {
+        fechoT_dir = grafo->fechoTransDir(grafo->getNosGrafo()[i]->getId());
+        if(fechoT_dir.size() != grafo->getNumVertices() - 1)
+            return false;
+    }
+    return true;
+}
+
 // @author @dudaribeiro7
 // @brief Encontra uma Árvore Geradora Mínima sobre o subgrafo vértice-induzido por X usando o algoritmo de Prim
 // @param X um subconjunto de vértices de um grafo
@@ -961,6 +973,12 @@ void Grafo::prim(vector<int> X, string arquivo_saida)
     }
 
     Grafo *subgrafo = subgrafoVerticeInduzido(X);
+    if(!ehConexo(subgrafo))
+    {
+        std::cout << "Não é possível gerar uma Árvore Geradora Mínima com o algoritmo de Prim para esse subgrafo, pois ele não é conexo." << endl;
+        arq_out << "Não é possível gerar uma Árvore Geradora Mínima com o algoritmo de Prim para esse subgrafo, pois ele não é conexo." << endl;
+        return;
+    }
     vector<Aresta *> S;
     vector<No *> nos_conectados;
     vector<No *> nos_nao_conectados;

@@ -406,6 +406,8 @@ void funcionalidades(char opc, Grafo *grafo, string arquivo_saida)
     char s_n;
     std::cin >> s_n;
     testarNovamente(s_n, grafo, arquivo_saida);
+
+    arq_out.close();
 }
 
 int main(int argc, char *argv[])
