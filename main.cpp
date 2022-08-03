@@ -447,5 +447,7 @@ int main(int argc, char *argv[])
 
     print_menu(grafo, arquivo_saida);
 
+    arq_out.close();
+
     return 0;
 }
