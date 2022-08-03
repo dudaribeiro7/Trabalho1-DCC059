@@ -1,4 +1,0 @@
-Funcionalidade i) Árvore dada pela ordem de caminhamento em profundidade:
-Caminhamento a partir do vértice 0
-
-
