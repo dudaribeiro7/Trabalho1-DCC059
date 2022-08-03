@@ -85,7 +85,6 @@ void Grafo::leArquivo(string nomeArquivo)
     {
         cout << "FALHA AO ABRIR O ARQUIVO" << endl;
         exit(0);
-        return;
     }
 
     string line;
@@ -141,12 +140,7 @@ void Grafo::leArquivo(string nomeArquivo)
                 nos_grafo[no2]->adcAresta(nos_grafo[no1], pesoAresta);
             }
         }
-
-        cout << "oi" << endl;
-    
     }
-
-    cout << "oi 2" << endl;
     
     arq.close();
 }

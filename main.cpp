@@ -104,8 +104,13 @@ void funcionalidades(char opc, Grafo *grafo)
     case 'a':
         if (grafo->isDirecionado())
         {
-            cout << "Digite o ID de um vértice do grafo: ";
+            cout << "Digite o ID de um vértice do grafo, entre 0 e " << grafo->getNumVertices() - 1 << ": ";
             cin >> id;
+            while(id >= grafo->getNumVertices() || id < 0)
+            {
+                cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                cin >> id;
+            }
             vector<No *> fechoT_direto = grafo->fechoTransDir(id);
         }
         else
@@ -116,8 +121,13 @@ void funcionalidades(char opc, Grafo *grafo)
     case 'b':
         if (grafo->isDirecionado())
         {
-            cout << "Digite o ID de um vértice do grafo: ";
+            cout << "Digite o ID de um vértice do grafo, entre 0 e " << grafo->getNumVertices() - 1 << ": ";
             cin >> id;
+            while(id >= grafo->getNumVertices() || id < 0)
+            {
+                cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                cin >> id;
+            }
             vector<No *> fechoT_indireto = grafo->fechoTransInd(id);
         }
         else
@@ -126,8 +136,13 @@ void funcionalidades(char opc, Grafo *grafo)
         break;
 
     case 'c':
-        cout << "Digite o ID de um vértice do grafo: ";
+        cout << "Digite o ID de um vértice do grafo, entre 0 e " << grafo->getNumVertices() - 1 << ": ";
         cin >> id;
+        while(id >= grafo->getNumVertices() || id < 0)
+        {
+            cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+            cin >> id;
+        }
         coefA_local = grafo->coeficienteAgrupamentoLocal(id);
         cout << "O coeficiente de agrupamento local do nó " << id << " é igual a " << coefA_local << endl;
 
@@ -140,15 +155,59 @@ void funcionalidades(char opc, Grafo *grafo)
         break;
 
     case 'e':
-        cout << "Digite o ID de dois vértices do grafo: ";
-        cin >> id1 >> id2;
+        cout << "Digite o ID de um vértice do grafo, entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+        cin >> id1;
+        while(id1 >= grafo->getNumVertices() || id1 < 0)
+        {
+            cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+            cin >> id1;
+        }
+        cout << "Digite o ID de outro vértice do grafo, entre 0 e " << grafo->getNumVertices() - 1 << ", diferente de " << id1 << ": ";
+        cin >> id2;
+        while(id2 >= grafo->getNumVertices() || id2 < 0)
+        {
+            cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+            cin >> id2;
+        }
+        while(id2 == id1)
+        {
+            cout << "Esse vértice já foi passado. Por favor, tente novamente com um valor diferente: ";
+            cin >> id2;
+            while(id2 >= grafo->getNumVertices() || id2 < 0)
+            {
+                cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                cin >> id2;
+            }
+        }
         grafo->dijkstra(id, id2);
 
         break;
 
     case 'f':
-        cout << "Digite o ID de dois vértices do grafo: ";
-        cin >> id1 >> id2;
+        cout << "Digite o ID de um vértice do grafo, entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+        cin >> id1;
+        while(id1 >= grafo->getNumVertices() || id1 < 0)
+        {
+            cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+            cin >> id1;
+        }
+        cout << "Digite o ID de outro vértice do grafo, entre 0 e " << grafo->getNumVertices() - 1 << ", diferente de " << id1 << ": ";
+        cin >> id2;
+        while(id2 >= grafo->getNumVertices() || id2 < 0)
+        {
+            cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+            cin >> id2;
+        }
+        while(id2 == id1)
+        {
+            cout << "Esse vértice já foi passado. Por favor, tente novamente com um valor diferente: ";
+            cin >> id2;
+            while(id2 >= grafo->getNumVertices() || id2 < 0)
+            {
+                cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                cin >> id2;
+            }
+        }
         grafo->floyd(id, id2);
 
         break;
@@ -160,14 +219,29 @@ void funcionalidades(char opc, Grafo *grafo)
         {
             cout << "Digite o número de vértices que você deseja que o subconjunto X de vértices tenha: ";
             cin >> n;
+            while(n > grafo->getNumVertices() || n < 1)
+            {
+                cout << "Valor inválido. Por favor, tente novamente, digitando um valor entre 1 e " << grafo->getNumVertices() << ": ";
+                cin >> n;
+            }
             for (int i = 0; i < n; i++)
             {
-                cout << "Digite o ID do " << i+1 << "º vértice a ser adicionado no subconjunto X de vértices: ";
+                cout << "Digite o ID do " << i+1 << "º vértice a ser adicionado no subconjunto X de vértices, entre 0 e " << grafo->getNumVertices() - 1 << ": ";
                 cin >> id;
+                while(id >= grafo->getNumVertices() || id < 0)
+                {
+                    cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                    cin >> id;
+                }
                 while(searchInVector(X, id))
                 {
                     cout << "Esse vértice já foi adicionado ao subconjunto X. Por favor, tente novamente: ";
                     cin >> id;
+                    while(id >= grafo->getNumVertices() || id < 0)
+                    {
+                        cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                        cin >> id;
+                    }
                 }
                 X.push_back(id);
             }
@@ -183,14 +257,29 @@ void funcionalidades(char opc, Grafo *grafo)
         {
             cout << "Digite o número de vértices que você deseja que o subconjunto X de vértices tenha: ";
             cin >> n;
+            while(n > grafo->getNumVertices() || n < 1)
+            {
+                cout << "Valor inválido. Por favor, tente novamente, digitando um valor entre 1 e " << grafo->getNumVertices() << ": ";
+                cin >> n;
+            }
             for (int i = 0; i < n; i++)
             {
-                cout << "Digite o ID do " << i+1 << "º vértice a ser adicionado no subconjunto X de vértices: ";
+                cout << "Digite o ID do " << i+1 << "º vértice a ser adicionado no subconjunto X de vértices, entre 0 e " << grafo->getNumVertices() - 1 << ": ";
                 cin >> id;
+                while(id >= grafo->getNumVertices() || id < 0)
+                {
+                    cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                    cin >> id;
+                }
                 while(searchInVector(X, id))
                 {
                     cout << "Esse vértice já foi adicionado ao subconjunto X. Por favor, tente novamente: ";
                     cin >> id;
+                    while(id >= grafo->getNumVertices() || id < 0)
+                    {
+                        cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                        cin >> id;
+                    }
                 }
                 X.push_back(id);
             }
@@ -204,8 +293,13 @@ void funcionalidades(char opc, Grafo *grafo)
             cout << "Esse grafo é direcionado. Logo, não é possível realizar esta funcionalidade." << endl;
         else
         {
-            cout << "Digite o ID de um vértice do grafo: ";
+            cout << "Digite o ID de um vértice do grafo, entre 0 e " << grafo->getNumVertices() - 1 << ": ";
             cin >> id;
+            while(id >= grafo->getNumVertices() || id < 0)
+            {
+                cout << "Valor de ID inválido. Por favor, tente novamente, digitando um valor entre 0 e " << grafo->getNumVertices() - 1 << ": ";
+                cin >> id;
+            }
             grafo->caminhamentoProfundidade(id);
         }
 
