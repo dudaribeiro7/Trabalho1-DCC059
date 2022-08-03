@@ -31,7 +31,8 @@ class Grafo
         No* getNoInVector(No** _nos_grafo, int id);
         bool verificaAresta(No** _nos_grafo, int id1, int id2);
         bool verificaArco(No** _nos_grafo, int id1, int id2);
-        void cP(int id, bool v[], vector<No*> *vetor);
+        void cP(int id, bool v[], vector<No*> *vetor, int aux);
+        void fechoaux(int id, bool v[], vector<No*> *vetor, int aux);
 
     public:
         Grafo(string nomeArquivo, int direc, int peso_aresta, int peso_nos);

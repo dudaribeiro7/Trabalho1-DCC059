@@ -372,7 +372,7 @@ vector<No *> Grafo::caminhamentoProfundidade(int id)
     }
    
     vector<No*> vetor;
-    cP(id, visitados, &vetor); //adiciona cada nó em que o vetor chega em um vetor de nós
+    cP(id, visitados, &vetor, -1); //adiciona cada nó em que o vetor chega em um vetor de nós
     return vetor;
 }
 
@@ -380,23 +380,23 @@ vector<No *> Grafo::caminhamentoProfundidade(int id)
 // @brief Adiciona o nó alcançado ao vetor.
 // @brief Imprime a árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
 // @param id um ID de vértice
-
-// adiciona o nó alcançado ao vetor
-// imprime a árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
-void Grafo::cP(int id, bool v[],  vector<No*> *vetor)
+void Grafo::cP(int id, bool v[],  vector<No*> *vetor, int aux)
 {
     v[id] = true;
     cout << "Visitando o vértice " << id << endl;
-
+    
     for (int j = 0; j < nos_grafo[id]->getNosAdj().size(); j++)
     { // verifica se é folha
         int w = nos_grafo[id]->getNosAdj()[j]->getId();
         if (!v[w])
         {
-            cP(w, v, vetor); // recurssividade
+            cP(w, v, vetor, id); // recurssividade
+            
         }
-        cout << "Volta para o vértice " << id << " pela aresta (" << id << "," << j << ")" << endl;
+        
     }
+    if(aux!=-1)
+        cout << "Volta para o vértice " <<  aux << " pela aresta (" << id << "," << aux << ")" << endl;
     vetor->push_back(nos_grafo[id]); //retorna o nó que ele chegou
 }
 
@@ -406,19 +406,44 @@ void Grafo::cP(int id, bool v[],  vector<No*> *vetor)
 // @return vector<No*> - Fecho Transitivo Direto (vetor de vértices)
 vector<No *> Grafo::fechoTransDir(int id)
 {
-    return caminhamentoProfundidade(id); // vetor de nós que o nó chega até
+    bool visitados[n_vertices];
+    for (int i = 0; i < n_vertices; i++)
+    {
+        visitados[i] = false; // a posição no vetor de visitados será igual ao id do vértice
+    }
+   
+    vector<No*> vetor;
+    fechoaux(id, visitados, &vetor, -1); //adiciona cada nó em que o vetor chega em um vetor de nós
+    return vetor; //vetor de nós em que o id chega
+}
+
+void Grafo::fechoaux(int id, bool v[],  vector<No*> *vetor, int aux)
+{
+    v[id] = true;
+    
+    for (int j = 0; j < nos_grafo[id]->getNosAdj().size(); j++)
+    { // verifica se é folha
+        int w = nos_grafo[id]->getNosAdj()[j]->getId();
+        if (!v[w])
+        {
+            fechoaux(w, v, vetor, id); // recurssividade
+            
+        }    
+    }
+    
+    vetor->push_back(nos_grafo[id]); //retorna o nó que ele chegou
 }
 
 // @author @mariana_richa
 // @brief Encontra o fecho transitivo indireto de um nó
 // @param id ID de um vértice do grafo
 // @return vector<No*> - Fecho Transitivo Indireto (vetor de vértices)
-vector<No *> Grafo::fechoTransInd(int id)
+vector<No*> Grafo::fechoTransInd(int id)
 {
-    vector<No *> vetor;
+    vector<No*> vetor;
     for (int i = 0; i < n_vertices; i++)
     {
-        vector<No *> aux = caminhamentoProfundidade(i);
+        vector<No*> aux = fechoTransDir(i);
         if (searchNoInVector(aux, nos_grafo[id]) && i != id)
             vetor.push_back(nos_grafo[i]); // vetor de nós que contém o nó procurado em seu fecho transitivo direto
     }
