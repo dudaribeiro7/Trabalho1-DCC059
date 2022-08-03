@@ -363,6 +363,17 @@ bool Grafo::isPonderadoNos()
 // @return vector<No*> - Vetor de nós em que o nó deste id chega
 vector<No *> Grafo::caminhamentoProfundidade(int id)
 {
+    // abertura do arquivo de escrita para o dot
+    fstream arq;
+    arq.open("arqDot", ios::out);
+    if (!arq.is_open())
+    {
+        cout << "FALHA AO ABRIR O ARQUIVO" << endl;
+        exit(0);
+    }
+
+    arq.write("digraph G {/n");
+
     bool visitados[n_vertices];
     for (int i = 0; i < n_vertices; i++)
     {
@@ -370,7 +381,8 @@ vector<No *> Grafo::caminhamentoProfundidade(int id)
     }
    
     vector<No*> vetor;
-    cP(id, visitados, &vetor, -1); //adiciona cada nó em que o vetor chega em um vetor de nós
+    cP(id, visitados, &vetor, -1, arq); //adiciona cada nó em que o vetor chega em um vetor de nós
+    arq.write("}");
     return vetor;
 }
 
@@ -378,8 +390,16 @@ vector<No *> Grafo::caminhamentoProfundidade(int id)
 // @brief Adiciona o nó alcançado ao vetor.
 // @brief Imprime a árvore dada pela ordem de caminhamento em profundidade a partir de nó dado parâmetro, destacando as arestas de retorno
 // @param id um ID de vértice
-void Grafo::cP(int id, bool v[],  vector<No*> *vetor, int aux)
+void Grafo::cP(int id, bool v[],  vector<No*> *vetor, int aux, file arq)
 {
+    //abrindo arquivo de novo
+    arq.open("arqDot", ios::out);
+    if (!arq.is_open())
+    {
+        cout << "FALHA AO ABRIR O ARQUIVO" << endl;
+        exit(0);
+    }
+
     v[id] = true;
     cout << "Visitando o vértice " << id << endl;
     
@@ -388,6 +408,7 @@ void Grafo::cP(int id, bool v[],  vector<No*> *vetor, int aux)
         int w = nos_grafo[id]->getNosAdj()[j]->getId();
         if (!v[w])
         {
+            arq.write(id"->"w"/n");
             cP(w, v, vetor, id); // recurssividade
             
         }
